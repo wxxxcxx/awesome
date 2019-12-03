@@ -38,7 +38,7 @@ local function worker(args)
         wibox.widget {
         {
             markup = utf8.char(0xf0c2),
-	    font = 'Noto Sans Regular 22',
+	    font = 'Noto Sans Regular 14',
             widget = wibox.widget.textbox
         },
         {

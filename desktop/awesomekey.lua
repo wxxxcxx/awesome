@@ -36,9 +36,10 @@ create_key_bindings = function(keys, options)
     local indicator_text = options.indicator_text or ''
     local grabber =
         awful.keygrabber {
+        mask_modkeys = false,
         stop_key = 'Escape',
         autostart = true,
-        timeout = 3,
+        timeout = 5,
         start_callback = function(self)
             module.popup_indicator.visible = true
         end,
