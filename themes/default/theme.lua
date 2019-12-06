@@ -1,6 +1,7 @@
 local gears = require('gears')
 local theme_assets = require('beautiful.theme_assets')
 local xresources = require('beautiful.xresources')
+
 local dpi = xresources.apply_dpi
 
 local themes_path = gears.filesystem.get_configuration_dir() .. 'themes/default/'
@@ -29,6 +30,8 @@ local fg_focus = '#ffffff'
 local fg_urgent = '#ffffff'
 local fg_minimize = '#ffffff'
 
+local font = 'Noto Sans Regular '
+
 --[[
 ██╗    ██╗ █████╗ ██╗     ██╗     ██████╗  █████╗ ██████╗ ███████╗██████╗
 ██║    ██║██╔══██╗██║     ██║     ██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -52,7 +55,7 @@ theme.useless_gap = dpi(4)
 ╚═╝      ╚═════╝ ╚═╝  ╚═══╝   ╚═╝
 
 ]]
-theme.font = 'Noto Sans Regular 12'
+theme.font = font .. '12'
 
 --[[
 ███╗   ███╗███████╗███╗   ██╗██╗   ██╗
@@ -63,8 +66,8 @@ theme.font = 'Noto Sans Regular 12'
 ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝
 
 ]]
-theme.menu_bg_normal = bg_normal .. '44'
-theme.menu_font = 'Noto Sans Regular 10'
+theme.menu_bg_normal = bg_normal .. '55'
+theme.menu_font = font .. '10'
 -- theme.menu_submenu_icon = themes_path .. 'assets/submenu.svg'
 theme.menu_height = dpi(25)
 theme.menu_width = dpi(220)
@@ -171,6 +174,8 @@ theme.layout_cornernw = themes_path .. 'assets/layouts/cornernw.png'
 theme.layout_cornerne = themes_path .. 'assets/layouts/cornerne.png'
 theme.layout_cornersw = themes_path .. 'assets/layouts/cornersw.png'
 theme.layout_cornerse = themes_path .. 'assets/layouts/cornerse.png'
+theme.layout_cornerse = themes_path .. 'assets/layouts/cornerse.png'
+theme.layout_cascade = themes_path .. 'assets/layouts/dwindle.png'
 
 --[[
 ████████╗ ██████╗  ██████╗ ██╗  ████████╗██╗██████╗
@@ -193,7 +198,7 @@ theme.tooltip_bg = bg_normal .. '55'
 ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝
 
 ]]
-theme.hotkeys_font = 'Noto Sans Regular 12'
+theme.hotkeys_font = font .. '12'
 theme.hotkeys_description_font = 'Noto Sans Italic 11'
 theme.hotkeys_bg = bg_normal .. 'cc'
 theme.hotkeys_fg = fg_minimize
@@ -231,23 +236,23 @@ theme.systray_icon_spacing = 10
    ╚═╝   ╚═╝   ╚═╝   ╚══════╝╚══════╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
 
 ]]
-theme.titlebar_bg_normal = '#00000055'
+theme.titlebar_bg_normal = '#000000'
 theme.titlebar_bg_focus = {
     type = 'linear',
     from = {0, 0},
-    to = {100, 30},
-    stops = {{0, '#ffffff55'}, {0.6, '#00000055'}, {1, '#00000055'}}
+    to = {45, 10},
+    stops = {{0, '#ffffffcc'}, {0.6, '#00000055'}, {1, '#000000ee'}}
 }
 
 local cairo = require('lgi').cairo
 
-local solid_font = 'Font Awesome 5 Free Solid'
-local regular_font = 'Font Awesome 5 Free Regular'
+local solid_font = 'Font Awesome'
+local regular_font = 'Font Awesome'
 
 local icon = function(args)
     local args = args or {}
     local text = args.text or ''
-    local font = args.font or 'Font Awesome 5 Free'
+    local font = args.font or 'Font Awesome'
     local tx = args.tx or 0
     local ty = args.ty or 0
     local color = args.color or fg_focus .. '88'
@@ -260,7 +265,7 @@ local icon = function(args)
     cr:set_font_size(fontsize)
     local textWidth = cr:text_extents(text).width
     local textHeight = cr:text_extents(text).height
-    cr:move_to(tx, textHeight + 3 + ty)
+    cr:move_to(tx, textHeight + 5 + ty)
     cr:show_text(text)
     return is
 end
@@ -268,61 +273,63 @@ end
 theme.titlebar_close_button_normal =
     icon(
     {
-        text = utf8.char(0xf410),
+        text = utf8.char(0xf111),
         font = regular_font
     }
 )
 theme.titlebar_close_button_focus =
     icon(
     {
-        text = utf8.char(0xf410),
-        font = regular_font
+        text = utf8.char(0xf111),
+        font = regular_font,
+        color = '#ff0000'
     }
 )
 
 theme.titlebar_maximized_button_normal_inactive =
     icon(
     {
-        text = utf8.char(0xf2d0),
+        text = utf8.char(0xf111),
         font = regular_font
     }
 )
 theme.titlebar_maximized_button_focus_inactive =
     icon(
     {
-        text = utf8.char(0xf2d0),
-        font = regular_font
+        text = utf8.char(0xf111),
+        font = regular_font,
+        color = '#ffff00'
     }
 )
 theme.titlebar_maximized_button_normal_active =
     icon(
     {
-        text = utf8.char(0xf2d2),
+        text = utf8.char(0xf192),
         font = regular_font
     }
 )
 theme.titlebar_maximized_button_focus_active =
     icon(
     {
-        text = utf8.char(0xf2d2),
-        font = regular_font
+        text = utf8.char(0xf192),
+        font = regular_font,
+        color = '#ffff00'
     }
 )
 
 theme.titlebar_minimize_button_normal =
     icon(
     {
-        text = utf8.char(0xf2d1),
+        text = utf8.char(0xf111),
         font = regular_font,
-        ty = 6
     }
 )
 theme.titlebar_minimize_button_focus =
     icon(
     {
-        text = utf8.char(0xf2d1),
+        text = utf8.char(0xf111),
         font = regular_font,
-        ty = 6
+        color = '#00ff00'
     }
 )
 
@@ -457,5 +464,5 @@ theme.titlebar_floating_button_focus_active =
 ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
 
 ]]
-theme.master_width_factor = 0.6
+theme.master_width_factor = 0.7
 return theme

@@ -9,7 +9,7 @@ function module.new()
     local toggle =
         wibox.widget {
         markup = utf8.char(0xf0a8),
-	font = 'Noto Sans Regular 18',
+	font = 'Noto Sans 14',
         align = 'center',
         valign = 'center',
         widget = wibox.widget.textbox

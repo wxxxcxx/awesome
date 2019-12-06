@@ -6,6 +6,8 @@ local dock = require('desktop.dock')
 local globalkeys = require('desktop.globalkeys')
 local client = require('desktop.client')
 local utils = require('desktop.utils')
+local lain = require('lain')
+
 
 root.keys(globalkeys)
 root.buttons(
@@ -29,11 +31,17 @@ root.buttons(
     )
 )
 awful.rules.rules = client.rules
+lain.layout.cascade.offset_x = 32
+lain.layout.cascade.offset_y = 26
 awful.layout.layouts = {
     
-    awful.layout.suit.tile,
+    -- awful.layout.suit.tile,
+    -- lain.layout.cascade,
+    -- lain.layout.cascade.tile,
+    -- lain.layout.centerwork,
+    -- lain.layout.centerwork.horizontal,
     -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.tile.left,
+    awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
@@ -71,7 +79,7 @@ function module:init()
         function(screen)
             set_wallpaper(screen)
             awful.tag.add("Default", {
-                layout             = awful.layout.suit.tile,
+                layout             = awful.layout.layouts[1],
                 screen             = screen,
                 selected           = true,
             })
