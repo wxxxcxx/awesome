@@ -263,10 +263,40 @@ globalkeys =
     )
 )
 
+local wibox = require('wibox')
+
+local tbox =
+    wibox(
+    {
+        x = 100,
+        y = 100,
+        width = 100,
+        height = 100,
+        ontop=true,
+        opacity = 0.0,
+    }
+)
+
+tbox:setup {
+    markup = 'This <i>is</i> a <b>textbox</b>!!!',
+    align = 'center',
+    valign = 'center',
+    widget = wibox.widget.textbox
+}
+
 globalkeys =
     gears.table.join(
     globalkeys,
     -- Client
+    awful.key(
+        {keydefine.modkey},
+        'z',
+        function()
+            notify('123')
+            tbox.visible = not tbox.visible
+        end,
+        {description = 'focus next by index', group = 'client'}
+    ),
     awful.key(
         {keydefine.modkey},
         'j',

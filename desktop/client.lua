@@ -27,7 +27,7 @@ client.connect_signal(
             awful.titlebar(
             c,
             {
-                size = 30
+                size = 30,
             }
         )
         -- buttons for the titlebar
