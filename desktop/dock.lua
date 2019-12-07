@@ -8,7 +8,7 @@ local tasklist = require('widget.tasklist')
 local launcher = require('widget.launcher')
 local systray = require('widget.systray')
 local globalmenu = require('desktop.globalmenu')
-
+local client_titlebar = require('widget.client-titlebar')
 local module = {}
 
 module.launcher =
@@ -48,6 +48,8 @@ module.volume_widget =
     }
 )
 module.net_widget = net_widget()
+
+module.client_titlebar = client_titlebar
 
 function module:new(args)
     local mytaglist =
@@ -131,9 +133,10 @@ function module:new(args)
                 margins = 3,
                 widget = wibox.container.margin
             },
+            module.client_titlebar,
             args.screen.myprompt,
             -- halign = 'left',
-            layout = wibox.layout.fixed.horizontal
+            layout = wibox.layout.align.horizontal
         },
         {
             module.tray,

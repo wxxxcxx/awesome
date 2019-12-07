@@ -137,7 +137,7 @@ module.rules = {
             screen = awful.screen.preferred,
             callback = awful.client.setslave,
             placement = awful.placement.centered,
-            titlebars_enabled = true
+            titlebars_enabled = false
         }
     }, -- Floating clients.
     {
