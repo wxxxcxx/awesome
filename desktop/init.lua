@@ -2,13 +2,14 @@ require('awful.autofocus')
 local awful = require('awful')
 local gears = require('gears')
 local error = require('desktop.error')
+local bar = require('desktop.bar')
 local dock = require('desktop.dock')
 local globalkeys = require('desktop.globalkeys')
 local client = require('desktop.client')
 local utils = require('desktop.utils')
-local lain = require('lain')
+-- local lain = require('lain')
 
-
+awful.mouse.resize.set_mode ("live")
 root.keys(globalkeys)
 root.buttons(
     gears.table.join(
@@ -31,10 +32,10 @@ root.buttons(
     )
 )
 awful.rules.rules = client.rules
-lain.layout.cascade.offset_x = 32
-lain.layout.cascade.offset_y = 26
+-- lain.layout.cascade.offset_x = 32
+-- lain.layout.cascade.offset_y = 26
 awful.layout.layouts = {
-    
+    awful.layout.suit.floating,
     -- awful.layout.suit.tile,
     -- lain.layout.cascade,
     -- lain.layout.cascade.tile,
@@ -46,7 +47,7 @@ awful.layout.layouts = {
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.fair,
-    -- awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max,
     -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.magnifier,
@@ -54,7 +55,7 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
-    awful.layout.suit.floating
+
 }
 
 local module = {}
@@ -85,7 +86,8 @@ function module:init()
             })
             -- awful.tag({'1', '2', '3', '4', '5', '6'}, screen, awful.layout.layouts[1])
 
-            dock:new({screen = screen})
+            bar:new({screen = screen})
+            dock.new({screen = screen})
         end
     )
 end

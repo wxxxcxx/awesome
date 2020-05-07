@@ -2,7 +2,7 @@ local naughty = require('naughty')
 
 local module = {}
 
-naughty.config.presets.critical.bg = '#33000055'
+naughty.config.presets.critical.bg = '#bb9999'
 function module:init()
     if awesome.startup_errors then
         naughty.notify(

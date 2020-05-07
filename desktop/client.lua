@@ -1,10 +1,11 @@
-local awful = require('awful')
-local wibox = require('wibox')
-local clientkeys = require('desktop.clientkeys')
-local utils = require('desktop.utils')
+local awful = require("awful")
+local wibox = require("wibox")
+local clientkeys = require("desktop.clientkeys")
+local utils = require("desktop.utils")
+local menubar = require("menubar")
 
 client.connect_signal(
-    'manage',
+    "manage",
     function(c)
         -- Set the windows at the slave,
         -- i.e. put it at the end of others instead of setting it master.
@@ -21,105 +22,190 @@ client.connect_signal(
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal(
-    'request::titlebars',
+    "request::titlebars",
     function(c)
+        if c.titlebars_enabled == false then
+            return
+        end
+        local title_widget = awful.titlebar.widget.titlewidget(c)
+        title_widget.font = beautiful.titlebar_font
         local top_titlebar =
-            awful.titlebar(
+        awful.titlebar(
             c,
             {
-                size = 30,
+                size = 5,
+                position = "top"
             }
         )
-        -- buttons for the titlebar
-        local buttons =
-            gears.table.join(
-            awful.button(
-                {},
-                1,
-                function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.move(c)
-                end
-            ),
-            awful.button(
-                {},
-                3,
-                function()
-                    client.focus = c
-                    c:raise()
-                    awful.mouse.client.resize(c)
-                end
-            )
+        local bottom_titlebar =
+        awful.titlebar(
+            c,
+            {
+                size = 5,
+                position = "bottom"
+            }
         )
-        top_titlebar:setup {
+        local left_titlebar =
+        awful.titlebar(
+            c,
             {
-                -- Left
-                {
-                    awful.titlebar.widget.iconwidget(c),
-                    buttons = buttons,
-                    left = 10,
-                    top = 5,
-                    bottom = 5,
-                    right = 15,
-                    widget = wibox.container.margin
-                },
-                awful.titlebar.widget.ontopbutton(c),
-                awful.titlebar.widget.floatingbutton(c),
-                awful.titlebar.widget.stickybutton(c),
-                layout = wibox.layout.fixed.horizontal()
-            },
+                size = 5,
+                position = "left"
+            }
+        )
+        local right_titlebar =
+        awful.titlebar(
+            c,
             {
-                -- Middle
-                {
-                    -- Title
-                    align = 'center',
-                    widget = awful.titlebar.widget.titlewidget(c)
-                },
-                buttons = buttons,
-                layout = wibox.layout.flex.horizontal
-            },
-            {
-                -- Right
-                awful.titlebar.widget.minimizebutton(c),
-                awful.titlebar.widget.maximizedbutton(c),
-                awful.titlebar.widget.closebutton(c),
-                layout = wibox.layout.fixed.horizontal()
-            },
-            layout = wibox.layout.align.horizontal
-        }
+                size = 5,
+                position = "right"
+            }
+        )
+
+        c:connect_signal(
+            "focus",
+            function(c)
+                top_titlebar:set_bg(beautiful.titlebar_bg_focus)
+                bottom_titlebar:set_bg(beautiful.titlebar_bg_focus)
+                left_titlebar:set_bg(beautiful.titlebar_bg_focus)
+                right_titlebar:set_bg(beautiful.titlebar_bg_focus)
+            end
+        )
+        c:connect_signal(
+            "unfocus",
+            function(c)
+                top_titlebar:set_bg(beautiful.titlebar_bg_normal)
+                bottom_titlebar:set_bg(beautiful.titlebar_bg_normal)
+                left_titlebar:set_bg(beautiful.titlebar_bg_normal)
+                right_titlebar:set_bg(beautiful.titlebar_bg_normal)
+            end
+        )
     end
 )
 
 client.connect_signal(
-    'focus',
+    "focus",
     function(c)
         c.border_color = beautiful.border_focus
         utils.hide_all_menu()
+        gears.debug.dump(c.instance, "", 1)
     end
 )
 client.connect_signal(
-    'unfocus',
+    "unfocus",
     function(c)
         c.border_color = beautiful.border_normal
     end
 )
 
+local icon_map = {}
+icon_map["code-oss"] = "code"
+icon_map["alacritty"] = "terminal"
+icon_map["jetbrains-idea"] = "idea"
+
+client.connect_signal(
+    "manage",
+    function(c)
+        if c.instance ~= nil then
+            local instance = c.instance:lower()
+            local prefer_icon = menubar.utils.lookup_icon(icon_map[instance] or instance)
+            local icon = menubar.utils.lookup_icon(c.instance)
+            local lower_icon = menubar.utils.lookup_icon(c.instance:lower())
+
+            -- gears.debug.dump(icon, c.instance, 2)
+
+            --Check if the icon exists
+            if prefer_icon ~= nil then
+                --Check if the icon exists in the lowercase variety
+                local temp_icon = gears.surface(prefer_icon)
+                c.icon = temp_icon._native
+            elseif icon ~= nil then
+                --Check if the icon exists in the lowercase variety
+                local temp_icon = gears.surface(icon)
+                c.icon = temp_icon._native
+            elseif lower_icon ~= nil then
+                --Check if the client already has an icon. If not, give it a default.
+                local temp_icon = gears.surface(lower_icon)
+                c.icon = temp_icon._native
+            elseif c.icon == nil then
+                local temp_icon = gears.surface(menubar.utils.lookup_icon("application-default-icon"))
+                c.icon = temp_icon._native
+            end
+        end
+    end
+)
+
+-- client.connect_signal(
+--     "mouse::move",
+--     function(c)
+--         gears.debug.dump(os.time() .. "move", "------", 1)
+--         gears.debug.dump(c.cursor, "------", 1)
+
+--         if not mousegrabber.isrunning() then
+--             mousegrabber.run(
+--                 function()
+--                 end,
+--                 "arrow"
+--             )
+--         end
+--     end
+-- )
+
 local module = {}
+
+function border_resize(c)
+    client.focus = c
+    c:raise()
+    utils.hide_all_menu()
+    local coords = mouse.coords()
+    if coords == nil then
+        return
+    end
+    if c == nil then
+        return
+    end
+    local geometry = c:geometry()
+    local range = 7
+    if
+        (coords.x < geometry.x + range and coords.y < geometry.y + range) or --left top
+            (coords.x > geometry.x + geometry.width - range and coords.y < geometry.y + range) or --right top
+            (coords.x < geometry.x + range and coords.y > geometry.y + geometry.height - range) or --left bottom
+            (coords.x > geometry.x + geometry.width - range and coords.y > geometry.y + geometry.height - range)
+     then
+        -- right bottom
+        awful.mouse.client.resize(c)
+    elseif coords.y < geometry.y + range then
+        awful.mouse.client.move(c)
+    elseif coords.x < geometry.x + range then
+        awful.mouse.client.resize(c, "left")
+    elseif coords.x > geometry.x + geometry.width - range then
+        awful.mouse.client.resize(c, "right")
+    elseif coords.y > geometry.y + geometry.height - range then
+        awful.mouse.client.resize(c, "bottom")
+    end
+end
 
 local clientbuttons =
     gears.table.join(
+    awful.button({}, 1, border_resize),
     awful.button(
-        {},
+        {keydefine.modkey},
         1,
         function(c)
             client.focus = c
             c:raise()
-            utils.hide_all_menu()
+            awful.mouse.client.move(c)
         end
     ),
-    awful.button({keydefine.modkey}, 1, awful.mouse.client.move),
-    awful.button({keydefine.modkey}, 3, awful.mouse.client.resize)
+    awful.button(
+        {keydefine.modkey},
+        3,
+        function(c)
+            client.focus = c
+            c:raise()
+            awful.mouse.client.resize(c)
+        end
+    )
 )
 
 module.rules = {
@@ -143,68 +229,82 @@ module.rules = {
     {
         rule_any = {
             instance = {
-                'DTA', -- Firefox addon DownThemAll.
-                'copyq', -- Includes session name in class.
-                'pinentry'
+                "DTA", -- Firefox addon DownThemAll.
+                "copyq", -- Includes session name in class.
+                "pinentry"
             },
             class = {
-                'Arandr',
-                'Blueman-manager',
-                'Gpick',
-                'Kruler',
-                'MessageWin', -- kalarm.
-                'Sxiv',
-                'Tor Browser', -- Needs a fixed window size to avoid fingerprinting by screen size.
-                'Wpa_gui',
-                'veromix',
-                'xtightvncviewer'
+                "Arandr",
+                "Blueman-manager",
+                "Gpick",
+                "Kruler",
+                "MessageWin", -- kalarm.--[[  ]]
+                "Sxiv",
+                "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
+                "Wpa_gui",
+                "veromix",
+                "xtightvncviewer"
             },
             -- Note that the name property shown in xprop might be set slightly after creation of the client
             -- and the name shown there might not match defined rules here.
             name = {
-                'Event Tester', -- xev.
-                'win0' -- jetbrains
+                "Event Tester", -- xev.
+                "win0" -- jetbrains
             },
             role = {
-                'AlarmWindow', -- Thunderbird's calendar.
-                'ConfigManager', -- Thunderbird's about:config.
-                'pop-up' -- e.g. Google Chrome's (detached) Developer Tools.
+                "AlarmWindow", -- Thunderbird's calendar.
+                "ConfigManager", -- Thunderbird's about:config.
+                "pop-up" -- e.g. Google Chrome's (detached) Developer Tools.
             }
         },
         properties = {floating = true}
     },
-    -- {
-    --     rule = {
-    --         class = 'mpv'
-    --     },
-    --     properties = {
-    --         floating = true,
-    --         ontop = true,
-    --         placement = awful.placement.centered
-    --     }
-    -- },
     {
         rule_any = {
             class = {
-                'VirtualBox Manager',
-                'VirtualBox'
+                "VirtualBox Machine",
+                "VirtualBox Manager",
+                "VirtualBox",
+                "obs",
+                "Qq",
+                "Peek"
             }
         },
         properties = {
             floating = true,
-            placement = awful.placement.centered,
-            tag = ' w '
+        }
+    },
+    {
+        rule = {class = "Emacs"},
+        properties = {size_hints_honor = false}
+    },
+    {
+        rule_any = {
+            class = {
+                "Qq",
+                "Peek"
+            }
+        },
+        properties = {
+            titlebars_enabled = false,
+            border_width = 0,
         }
     },
     {
         rule = {
-            class = 'VirtualBox Machine'
+            class = "XEyes"
         },
         properties = {
-            floating = false,
-            placement = awful.placement.centered,
-            tag = ' w '
-        }
+            titlebars_enabled = false,
+            border_width = 0,
+            floating = true,
+            ontop = true,
+            focusable = false,
+            urgent = true
+        },
+        callback = function(c)
+            c:relative_move(0, -100)
+        end
     }
 }
 

@@ -7,7 +7,7 @@ return gears.table.join(
         {keydefine.modkey},
         'Return',
         function(c)
-            c.fullscreen = not c.fullscreen
+            c.maximized = not c.maximized
             c:raise()
         end,
         {description = 'toggle fullscreen', group = 'client'}

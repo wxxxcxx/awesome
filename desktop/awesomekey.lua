@@ -27,7 +27,7 @@ module.popup_indicator =
     border_color = '#00ff00',
     border_width = 5,
     border_width = 0,
-    bg = '#00000055',
+    bg = '#000000',
     placement = awful.placement.centered,
     visible = false
 }

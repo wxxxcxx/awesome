@@ -1,7 +1,6 @@
-local awful = require('awful')
-local wibox = require('wibox')
-local menubar = require('menubar')
-
+local awful = require("awful")
+local wibox = require("wibox")
+local menubar = require("menubar")
 
 -- menubar.utils.terminal = terminal
 
@@ -34,18 +33,22 @@ function module.new(args)
         )
     end
     local margin = args.margin or 0
-    return wibox.container.margin(
-        awful.widget.launcher(
-            {
-                image = beautiful.awesome_icon,
-                menu = launcher_menu
-            }
+    return wibox.widget {
+        wibox.container.margin(
+            awful.widget.launcher(
+                {
+                    image = beautiful.awesome_icon,
+                    menu = launcher_menu
+                }
+            ),
+            margin + 4,
+            margin + 4,
+            margin,
+            margin
         ),
-        margin + 10,
-        margin + 10,
-        margin,
-        margin
-    )
+        bg = beautiful.bg_focus,
+        widget = wibox.container.background
+    }
 end
 
 return module

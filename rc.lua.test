@@ -19,3 +19,7 @@ end
 local desktop = require('desktop')
 
 desktop:init()
+
+-- require('test')
+
+-- require("widget.musicboxlyrics.musicboxlyrics")

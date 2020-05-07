@@ -1,46 +1,72 @@
-local gears = require('gears')
-local awful = require('awful')
-local hotkeys_popup = require('awful.hotkeys_popup')
-local awesomekey = require('desktop.awesomekey')
+local gears = require("gears")
+local awful = require("awful")
+local hotkeys_popup = require("awful.hotkeys_popup")
+local awesomekey = require("desktop.awesomekey")
+local switcher = require("desktop.switcher")
 
 globalkeys =
     gears.table.join(
     awful.key(
-        {keydefine.alt},
-        'space',
+        {},
+        "Print",
         function()
-            awful.spawn.with_shell("rofi -show drun -drun-show-actions -display-drun 'A'")
+            awful.spawn.with_shell("flameshot gui")
         end,
         {
-            description = 'show rofi',
-            group = 'awesome'
+            description = "screen capture",
+            group = "awesome"
         }
+    ),
+    awful.key(
+        {keydefine.alt},
+        "space",
+        function()
+            awful.spawn.with_shell("rofi -show drun -drun-show-actions -display-drun 'A' -show-icons")
+        end,
+        {
+            description = "show rofi",
+            group = "awesome"
+        }
+    ),
+    awful.key(
+        {keydefine.alt},
+        "Tab",
+        function()
+            switcher.switch(1, keydefine.alt, "Alt_L", "Shift", "Tab")
+        end
+    ),
+    awful.key(
+        {keydefine.alt, keydefine.shift},
+        "Tab",
+        function()
+            switcher.switch(-1, keydefine.alt, "Alt_L", "Shift", "Tab")
+        end
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        '/',
+        "/",
         hotkeys_popup.show_help,
         {
-            description = 'show help',
-            group = 'awesome'
+            description = "show help",
+            group = "awesome"
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.control},
-        'r',
+        "r",
         awesome.restart,
         {
-            description = 'reload awesome',
-            group = 'awesome'
+            description = "reload awesome",
+            group = "awesome"
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.control},
-        'q',
+        "q",
         awesome.quit,
         {
-            description = 'quit awesome',
-            group = 'awesome'
+            description = "quit awesome",
+            group = "awesome"
         }
     )
 )
@@ -50,34 +76,34 @@ globalkeys =
     globalkeys,
     awesomekey(
         {keydefine.modkey},
-        't',
+        "t",
         {
             {
                 {},
-                'j',
+                "j",
                 awful.tag.viewprev,
                 {
-                    description = 'view previous tag',
-                    group = 'tag',
+                    description = "view previous tag",
+                    group = "tag",
                     hold = true
                 }
             },
             {
                 {},
-                'k',
+                "k",
                 awful.tag.viewnext,
                 {
-                    description = 'view previous tag',
-                    group = 'tag',
+                    description = "view previous tag",
+                    group = "tag",
                     hold = true
                 }
             },
             {
                 {},
-                'n',
+                "n",
                 function()
                     awful.tag.add(
-                        'NewTag',
+                        "NewTag",
                         {
                             -- screen = screen,
                             layout = awful.layout.suit.floating
@@ -85,16 +111,16 @@ globalkeys =
                     )
                 end,
                 {
-                    description = 'create new tag',
-                    group = 'tag'
+                    description = "create new tag",
+                    group = "tag"
                 }
             },
             {
                 {keydefine.shift},
-                'n',
+                "n",
                 function()
                     awful.tag.add(
-                        'NewTag',
+                        "NewTag",
                         {
                             screen = screen,
                             layout = awful.layout.suit.floating
@@ -102,13 +128,13 @@ globalkeys =
                     ):view_only()
                 end,
                 {
-                    description = 'create new tag and view',
-                    group = 'tag'
+                    description = "create new tag and view",
+                    group = "tag"
                 }
             },
             {
                 {},
-                'd',
+                "d",
                 function()
                     local t = awful.screen.focused().selected_tag
                     if not t then
@@ -117,13 +143,13 @@ globalkeys =
                     t:delete()
                 end,
                 {
-                    description = 'delete tag',
-                    group = 'tag',
+                    description = "delete tag",
+                    group = "tag",
                     hold = true
                 }
             }
         },
-        {description = 'tag control', group = 'tag'}
+        {description = "tag control", group = "tag"}
     )
 )
 -- Layout
@@ -132,138 +158,138 @@ globalkeys =
     globalkeys,
     awesomekey(
         {keydefine.modkey},
-        'l',
+        "l",
         {
             {
                 {},
-                'space',
+                "space",
                 function()
                     awful.layout.inc(1)
                 end,
                 {
-                    description = 'select next layout',
-                    group = 'layout',
+                    description = "select next layout",
+                    group = "layout",
                     hold = true
                 }
             },
             {
                 {keydefine.shift},
-                'space',
+                "space",
                 function()
                     awful.layout.inc(1)
                 end,
                 {
-                    description = 'select previous layout',
-                    group = 'layout',
+                    description = "select previous layout",
+                    group = "layout",
                     hold = true
                 }
             },
             -- master size
             {
                 {},
-                'k',
+                "k",
                 function()
                     awful.tag.incmwfact(0.05)
                 end,
                 {
-                    description = 'increase master width factor',
-                    group = 'layout',
+                    description = "increase master width factor",
+                    group = "layout",
                     hold = true
                 }
             },
             {
                 {},
-                'j',
+                "j",
                 function()
                     awful.tag.incmwfact(-0.05)
                 end,
                 {
-                    description = 'decrease master width factor',
-                    group = 'layout',
+                    description = "decrease master width factor",
+                    group = "layout",
                     hold = true
                 }
             },
             -- master clients number
             {
                 {},
-                'm',
+                "m",
                 {
                     {
                         {},
-                        'k',
+                        "k",
                         function()
                             awful.tag.incnmaster(1, nil, true)
                         end,
                         {
-                            description = 'increase the number of master clients',
-                            group = 'layout',
+                            description = "increase the number of master clients",
+                            group = "layout",
                             hold = true
                         }
                     },
                     {
                         {},
-                        'j',
+                        "j",
                         function()
                             awful.tag.incnmaster(-1, nil, true)
                         end,
                         {
-                            description = 'decrease the number of master clients',
-                            group = 'layout',
+                            description = "decrease the number of master clients",
+                            group = "layout",
                             hold = true
                         }
                     }
                 },
                 {
-                    description = 'the number of master clients',
-                    group = 'layout',
+                    description = "the number of master clients",
+                    group = "layout",
                     hold = true
                 }
             },
             {
                 {},
-                'c',
+                "c",
                 {
                     {
                         {},
-                        'k',
+                        "k",
                         function()
                             awful.tag.incncol(1, nil, true)
                         end,
                         {
-                            description = 'increase the number of columns',
-                            group = 'layout',
+                            description = "increase the number of columns",
+                            group = "layout",
                             hold = true
                         }
                     },
                     {
                         {},
-                        'j',
+                        "j",
                         function()
                             awful.tag.incncol(-1, nil, true)
                         end,
                         {
-                            description = 'decrease the number of columns',
-                            group = 'layout',
+                            description = "decrease the number of columns",
+                            group = "layout",
                             hold = true
                         }
                     }
                 },
                 {
-                    description = 'the number of layout columns',
-                    group = 'layout',
+                    description = "the number of layout columns",
+                    group = "layout",
                     hold = true
                 }
             }
         },
         {
-            description = 'layout control',
-            group = 'layout',
+            description = "layout control",
+            group = "layout",
             hold = true
         }
     )
 )
 
-local wibox = require('wibox')
+local wibox = require("wibox")
 
 local tbox =
     wibox(
@@ -272,15 +298,15 @@ local tbox =
         y = 100,
         width = 100,
         height = 100,
-        ontop=true,
-        opacity = 0.0,
+        ontop = true,
+        opacity = 0.0
     }
 )
 
 tbox:setup {
-    markup = 'This <i>is</i> a <b>textbox</b>!!!',
-    align = 'center',
-    valign = 'center',
+    markup = "This <i>is</i> a <b>textbox</b>!!!",
+    align = "center",
+    valign = "center",
     widget = wibox.widget.textbox
 }
 
@@ -290,16 +316,15 @@ globalkeys =
     -- Client
     awful.key(
         {keydefine.modkey},
-        'z',
+        "z",
         function()
-            notify('123')
-            tbox.visible = not tbox.visible
+            awful.spawn.with_shell("python ~/Projects/hud-menu/hud-menu.py")
         end,
-        {description = 'focus next by index', group = 'client'}
+        {description = "focus next by index", group = "client"}
     ),
     awful.key(
         {keydefine.modkey},
-        'j',
+        "Tab",
         function()
             awful.client.focus.byidx(1)
             -- awful.client.focus.bydirection('down')
@@ -307,11 +332,23 @@ globalkeys =
                 client.focus:raise()
             end
         end,
-        {description = 'focus next by index', group = 'client'}
+        {description = "focus next by index", group = "client"}
     ),
     awful.key(
         {keydefine.modkey},
-        'k',
+        "j",
+        function()
+            awful.client.focus.byidx(1)
+            -- awful.client.focus.bydirection('down')
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = "focus next by index", group = "client"}
+    ),
+    awful.key(
+        {keydefine.modkey},
+        "k",
         function()
             -- awful.client.focus.bydirection('up')
             awful.client.focus.byidx(-1)
@@ -319,23 +356,23 @@ globalkeys =
                 client.focus:raise()
             end
         end,
-        {description = 'focus previous by index', group = 'client'}
+        {description = "focus previous by index", group = "client"}
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        'j',
+        "j",
         function()
             awful.client.swap.byidx(1)
         end,
-        {description = 'swap next by index', group = 'client'}
+        {description = "swap next by index", group = "client"}
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        'k',
+        "k",
         function()
             awful.client.swap.byidx(-1)
         end,
-        {description = 'swap previous by index', group = 'client'}
+        {description = "swap previous by index", group = "client"}
     )
 )
 
@@ -348,7 +385,7 @@ for i = 1, 9 do
         globalkeys, -- View tag only.
         awful.key(
             {keydefine.modkey},
-            '#' .. i + 9,
+            "#" .. i + 9,
             function()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -356,12 +393,12 @@ for i = 1, 9 do
                     tag:view_only()
                 end
             end,
-            {description = 'view tag #' .. i, group = 'tag'}
+            {description = "view tag #" .. i, group = "tag"}
         ),
         -- Toggle tag display.
         awful.key(
             {keydefine.modkey, keydefine.control},
-            '#' .. i + 9,
+            "#" .. i + 9,
             function()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -369,12 +406,12 @@ for i = 1, 9 do
                     awful.tag.viewtoggle(tag)
                 end
             end,
-            {description = 'toggle tag #' .. i, group = 'tag'}
+            {description = "toggle tag #" .. i, group = "tag"}
         ),
         -- Move client to tag.
         awful.key(
             {keydefine.modkey, keydefine.shift},
-            '#' .. i + 9,
+            "#" .. i + 9,
             function()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -384,12 +421,12 @@ for i = 1, 9 do
                     end
                 end
             end,
-            {description = 'move focused client to tag #' .. i, group = 'tag'}
+            {description = "move focused client to tag #" .. i, group = "tag"}
         ),
         -- Toggle tag on focused client.
         awful.key(
             {keydefine.modkey, keydefine.control, keydefine.shift},
-            '#' .. i + 9,
+            "#" .. i + 9,
             function()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -398,7 +435,7 @@ for i = 1, 9 do
                     end
                 end
             end,
-            {description = 'toggle focused client on tag #' .. i, group = 'tag'}
+            {description = "toggle focused client on tag #" .. i, group = "tag"}
         )
     )
 end
@@ -409,28 +446,28 @@ globalkeys =
     globalkeys,
     awful.key(
         {},
-        '#122',
+        "#122",
         function()
-            os.execute(string.format('amixer -q set %s 1%%-', 'Master'))
-            local wibox = require('wibox')
+            os.execute(string.format("amixer -q set %s 1%%-", "Master"))
+            local wibox = require("wibox")
         end,
-        {description = 'volume --'}
+        {description = "volume --"}
     ),
     awful.key(
         {},
-        '#123',
+        "#123",
         function()
-            os.execute(string.format('amixer -q set %s 1%%+', 'Master'))
+            os.execute(string.format("amixer -q set %s 1%%+", "Master"))
         end,
-        {description = 'volume ++'}
+        {description = "volume ++"}
     ),
     awful.key(
         {},
-        '#121',
+        "#121",
         function()
-            os.execute(string.format('amixer -q set %s toggle', 'Master'))
+            os.execute(string.format("amixer -q set %s toggle", "Master"))
         end,
-        {description = 'volume mute'}
+        {description = "volume mute"}
     )
 )
 

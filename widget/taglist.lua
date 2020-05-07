@@ -138,7 +138,7 @@ function module.new(args)
 
     local add_text =
         wibox.widget {
-        markup = utf8.char(0xf055),
+        markup = utf8.char(0xe3f1),
         font = 'Noto Sans Regular 10',
         align = 'center',
         valign = 'center',
