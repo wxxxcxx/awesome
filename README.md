@@ -3,9 +3,8 @@
 
 ![B](./screenshots/02.png)
 
-# My Awesome WM Config
 
-Client keymap in `./desktop/clientkeys.lua`,Global keymap in `./desktop/globalkeys.lua`.
+
 
 ## Install 
 
@@ -25,4 +24,6 @@ git clone {repo} ~/.config/awesome
 ```
 
 Before use,you should replace the software in the `desktop/environment.lua` with your favorite software.
+
+Client keymap in `./desktop/clientkeys.lua`,Global keymap in `./desktop/globalkeys.lua`.
 
