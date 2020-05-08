@@ -101,7 +101,7 @@ theme.awesome_icon =
     }
 )
 theme.icon_theme = "Papirus"
-theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/wp.jpg"
+theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/wallpaper.jpg"
 theme.useless_gap = dpi(5)
 
 --[[

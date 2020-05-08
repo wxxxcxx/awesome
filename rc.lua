@@ -42,7 +42,9 @@ local cmds = {
     "enpass",
     "nutstore",
     "flameshot",
-    "python ~/.config/awesome/widget/mblyrics/main.py"
+    "python ~/.config/awesome/widget/mblyrics/main.py",
+    "emacs --daemon",
+    -- "easystroke"
 }
 
 for _, cmd in pairs(cmds) do

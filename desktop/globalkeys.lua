@@ -1,8 +1,8 @@
 local gears = require("gears")
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
-local awesomekey = require("desktop.awesomekey")
 local switcher = require("desktop.switcher")
+local sequentialkey = require("desktop.sequentialkey")
 
 globalkeys =
     gears.table.join(
@@ -74,81 +74,88 @@ globalkeys =
 globalkeys =
     gears.table.join(
     globalkeys,
-    awesomekey(
+    awful.key(
         {keydefine.modkey},
         "t",
-        {
-            {
-                {},
-                "j",
-                awful.tag.viewprev,
+        function()
+            sequentialkey.show(
                 {
-                    description = "view previous tag",
-                    group = "tag",
-                    hold = true
-                }
-            },
-            {
-                {},
-                "k",
-                awful.tag.viewnext,
-                {
-                    description = "view previous tag",
-                    group = "tag",
-                    hold = true
-                }
-            },
-            {
-                {},
-                "n",
-                function()
-                    awful.tag.add(
-                        "NewTag",
+                    {
+                        {},
+                        "j",
+                        awful.tag.viewprev,
                         {
-                            -- screen = screen,
-                            layout = awful.layout.suit.floating
+                            description = "view previous tag",
+                            group = "tag",
+                            hold = true
                         }
-                    )
-                end,
-                {
-                    description = "create new tag",
-                    group = "tag"
-                }
-            },
-            {
-                {keydefine.shift},
-                "n",
-                function()
-                    awful.tag.add(
-                        "NewTag",
+                    },
+                    {
+                        {},
+                        "k",
+                        awful.tag.viewnext,
                         {
-                            screen = screen,
-                            layout = awful.layout.suit.floating
+                            description = "view previous tag",
+                            group = "tag",
+                            hold = true
                         }
-                    ):view_only()
-                end,
+                    },
+                    {
+                        {},
+                        "n",
+                        function()
+                            awful.tag.add(
+                                "NewTag",
+                                {
+                                    -- screen = screen,
+                                    layout = awful.layout.suit.floating
+                                }
+                            )
+                        end,
+                        {
+                            description = "create new tag",
+                            group = "tag"
+                        }
+                    },
+                    {
+                        {keydefine.shift},
+                        "n",
+                        function()
+                            awful.tag.add(
+                                "NewTag",
+                                {
+                                    screen = screen,
+                                    layout = awful.layout.suit.floating
+                                }
+                            ):view_only()
+                        end,
+                        {
+                            description = "create new tag and view",
+                            group = "tag"
+                        }
+                    },
+                    {
+                        {},
+                        "d",
+                        function()
+                            local t = awful.screen.focused().selected_tag
+                            if not t then
+                                return
+                            end
+                            t:delete()
+                        end,
+                        {
+                            description = "delete tag",
+                            group = "tag",
+                            hold = true
+                        }
+                    }
+                },
                 {
-                    description = "create new tag and view",
-                    group = "tag"
+                    description = "tag control"
                 }
-            },
-            {
-                {},
-                "d",
-                function()
-                    local t = awful.screen.focused().selected_tag
-                    if not t then
-                        return
-                    end
-                    t:delete()
-                end,
-                {
-                    description = "delete tag",
-                    group = "tag",
-                    hold = true
-                }
-            }
-        },
+            )
+        end,
         {description = "tag control", group = "tag"}
     )
 )
@@ -156,72 +163,45 @@ globalkeys =
 globalkeys =
     gears.table.join(
     globalkeys,
-    awesomekey(
+    awful.key(
         {keydefine.modkey},
         "l",
-        {
-            {
-                {},
-                "space",
-                function()
-                    awful.layout.inc(1)
-                end,
+        function()
+            sequentialkey.show(
                 {
-                    description = "select next layout",
-                    group = "layout",
-                    hold = true
-                }
-            },
-            {
-                {keydefine.shift},
-                "space",
-                function()
-                    awful.layout.inc(1)
-                end,
-                {
-                    description = "select previous layout",
-                    group = "layout",
-                    hold = true
-                }
-            },
-            -- master size
-            {
-                {},
-                "k",
-                function()
-                    awful.tag.incmwfact(0.05)
-                end,
-                {
-                    description = "increase master width factor",
-                    group = "layout",
-                    hold = true
-                }
-            },
-            {
-                {},
-                "j",
-                function()
-                    awful.tag.incmwfact(-0.05)
-                end,
-                {
-                    description = "decrease master width factor",
-                    group = "layout",
-                    hold = true
-                }
-            },
-            -- master clients number
-            {
-                {},
-                "m",
-                {
+                    {
+                        {},
+                        "space",
+                        function()
+                            awful.layout.inc(1)
+                        end,
+                        {
+                            description = "select next layout",
+                            group = "layout",
+                            hold = true
+                        }
+                    },
+                    {
+                        {keydefine.shift},
+                        "space",
+                        function()
+                            awful.layout.inc(1)
+                        end,
+                        {
+                            description = "select previous layout",
+                            group = "layout",
+                            hold = true
+                        }
+                    },
+                    -- master size
                     {
                         {},
                         "k",
                         function()
-                            awful.tag.incnmaster(1, nil, true)
+                            awful.tag.incmwfact(0.05)
                         end,
                         {
-                            description = "increase the number of master clients",
+                            description = "increase master width factor",
                             group = "layout",
                             hold = true
                         }
@@ -230,85 +210,97 @@ globalkeys =
                         {},
                         "j",
                         function()
-                            awful.tag.incnmaster(-1, nil, true)
+                            awful.tag.incmwfact(-0.05)
                         end,
                         {
-                            description = "decrease the number of master clients",
+                            description = "decrease master width factor",
                             group = "layout",
                             hold = true
                         }
-                    }
-                },
-                {
-                    description = "the number of master clients",
-                    group = "layout",
-                    hold = true
-                }
-            },
-            {
-                {},
-                "c",
-                {
+                    },
+                    -- master clients number
                     {
                         {},
-                        "k",
-                        function()
-                            awful.tag.incncol(1, nil, true)
-                        end,
+                        "m",
                         {
-                            description = "increase the number of columns",
+                            {
+                                {},
+                                "k",
+                                function()
+                                    awful.tag.incnmaster(1, nil, true)
+                                end,
+                                {
+                                    description = "increase the number of master clients",
+                                    group = "layout",
+                                    hold = true
+                                }
+                            },
+                            {
+                                {},
+                                "j",
+                                function()
+                                    awful.tag.incnmaster(-1, nil, true)
+                                end,
+                                {
+                                    description = "decrease the number of master clients",
+                                    group = "layout",
+                                    hold = true
+                                }
+                            }
+                        },
+                        {
+                            description = "the number of master clients",
                             group = "layout",
                             hold = true
                         }
                     },
                     {
                         {},
-                        "j",
-                        function()
-                            awful.tag.incncol(-1, nil, true)
-                        end,
+                        "c",
                         {
-                            description = "decrease the number of columns",
+                            {
+                                {},
+                                "k",
+                                function()
+                                    awful.tag.incncol(1, nil, true)
+                                end,
+                                {
+                                    description = "increase the number of columns",
+                                    group = "layout",
+                                    hold = true
+                                }
+                            },
+                            {
+                                {},
+                                "j",
+                                function()
+                                    awful.tag.incncol(-1, nil, true)
+                                end,
+                                {
+                                    description = "decrease the number of columns",
+                                    group = "layout",
+                                    hold = true
+                                }
+                            }
+                        },
+                        {
+                            description = "the number of layout columns",
                             group = "layout",
                             hold = true
                         }
                     }
                 },
                 {
-                    description = "the number of layout columns",
-                    group = "layout",
-                    hold = true
+                    description = "layout control"
                 }
-            }
-        },
+            )
+        end,
         {
             description = "layout control",
-            group = "layout",
-            hold = true
+            group = "layout"
         }
     )
 )
-
-local wibox = require("wibox")
-
-local tbox =
-    wibox(
-    {
-        x = 100,
-        y = 100,
-        width = 100,
-        height = 100,
-        ontop = true,
-        opacity = 0.0
-    }
-)
-
-tbox:setup {
-    markup = "This <i>is</i> a <b>textbox</b>!!!",
-    align = "center",
-    valign = "center",
-    widget = wibox.widget.textbox
-}
 
 globalkeys =
     gears.table.join(
