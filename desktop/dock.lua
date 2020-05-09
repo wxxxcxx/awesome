@@ -58,7 +58,7 @@ function module.new(args)
         }
     )
     function dock.show()
-        gears.debug.dump(mytasklist.width, "tasklist", 1)
+        -- gears.debug.dump(mytasklist.width, "tasklist", 1)
         easa_animation.start(
             {
                 begin = screen[mouse.screen].geometry.height - 1,

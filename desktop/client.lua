@@ -88,7 +88,7 @@ client.connect_signal(
     function(c)
         c.border_color = beautiful.border_focus
         utils.hide_all_menu()
-        gears.debug.dump(c.instance, "", 1)
+        -- gears.debug.dump(c.instance, "", 1)
     end
 )
 client.connect_signal(
