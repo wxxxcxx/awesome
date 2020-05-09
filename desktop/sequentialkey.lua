@@ -10,7 +10,7 @@ create_key_help = function(keys, options)
     local key_tips =
         wibox.widget {
         homogeneous = true,
-        spacing = 5,
+        spacing = 10,
         min_cols_size = 300,
         min_rows_size = 10,
         forced_num_cols = 2,
@@ -25,14 +25,28 @@ create_key_help = function(keys, options)
             mod_text = mod_text .. "+"
         end
 
-        key_tips:add(
+        mod_text = mod_text:gsub("Mod1", "Alt")
+        mod_text = mod_text:gsub("Mod4", "Super")
+
+        local item_widget =
             wibox.widget {
-                markup = "<b>" .. mod_text .. key:lower() .. "</b>\t<i>" .. other.description .. "</i>",
+            nil,
+            {
+                markup = "<b>" .. mod_text .. key:lower() .. "</b>",
+                align = "left",
+                valign = "center",
+                font = '12',
+                widget = wibox.widget.textbox
+            },
+            {
+                markup = "<i>" .. other.description .. "</i>",
                 align = "left",
                 valign = "center",
                 widget = wibox.widget.textbox
-            }
-        )
+            },
+            layout = wibox.layout.flex.horizontal
+        }
+        key_tips:add(item_widget)
     end
     local wrapper_widget = {
         {
@@ -41,9 +55,10 @@ create_key_help = function(keys, options)
                     markup = "<b>" .. description .. "</b>",
                     align = "center",
                     valign = "center",
+                    font = '18',
                     widget = wibox.widget.textbox
                 },
-                bottom = 40,
+                bottom = 20,
                 widget = wibox.container.margin
             },
             key_tips,
@@ -56,7 +71,6 @@ create_key_help = function(keys, options)
         awful.popup {
         widget = wrapper_widget,
         ontop = true,
-        border_color = "#00ff00",
         border_width = 5,
         border_width = 0,
         placement = function(d, args)
