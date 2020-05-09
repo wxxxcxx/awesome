@@ -440,7 +440,7 @@ globalkeys =
         {},
         "#122",
         function()
-            os.execute(string.format("amixer -q set %s 1%%-", "Master"))
+            os.execute("amixer -q sset Master 5%-")
             local wibox = require("wibox")
         end,
         {description = "volume --"}
@@ -449,7 +449,7 @@ globalkeys =
         {},
         "#123",
         function()
-            os.execute(string.format("amixer -q set %s 1%%+", "Master"))
+            os.execute("amixer -q sset Master 5%+")
         end,
         {description = "volume ++"}
     ),
@@ -457,7 +457,7 @@ globalkeys =
         {},
         "#121",
         function()
-            os.execute(string.format("amixer -q set %s toggle", "Master"))
+            os.execute("amixer -q sset Master toggle")
         end,
         {description = "volume mute"}
     )

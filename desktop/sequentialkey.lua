@@ -7,13 +7,14 @@ local module = {}
 
 create_key_help = function(keys, options)
     local description = options.description or ""
-    local key_tips = wibox.widget {
-        homogeneous   = true,
-        spacing       = 5,
+    local key_tips =
+        wibox.widget {
+        homogeneous = true,
+        spacing = 5,
         min_cols_size = 300,
         min_rows_size = 10,
         forced_num_cols = 2,
-        layout        = wibox.layout.grid,
+        layout = wibox.layout.grid
     }
 
     for i, item in ipairs(keys) do
@@ -33,8 +34,7 @@ create_key_help = function(keys, options)
             }
         )
     end
-    local wrapper_widget =
-    {
+    local wrapper_widget = {
         key_tips,
         margins = 40,
         widget = wibox.container.margin
