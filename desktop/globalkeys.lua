@@ -13,8 +13,8 @@ globalkeys =
             awful.spawn.with_shell("flameshot gui")
         end,
         {
-            description = "screen capture",
-            group = "awesome"
+            description = "Screen capture",
+            group = "Application"
         }
     ),
     awful.key(
@@ -24,31 +24,44 @@ globalkeys =
             awful.spawn.with_shell("rofi -show drun -drun-show-actions -display-drun 'A' -show-icons")
         end,
         {
-            description = "show rofi",
-            group = "awesome"
+            description = "Show rofi",
+            group = "Application"
         }
-    ),
+    )
+)
+
+globalkeys =
+    gears.table.join(
+    globalkeys,
     awful.key(
         {keydefine.alt},
         "Tab",
         function()
             switcher.switch(1, keydefine.alt, "Alt_L", "Shift", "Tab")
-        end
+        end,
+        {
+            description = "Next client",
+            group = "Awesome"
+        }
     ),
     awful.key(
         {keydefine.alt, keydefine.shift},
         "Tab",
         function()
             switcher.switch(-1, keydefine.alt, "Alt_L", "Shift", "Tab")
-        end
+        end,
+        {
+            description = "Previous client",
+            group = "Awesome"
+        }
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
         "/",
         hotkeys_popup.show_help,
         {
-            description = "show help",
-            group = "awesome"
+            description = "Show help",
+            group = "Awesome"
         }
     ),
     awful.key(
@@ -56,8 +69,8 @@ globalkeys =
         "r",
         awesome.restart,
         {
-            description = "reload awesome",
-            group = "awesome"
+            description = "Reload awesome",
+            group = "Awesome"
         }
     ),
     awful.key(
@@ -65,11 +78,201 @@ globalkeys =
         "q",
         awesome.quit,
         {
-            description = "quit awesome",
-            group = "awesome"
+            description = "Quit awesome",
+            group = "Awesome"
         }
     )
 )
+
+-- Layout
+globalkeys =
+    gears.table.join(
+    globalkeys,
+    awful.key(
+        {keydefine.modkey},
+        "l",
+        function()
+            sequentialkey.show(
+                {
+                    {
+                        {},
+                        "space",
+                        function()
+                            awful.layout.inc(1)
+                        end,
+                        {
+                            description = "select next layout",
+                            group = "Layout",
+                            hold = true
+                        }
+                    },
+                    {
+                        {keydefine.shift},
+                        "space",
+                        function()
+                            awful.layout.inc(1)
+                        end,
+                        {
+                            description = "select previous layout",
+                            group = "Layout",
+                            hold = true
+                        }
+                    },
+                    -- master size
+                    {
+                        {},
+                        "k",
+                        function()
+                            awful.tag.incmwfact(0.05)
+                        end,
+                        {
+                            description = "increase master width factor",
+                            group = "Layout",
+                            hold = true
+                        }
+                    },
+                    {
+                        {},
+                        "j",
+                        function()
+                            awful.tag.incmwfact(-0.05)
+                        end,
+                        {
+                            description = "decrease master width factor",
+                            group = "Layout",
+                            hold = true
+                        }
+                    },
+                    -- master clients number
+                    {
+                        {},
+                        "m",
+                        {
+                            {
+                                {},
+                                "k",
+                                function()
+                                    awful.tag.incnmaster(1, nil, true)
+                                end,
+                                {
+                                    description = "increase the number of master clients",
+                                    group = "Layout",
+                                    hold = true
+                                }
+                            },
+                            {
+                                {},
+                                "j",
+                                function()
+                                    awful.tag.incnmaster(-1, nil, true)
+                                end,
+                                {
+                                    description = "decrease the number of master clients",
+                                    group = "Layout",
+                                    hold = true
+                                }
+                            }
+                        },
+                        {
+                            description = "the number of master clients",
+                            group = "Layout",
+                            hold = true
+                        }
+                    },
+                    {
+                        {},
+                        "c",
+                        {
+                            {
+                                {},
+                                "k",
+                                function()
+                                    awful.tag.incncol(1, nil, true)
+                                end,
+                                {
+                                    description = "increase the number of columns",
+                                    group = "Layout",
+                                    hold = true
+                                }
+                            },
+                            {
+                                {},
+                                "j",
+                                function()
+                                    awful.tag.incncol(-1, nil, true)
+                                end,
+                                {
+                                    description = "decrease the number of columns",
+                                    group = "Layout",
+                                    hold = true
+                                }
+                            }
+                        },
+                        {
+                            description = "the number of layout columns",
+                            group = "Layout",
+                            hold = true
+                        }
+                    }
+                },
+                {
+                    description = "Layout control"
+                }
+            )
+        end,
+        {
+            description = "Layout control",
+            group = "Layout"
+        }
+    )
+)
+
+-- Client
+globalkeys =
+    gears.table.join(
+    globalkeys,
+    awful.key(
+        {keydefine.modkey},
+        "j",
+        function()
+            awful.client.focus.byidx(1)
+            -- awful.client.focus.bydirection('down')
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = "Focus next by index", group = "Client"}
+    ),
+    awful.key(
+        {keydefine.modkey},
+        "k",
+        function()
+            -- awful.client.focus.bydirection('up')
+            awful.client.focus.byidx(-1)
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = "Focus previous by index", group = "Client"}
+    ),
+    awful.key(
+        {keydefine.modkey, keydefine.shift},
+        "j",
+        function()
+            awful.client.swap.byidx(1)
+        end,
+        {description = "Swap next by index", group = "Client"}
+    ),
+    awful.key(
+        {keydefine.modkey, keydefine.shift},
+        "k",
+        function()
+            awful.client.swap.byidx(-1)
+        end,
+        {description = "Swap previous by index", group = "Client"}
+    )
+)
+
 -- Tag
 globalkeys =
     gears.table.join(
@@ -156,222 +359,14 @@ globalkeys =
                 }
             )
         end,
-        {description = "tag control", group = "tag"}
-    )
-)
--- Layout
-globalkeys =
-    gears.table.join(
-    globalkeys,
-    awful.key(
-        {keydefine.modkey},
-        "l",
-        function()
-            sequentialkey.show(
-                {
-                    {
-                        {},
-                        "space",
-                        function()
-                            awful.layout.inc(1)
-                        end,
-                        {
-                            description = "select next layout",
-                            group = "layout",
-                            hold = true
-                        }
-                    },
-                    {
-                        {keydefine.shift},
-                        "space",
-                        function()
-                            awful.layout.inc(1)
-                        end,
-                        {
-                            description = "select previous layout",
-                            group = "layout",
-                            hold = true
-                        }
-                    },
-                    -- master size
-                    {
-                        {},
-                        "k",
-                        function()
-                            awful.tag.incmwfact(0.05)
-                        end,
-                        {
-                            description = "increase master width factor",
-                            group = "layout",
-                            hold = true
-                        }
-                    },
-                    {
-                        {},
-                        "j",
-                        function()
-                            awful.tag.incmwfact(-0.05)
-                        end,
-                        {
-                            description = "decrease master width factor",
-                            group = "layout",
-                            hold = true
-                        }
-                    },
-                    -- master clients number
-                    {
-                        {},
-                        "m",
-                        {
-                            {
-                                {},
-                                "k",
-                                function()
-                                    awful.tag.incnmaster(1, nil, true)
-                                end,
-                                {
-                                    description = "increase the number of master clients",
-                                    group = "layout",
-                                    hold = true
-                                }
-                            },
-                            {
-                                {},
-                                "j",
-                                function()
-                                    awful.tag.incnmaster(-1, nil, true)
-                                end,
-                                {
-                                    description = "decrease the number of master clients",
-                                    group = "layout",
-                                    hold = true
-                                }
-                            }
-                        },
-                        {
-                            description = "the number of master clients",
-                            group = "layout",
-                            hold = true
-                        }
-                    },
-                    {
-                        {},
-                        "c",
-                        {
-                            {
-                                {},
-                                "k",
-                                function()
-                                    awful.tag.incncol(1, nil, true)
-                                end,
-                                {
-                                    description = "increase the number of columns",
-                                    group = "layout",
-                                    hold = true
-                                }
-                            },
-                            {
-                                {},
-                                "j",
-                                function()
-                                    awful.tag.incncol(-1, nil, true)
-                                end,
-                                {
-                                    description = "decrease the number of columns",
-                                    group = "layout",
-                                    hold = true
-                                }
-                            }
-                        },
-                        {
-                            description = "the number of layout columns",
-                            group = "layout",
-                            hold = true
-                        }
-                    }
-                },
-                {
-                    description = "layout control"
-                }
-            )
-        end,
-        {
-            description = "layout control",
-            group = "layout"
-        }
-    )
-)
-
-globalkeys =
-    gears.table.join(
-    globalkeys,
-    -- Client
-    awful.key(
-        {keydefine.modkey},
-        "z",
-        function()
-            awful.spawn.with_shell("python ~/Projects/hud-menu/hud-menu.py")
-        end,
-        {description = "focus next by index", group = "client"}
-    ),
-    awful.key(
-        {keydefine.modkey},
-        "Tab",
-        function()
-            awful.client.focus.byidx(1)
-            -- awful.client.focus.bydirection('down')
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "focus next by index", group = "client"}
-    ),
-    awful.key(
-        {keydefine.modkey},
-        "j",
-        function()
-            awful.client.focus.byidx(1)
-            -- awful.client.focus.bydirection('down')
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "focus next by index", group = "client"}
-    ),
-    awful.key(
-        {keydefine.modkey},
-        "k",
-        function()
-            -- awful.client.focus.bydirection('up')
-            awful.client.focus.byidx(-1)
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "focus previous by index", group = "client"}
-    ),
-    awful.key(
-        {keydefine.modkey, keydefine.shift},
-        "j",
-        function()
-            awful.client.swap.byidx(1)
-        end,
-        {description = "swap next by index", group = "client"}
-    ),
-    awful.key(
-        {keydefine.modkey, keydefine.shift},
-        "k",
-        function()
-            awful.client.swap.byidx(-1)
-        end,
-        {description = "swap previous by index", group = "client"}
+        {description = "Tag control", group = "Tag"}
     )
 )
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+for i = 1, 2 do
     globalkeys =
         gears.table.join(
         globalkeys, -- View tag only.
@@ -385,7 +380,7 @@ for i = 1, 9 do
                     tag:view_only()
                 end
             end,
-            {description = "view tag #" .. i, group = "tag"}
+            {description = "View tag #" .. i, group = "Tag"}
         ),
         -- Toggle tag display.
         awful.key(
@@ -398,7 +393,7 @@ for i = 1, 9 do
                     awful.tag.viewtoggle(tag)
                 end
             end,
-            {description = "toggle tag #" .. i, group = "tag"}
+            {description = "Toggle tag #" .. i, group = "Tag"}
         ),
         -- Move client to tag.
         awful.key(
@@ -413,7 +408,7 @@ for i = 1, 9 do
                     end
                 end
             end,
-            {description = "move focused client to tag #" .. i, group = "tag"}
+            {description = "Move focused client to tag #" .. i, group = "Tag"}
         ),
         -- Toggle tag on focused client.
         awful.key(
@@ -427,7 +422,7 @@ for i = 1, 9 do
                     end
                 end
             end,
-            {description = "toggle focused client on tag #" .. i, group = "tag"}
+            {description = "Toggle focused client on tag #" .. i, group = "Tag"}
         )
     )
 end
@@ -438,29 +433,35 @@ globalkeys =
     globalkeys,
     awful.key(
         {},
+        -- "XF86AudioLowerVolume",
         "#122",
         function()
             os.execute("amixer -q sset Master 5%-")
             local wibox = require("wibox")
-        end,
-        {description = "volume --"}
+        end
     ),
     awful.key(
         {},
         "#123",
         function()
             os.execute("amixer -q sset Master 5%+")
-        end,
-        {description = "volume ++"}
+        end
     ),
     awful.key(
         {},
         "#121",
         function()
             os.execute("amixer -q sset Master toggle")
-        end,
-        {description = "volume mute"}
+        end
     )
 )
 
+-- awful.key(
+--     {keydefine.modkey},
+--     "z",
+--     function()
+--         awful.spawn.with_shell("python ~/Projects/hud-menu/hud-menu.py")
+--     end,
+--     {description = "focus next by index", group = "Client"}
+-- ),
 return globalkeys

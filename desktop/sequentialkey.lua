@@ -35,7 +35,7 @@ create_key_help = function(keys, options)
                 markup = "<b>" .. mod_text .. key:lower() .. "</b>",
                 align = "left",
                 valign = "center",
-                font = '12',
+                -- font = /'12',
                 widget = wibox.widget.textbox
             },
             {

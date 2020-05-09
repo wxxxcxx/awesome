@@ -10,7 +10,7 @@ return gears.table.join(
             c.maximized = not c.maximized
             c:raise()
         end,
-        {description = "toggle fullscreen", group = "client"}
+        {description = "Toggle maximized", group = "Client"}
     ),
     awful.key(
         {keydefine.modkey},
@@ -20,11 +20,22 @@ return gears.table.join(
                 {
                     {
                         {},
+                        "q",
+                        function(c)
+                            c:kill()
+                        end,
+                        {
+                            description = "Close",
+                            group = "Client"
+                        }
+                    },
+                    {
+                        {},
                         "f",
                         function(c)
                             c.floating = not c.floating
                         end,
-                        {description = "toggle floating", group = "client"}
+                        {description = "Toggle floating", group = "Client"}
                     },
                     {
                         {},
@@ -32,15 +43,7 @@ return gears.table.join(
                         function(c)
                             c.ontop = not c.ontop
                         end,
-                        {description = "toggle keep on top", group = "client"}
-                    },
-                    {
-                        {},
-                        "a",
-                        function(c)
-                            awful.titlebar.toggle(c)
-                        end,
-                        {description = "toggle title bar", group = "client"}
+                        {description = "Toggle keep on top", group = "Client"}
                     },
                     {
                         {},
@@ -48,18 +51,7 @@ return gears.table.join(
                         function(c)
                             c.minimized = true
                         end,
-                        {description = "minimize", group = "client"}
-                    },
-                    {
-                        {},
-                        "q",
-                        function(c)
-                            c:kill()
-                        end,
-                        {
-                            description = "close",
-                            group = "client"
-                        }
+                        {description = "Minimize", group = "Client"}
                     },
                     -- postion
                     {
@@ -71,8 +63,8 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "move left",
-                            group = "client",
+                            description = "Move left",
+                            group = "Client",
                             hold = true
                         }
                     },
@@ -85,8 +77,8 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "move right",
-                            group = "client",
+                            description = "Move right",
+                            group = "Client",
                             hold = true
                         }
                     },
@@ -99,8 +91,8 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "move down",
-                            group = "client",
+                            description = "Move down",
+                            group = "Client",
                             hold = true
                         }
                     },
@@ -113,8 +105,8 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "move up",
-                            group = "client",
+                            description = "Move up",
+                            group = "Client",
                             hold = true
                         }
                     },
@@ -128,8 +120,8 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "resize client",
-                            group = "client",
+                            description = "Decrease width",
+                            group = "Client",
                             hold = true
                         }
                     },
@@ -142,8 +134,8 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "resize client",
-                            group = "client",
+                            description = "Increase width",
+                            group = "Client",
                             hold = true
                         }
                     },
@@ -156,8 +148,8 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "resize client",
-                            group = "client",
+                            description = "Increase height",
+                            group = "Client",
                             hold = true
                         }
                     },
@@ -170,14 +162,14 @@ return gears.table.join(
                             end
                         end,
                         {
-                            description = "resize client",
-                            group = "client",
+                            description = "Increase height",
+                            group = "Client",
                             hold = true
                         }
                     }
                 },
                 {
-                    description = "client control",
+                    description = "Client control",
                     args = c,
                     parent = c
                 }
@@ -194,6 +186,19 @@ return gears.table.join(
         function(c)
             c:swap(awful.client.getmaster())
         end,
-        {description = "move to master", group = "client"}
+        {description = "Move to master", group = "Client"}
     )
+    -- awful.key(
+    --     {
+    --         {keydefine.modkey},
+    --         "q",
+    --         function(c)
+    --             c:kill()
+    --         end,
+    --         {
+    --             description = "Close",
+    --             group = "Client"
+    --         }
+    --     }
+    -- )
 )
