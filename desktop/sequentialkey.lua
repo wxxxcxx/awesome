@@ -35,7 +35,20 @@ create_key_help = function(keys, options)
         )
     end
     local wrapper_widget = {
-        key_tips,
+        {
+            {
+                {
+                    markup = "<b>" .. description .. "</b>",
+                    align = "center",
+                    valign = "center",
+                    widget = wibox.widget.textbox
+                },
+                bottom = 40,
+                widget = wibox.container.margin
+            },
+            key_tips,
+            layout = wibox.layout.fixed.vertical
+        },
         margins = 40,
         widget = wibox.container.margin
     }
