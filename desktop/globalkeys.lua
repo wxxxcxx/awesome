@@ -21,7 +21,9 @@ globalkeys =
         {keydefine.alt},
         "space",
         function()
-            awful.spawn.with_shell("rofi -show drun -drun-show-actions -display-drun 'A' -show-icons")
+            awful.spawn.with_shell(
+                "rofi -modi 'window,drun' -show drun -drun-show-actions -display-drun '' -show-icons"
+            )
         end,
         {
             description = "Show rofi",
@@ -455,13 +457,30 @@ globalkeys =
         end
     )
 )
+local word = require("widget.word")
 
--- awful.key(
---     {keydefine.modkey},
---     "z",
---     function()
---         awful.spawn.with_shell("python ~/Projects/hud-menu/hud-menu.py")
---     end,
---     {description = "focus next by index", group = "Client"}
--- ),
+-- local selection = require("selection")
+-- Volume control
+word.init(
+    {
+        enable_anki = true,
+        anki_desk = "Word",
+        anki_model = "Word",
+        anki_connect_port = 8701,
+        us_audio_field = "USAudio",
+        uk_audio_field = "UKAudio"
+    }
+)
+globalkeys =
+    gears.table.join(
+    globalkeys,
+    awful.key(
+        {keydefine.modkey},
+        -- "XF86AudioLowerVolume",
+        "q",
+        function()
+            word.query(selection())
+        end
+    )
+)
 return globalkeys

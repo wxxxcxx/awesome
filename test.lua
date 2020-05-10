@@ -6,11 +6,15 @@
 -- screen[1]:fake_resize(geo.x, geo.y, new_width, geo.height)
 -- screen.fake_add(geo.x + new_width, geo.y, new_width2, geo.height)
 
-local virtualscreen = require("service.virtualscreen")
+-- local virtualscreen = require("service.virtualscreen")
 
-virtualscreen.new(
-    {
-        screen = screen.primary,
-        size = 500
-    }
-)
+-- virtualscreen.new(
+--     {
+--         screen = screen.primary,
+--         size = 500
+--     }
+-- )
+
+
+local dict = require("widget.dict")
+dict.authorize()
