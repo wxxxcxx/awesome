@@ -1,0 +1,3 @@
+[submodule "service/awesome-translate"]
+	path = service/awesome-translate
+	url = https://github.com/ismrwalter/awesome-translate.git

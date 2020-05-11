@@ -468,21 +468,32 @@ globalkeys =
         end
     )
 )
-local wt = require("service.wt")
+local at = require("service.awesome-translate")
 
 -- local selection = require("selection")
 -- Volume control
-wt.init(
-    {
-        enable_rofi = false,
-        enable_anki = true,
-        anki_desk = "Word",
-        anki_model = "Word",
-        anki_connect_port = 8701,
-        us_audio_field = "USAudio",
-        uk_audio_field = "UKAudio"
-    }
-)
+-- 是否使用 rofi 展示单词，false 则使用通知展示
+-- at.enable_rofi = false
+-- 是否启用 anki
+at.enable_anki = true
+-- Anki保存单词的 Desk
+at.anki.desk = "Word"
+ -- Anki保存单词的 NodeType
+at.anki.model = "Word"
+-- Anki-Connect 的端口号
+at.anki.connect_port = 8701
+-- 单词字段
+at.anki.word_field = "Word"
+-- 释义字段
+at.anki.definition_field = "Definition"
+-- 美式音标
+at.anki.us_pronunciations_field = "USPronunciations"
+-- 英式音标
+at.anki.uk_pronunciations_field = "UKPronunciations"
+-- Anki保存美式发音的字段
+at.anki.us_audio_field = "USAudio"
+-- Anki保存英式发音的字段
+at.anki.uk_audio_field = "UKAudio"
 globalkeys =
     gears.table.join(
     globalkeys,
@@ -491,7 +502,7 @@ globalkeys =
         -- "XF86AudioLowerVolume",
         "q",
         function()
-            wt.query(selection())
+            at.query(selection())
         end
     ),
     awful.key(
@@ -499,7 +510,7 @@ globalkeys =
         -- "XF86AudioLowerVolume",
         "c",
         function()
-            wt.copy()
+            at.copy()
         end
     )
 )
