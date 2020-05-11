@@ -7,6 +7,17 @@ local sequentialkey = require("desktop.sequentialkey")
 globalkeys =
     gears.table.join(
     awful.key(
+        {keydefine.modkey},
+        "Print",
+        function()
+            awful.spawn.with_shell("deepin-screen-recorder")
+        end,
+        {
+            description = "Screen Record",
+            group = "Application"
+        }
+    ),
+    awful.key(
         {},
         "Print",
         function()
@@ -457,12 +468,13 @@ globalkeys =
         end
     )
 )
-local word = require("widget.word")
+local wt = require("service.wt")
 
 -- local selection = require("selection")
 -- Volume control
-word.init(
+wt.init(
     {
+        enable_rofi = false,
         enable_anki = true,
         anki_desk = "Word",
         anki_model = "Word",
@@ -479,7 +491,15 @@ globalkeys =
         -- "XF86AudioLowerVolume",
         "q",
         function()
-            word.query(selection())
+            wt.query(selection())
+        end
+    ),
+    awful.key(
+        {keydefine.modkey},
+        -- "XF86AudioLowerVolume",
+        "c",
+        function()
+            wt.copy()
         end
     )
 )
