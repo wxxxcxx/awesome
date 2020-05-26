@@ -1,6 +1,5 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local animation = require("utils.animation")
 
 local module = {}
 
@@ -39,17 +38,8 @@ function module.new(args)
 
     client_preview.preview_popup = preview_popup
     client_preview.visual = false
-    local easa_animation =
-        animation.easa(
-        {
-            begin = 0,
-            callback = function(a)
-                client_preview.preview_popup.x = a
-            end
-        }
-    )
 
-    function client_preview.show(c, w)
+    function client_preview.show(x, y, c)
         if c.minimized then
             return
         end
@@ -78,19 +68,10 @@ function module.new(args)
                 layout = wibox.layout.fixed.vertical
             }
         )
-        local current_widget_geometry = mouse.current_widget_geometry
-        if not (current_widget_geometry == nil) then
-            easa_animation.start(
-                {
-                    begin = client_preview.preview_popup.x,
-                    target = current_widget_geometry.x + current_widget_geometry.width / 2 - preview_width / 2
-                }
-            )
-            -- client_preview.preview_popup.x =
-            --     current_widget_geometry.x + current_widget_geometry.width / 2 - preview_width / 2
-            client_preview.preview_popup.y = screen.geometry.height - (100 + preview_height)
-            client_preview.preview_popup.visible = true
-        end
+
+        client_preview.preview_popup.x = x - (preview_width / 2)
+        client_preview.preview_popup.y = y - preview_height
+        client_preview.preview_popup.visible = true
     end
     function client_preview.hide()
         client_preview.visual = false

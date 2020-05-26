@@ -1,6 +1,14 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local client_preview =require('widget.clientpreview')
+local utils = require("utils")
+
+local client_preview = require("widget.clientpreview")
+local preview =
+    client_preview.new(
+    {
+        screen = screen
+    }
+)
 
 local module = {}
 
@@ -77,11 +85,7 @@ local tasklist_buttons =
                     }
                 }
             )
-            module.tasklist_menu:show(
-                {
-                    -- coords = mouse.current_widget_geometry
-                }
-            )
+            module.tasklist_menu:show({})
         end
     ),
     awful.button(
@@ -103,60 +107,82 @@ local tasklist_buttons =
 function module.new(args)
     local args = args or {}
     local screen = args.screen
-    local preview = client_preview.new({
-        screen = screen
-    })
+    local height = args.height or 70
+
+    local task_switcher = {
+        current = 1,
+        map = {}
+    }
+
+    function task_switcher:next()
+        for i, m in self.map do
+            if m.client.valid then
+                if m.client == client.focus then
+                    self.current = i
+                end
+            end
+        end
+    end
+
     local tasklist =
         awful.widget.tasklist {
         screen = screen,
         filter = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons,
-        style={
-            shape  = gears.shape.rounded_rect,
+        style = {
+            shape = gears.shape.rounded_rect
         },
         layout = {
             spacing = 0,
             forced_num_rows = 1,
-            layout = wibox.layout.grid.horizontal
+            forced_height = height,
+            layout = wibox.layout.fixed.horizontal
         },
         widget_template = {
             {
                 {
                     {
                         {
-                            id = "icon_role",
-                            image = beautiful.awesome_icon,
-                            -- forced_height = 48,
-                            -- forced_width = 48,
-                            widget = wibox.widget.imagebox
+                            {
+                                id = "icon_role",
+                                image = beautiful.awesome_icon,
+                                widget = wibox.widget.imagebox,
+                                forced_height = (height - 22)
+                            },
+                            valign = "center",
+                            halign = "center",
+                            widget = wibox.container.place
                         },
                         left = 5,
                         right = 5,
                         top = 4,
-                        bottom = 4,
+                        bottom = 0,
                         widget = wibox.container.margin
                     },
                     {
-                        widget = wibox.widget.imagebox
-                    },
-                    {
                         {
-                            widget = wibox.widget.imagebox
+                            {
+                                widget = wibox.widget.base.empty_widget(),
+                                forced_height = 4,
+                                forced_width = 4
+                            },
+                            id = "indicator",
+                            bg = "#00000000",
+                            shape = gears.shape.rounded_rect,
+                            widget = wibox.container.background
                         },
-                        id = "indicator",
-                        forced_height = 2,
-                        bg = "#000000",
-                        widget = wibox.container.background
+                        valign = "center",
+                        halign = "center",
+                        widget = wibox.container.place
                     },
-                    fill_space = true,
-                    -- {id = 'text_role', widget = wibox.widget.textbox},
+                    fill_space = false,
                     layout = wibox.layout.fixed.vertical
                 },
-                widget = wibox.container.margin
+                id = "background_role",
+                widget = wibox.container.background
             },
-            id = "background_role",
-            -- forced_width = 200,
-            widget = wibox.container.background,
+            margins = 5,
+            widget = wibox.container.margin,
             create_callback = function(self, c, index, clients)
                 if c == client.focus then
                     self:get_children_by_id("indicator")[1].bg = beautiful.tasklist_indicator_focus
@@ -166,13 +192,14 @@ function module.new(args)
                 self:connect_signal(
                     "mouse::enter",
                     function()
-                        preview.show(c,self)
+                        local x, y, w, h = utils.get_widget_postion(args.wibox, self)
+                        preview.show(x + (w / 2), screen.geometry.height - height - 30, c)
                     end
                 )
                 self:connect_signal(
                     "mouse::leave",
                     function()
-                        preview.hide(c,nil)
+                        preview.hide()
                     end
                 )
             end,
@@ -182,6 +209,8 @@ function module.new(args)
                 else
                     self:get_children_by_id("indicator")[1].bg = "#00000000"
                 end
+
+                task_switcher.map[c] = self
             end
         }
     }

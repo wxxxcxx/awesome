@@ -487,9 +487,9 @@ at.anki.word_field = "Word"
 -- 释义字段
 at.anki.definition_field = "Definition"
 -- 美式音标
-at.anki.us_pronunciations_field = "USPronunciations"
+at.anki.us_pronunciation_field = "USPronunciation"
 -- 英式音标
-at.anki.uk_pronunciations_field = "UKPronunciations"
+at.anki.uk_pronunciation_field = "UKPronunciation"
 -- Anki保存美式发音的字段
 at.anki.us_audio_field = "USAudio"
 -- Anki保存英式发音的字段
@@ -511,6 +511,20 @@ globalkeys =
         "c",
         function()
             at.copy()
+        end
+    )
+)
+
+
+globalkeys =
+    gears.table.join(
+    globalkeys,
+    awful.key(
+        {keydefine.modkey},
+        -- "XF86AudioLowerVolume",
+        "z",
+        function()
+            os.execute("python ~/Projects/hud-menu/hud-menu.py")
         end
     )
 )

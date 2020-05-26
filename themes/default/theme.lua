@@ -166,7 +166,7 @@ theme.wibar_bg = caa
 theme.tasklist_bg_focus = cah .. '66'
 theme.tasklist_bg_normal = cba .. "00"
 theme.tasklist_bg_minimize = caa .. '00'
-theme.tasklist_indicator_focus = cbb
+theme.tasklist_indicator_focus = cbe
 theme.tasklist_preview_box_bg = cba
 
 
@@ -227,6 +227,7 @@ theme.layout_cascade = themes_path .. "assets/layouts/dwindle.png"
 ]]
 -- theme.tooltip_shape = gears.shape.infobubble
 theme.tooltip_bg = caa
+theme.tooltip_border_width=0
 
 --[[
 ██╗  ██╗ ██████╗ ████████╗██╗  ██╗███████╗██╗   ██╗███████╗
@@ -279,7 +280,7 @@ theme.systray_icon_spacing = 10
 ]]
 theme.border_width = dpi(1)
 theme.border_normal = caa .. "55"
-theme.border_focus = cbf .. "55"
+theme.border_focus = cac .. "55"
 theme.border_marked = cba .. "55"
 theme.border_select = cac .. "55"
 

@@ -43,7 +43,7 @@ local cmds = {
     "nutstore",
     "flameshot",
     "python ~/.config/awesome/widget/mblyrics/main.py",
-    "emacs --daemon",
+    "emacs --daemon"
     -- "easystroke"
 }
 

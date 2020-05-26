@@ -135,15 +135,15 @@ function module:new(args)
                     right = 15,
                     widget = wibox.container.margin
                 },
-                halign = "right",
-                widget = wibox.container.place
+                layout = wibox.layout.fixed.horizontal
             },
-            module.titlebar.botton_widget,
-            -- module.titlebar.instance_widget,
-
-            layout = wibox.layout.align.horizontal
+            layout = wibox.layout.flex.horizontal
         },
         {
+            
+            
+            module.titlebar.other_botton_widget,
+            module.titlebar.main_botton_widget,
             {
                 {
                     module.tray,

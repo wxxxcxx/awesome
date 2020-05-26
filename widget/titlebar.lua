@@ -15,7 +15,12 @@ module.title_widget =
     wibox.widget {
     widget = wibox.container.background
 }
-module.botton_widget =
+module.main_botton_widget =
+    wibox.widget {
+    widget = wibox.container.background
+}
+
+module.other_botton_widget =
     wibox.widget {
     widget = wibox.container.background
 }
@@ -91,13 +96,16 @@ client.connect_signal(
             },
             layout = wibox.layout.fixed.horizontal()
         }
-        module.botton_widget:setup {
-            awful.titlebar.widget.ontopbutton(c),
-            awful.titlebar.widget.floatingbutton(c),
-            awful.titlebar.widget.stickybutton(c),
+        module.main_botton_widget:setup {
             awful.titlebar.widget.minimizebutton(c),
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.closebutton(c),
+            layout = wibox.layout.fixed.horizontal()
+        }
+        module.other_botton_widget:setup {
+            awful.titlebar.widget.ontopbutton(c),
+            awful.titlebar.widget.floatingbutton(c),
+            awful.titlebar.widget.stickybutton(c),
             layout = wibox.layout.fixed.horizontal()
         }
     end
@@ -114,7 +122,10 @@ client.connect_signal(
         module.title_widget:setup {
             widget = wibox.container.background
         }
-        module.botton_widget:setup {
+        module.main_botton_widget:setup {
+            widget = wibox.container.background
+        }
+        module.other_botton_widget:setup {
             widget = wibox.container.background
         }
     end

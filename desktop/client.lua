@@ -267,7 +267,8 @@ module.rules = {
                 "VirtualBox",
                 "obs",
                 "Qq",
-                "Peek"
+                "Peek",
+                "Anki"
             }
         },
         properties = {
@@ -282,29 +283,12 @@ module.rules = {
         rule_any = {
             class = {
                 "Qq",
-                "Peek"
             }
         },
         properties = {
             titlebars_enabled = false,
             border_width = 0,
         }
-    },
-    {
-        rule = {
-            class = "XEyes"
-        },
-        properties = {
-            titlebars_enabled = false,
-            border_width = 0,
-            floating = true,
-            ontop = true,
-            focusable = false,
-            urgent = true
-        },
-        callback = function(c)
-            c:relative_move(0, -100)
-        end
     }
 }
 
