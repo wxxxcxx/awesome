@@ -65,7 +65,7 @@ function module.new(args)
                 valign = "center",
                 layout = wibox.container.place
             },
-            mytaglist,
+            -- mytaglist,
             layout = wibox.layout.fixed.horizontal
         },
         valign = "center",

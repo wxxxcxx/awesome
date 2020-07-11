@@ -102,6 +102,7 @@ local icon_map = {}
 icon_map["code-oss"] = "code"
 icon_map["alacritty"] = "terminal"
 icon_map["jetbrains-idea"] = "idea"
+icon_map["neovide"] = "nvim"
 
 client.connect_signal(
     "manage",
