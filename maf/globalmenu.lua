@@ -1,6 +1,6 @@
 local menubar = require("menubar")
 local awful = require("awful")
-local environment = require("desktop.environment")
+local environment = require("maf.environment")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 local moudle =

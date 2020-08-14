@@ -1,14 +1,15 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local system_monitor_widget = require("widget.systemmonitor")
-local volume_widget = require("widget.volume")
-local net_widget = require("widget.net")
-local taglist = require("widget.taglist")
-local launcher = require("widget.launcher")
-local systray = require("widget.systray")
-local globalmenu = require("desktop.globalmenu")
-local titlebar = require("widget.titlebar")
-local lyrics_widget = require("widget.mblyrics")
+local system_monitor_widget = require("maf.widgets.systemmonitor")
+local volume_widget = require("maf.widgets.volume")
+local net_widget = require("maf.widgets.net")
+local taglist = require("maf.widgets.taglist")
+local tasklist = require("maf.widgets.tasklist")
+local launcher = require("maf.widgets.launcher")
+local systray = require("maf.widgets.systray")
+local titlebar = require("maf.widgets.titlebar")
+
+local globalmenu = require("maf.globalmenu")
 
 local module = {}
 
@@ -75,6 +76,7 @@ function module:new(args)
     )
 
     local mylayoutbox = awful.widget.layoutbox(args.screen)
+
     mylayoutbox:buttons(
         gears.table.join(
             awful.button(
@@ -110,8 +112,23 @@ function module:new(args)
 
     args.screen.myprompt = module.myprompt
 
-    local mywibar = awful.wibar({position = "top", ontop = false, screen = args.screen})
+    local mywibar =
+        awful.wibar(
+        {
+            position = "top",
+            ontop = false,
+            screen = args.screen,
+            bg = "#00000000"
+        }
+    )
 
+    local mytasklist =
+        tasklist.new(
+        {
+            screen = args.screen,
+            wibox = mywibar
+        }
+    )
     mywibar:setup {
         layout = wibox.layout.align.horizontal,
         {
@@ -121,27 +138,28 @@ function module:new(args)
         },
         {
             {
-                module.titlebar.icon_widget,
-                module.titlebar.instance_widget,
+                {
+                    mytaglist,
+                    left = 15,
+                    widget = wibox.container.margin
+                },
+                {
+                    mytasklist,
+                    left = 15,
+                    right = 10,
+                    widget = wibox.container.margin
+                },
+                -- module.titlebar.icon_widget,
+                -- module.titlebar.instance_widget,
                 module.titlebar.title_widget,
                 layout = wibox.layout.fixed.horizontal
             },
             {
-                {
-                    lyrics_widget({}),
-                    top = 2,
-                    bottom = 5,
-                    left = 5,
-                    right = 15,
-                    widget = wibox.container.margin
-                },
                 layout = wibox.layout.fixed.horizontal
             },
             layout = wibox.layout.flex.horizontal
         },
         {
-            
-            
             module.titlebar.other_botton_widget,
             module.titlebar.main_botton_widget,
             {
@@ -167,7 +185,6 @@ function module:new(args)
             layout = wibox.layout.fixed.horizontal
         }
     }
-
     return mywibar
 end
 

@@ -1,8 +1,8 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local utils = require("utils")
+local utils = require("maf.utils")
+local client_preview = require("maf.widgets.clientpreview")
 
-local client_preview = require("widget.clientpreview")
 local preview =
     client_preview.new(
     {
@@ -109,29 +109,12 @@ function module.new(args)
     local screen = args.screen
     local height = args.height or 70
 
-    local task_switcher = {
-        current = 1,
-        map = {}
-    }
-
-    function task_switcher:next()
-        for i, m in self.map do
-            if m.client.valid then
-                if m.client == client.focus then
-                    self.current = i
-                end
-            end
-        end
-    end
-
     local tasklist =
         awful.widget.tasklist {
         screen = screen,
         filter = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons,
-        style = {
-            shape = gears.shape.rounded_rect
-        },
+        style = {},
         layout = {
             spacing = 0,
             forced_num_rows = 1,
@@ -141,59 +124,51 @@ function module.new(args)
         widget_template = {
             {
                 {
+                    nil,
                     {
                         {
                             {
                                 id = "icon_role",
                                 image = beautiful.awesome_icon,
-                                widget = wibox.widget.imagebox,
-                                forced_height = (height - 22)
+                                widget = wibox.widget.imagebox
+                                -- forced_height = 10
                             },
                             valign = "center",
                             halign = "center",
                             widget = wibox.container.place
                         },
-                        left = 5,
-                        right = 5,
-                        top = 4,
-                        bottom = 0,
+                        left = 3,
+                        right = 3,
+                        top = 7,
+                        bottom = 2,
                         widget = wibox.container.margin
                     },
                     {
                         {
                             {
                                 widget = wibox.widget.base.empty_widget(),
-                                forced_height = 4,
-                                forced_width = 4
+                                forced_height = 2
                             },
-                            id = "indicator",
-                            bg = "#00000000",
+                            id = "background_role",
                             shape = gears.shape.rounded_rect,
                             widget = wibox.container.background
                         },
-                        valign = "center",
-                        halign = "center",
-                        widget = wibox.container.place
+                        id = "indicator",
+                        widget = wibox.container.margin
                     },
                     fill_space = false,
-                    layout = wibox.layout.fixed.vertical
+                    layout = wibox.layout.align.vertical
                 },
-                id = "background_role",
                 widget = wibox.container.background
             },
-            margins = 5,
+            margins = 0,
             widget = wibox.container.margin,
             create_callback = function(self, c, index, clients)
-                if c == client.focus then
-                    self:get_children_by_id("indicator")[1].bg = beautiful.tasklist_indicator_focus
-                else
-                    self:get_children_by_id("indicator")[1].bg = "#00000000"
-                end
                 self:connect_signal(
                     "mouse::enter",
                     function()
                         local x, y, w, h = utils.get_widget_postion(args.wibox, self)
-                        preview.show(x + (w / 2), screen.geometry.height - height - 30, c)
+                        preview.show(x + (w / 2), 40, c)
                     end
                 )
                 self:connect_signal(
@@ -202,15 +177,6 @@ function module.new(args)
                         preview.hide()
                     end
                 )
-            end,
-            update_callback = function(self, c, index, objects) --luacheck: no unused args
-                if c == client.focus then
-                    self:get_children_by_id("indicator")[1].bg = beautiful.tasklist_indicator_focus
-                else
-                    self:get_children_by_id("indicator")[1].bg = "#00000000"
-                end
-
-                task_switcher.map[c] = self
             end
         }
     }

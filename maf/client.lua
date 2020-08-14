@@ -1,8 +1,9 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local clientkeys = require("desktop.clientkeys")
-local utils = require("desktop.utils")
 local menubar = require("menubar")
+local clientkeys = require("maf.clientkeys")
+local utils = require("maf.utils")
+local keydefine = require("maf.keydefine")
 
 client.connect_signal(
     "manage",
@@ -30,7 +31,7 @@ client.connect_signal(
         local title_widget = awful.titlebar.widget.titlewidget(c)
         title_widget.font = beautiful.titlebar_font
         local top_titlebar =
-        awful.titlebar(
+            awful.titlebar(
             c,
             {
                 size = 5,
@@ -38,7 +39,7 @@ client.connect_signal(
             }
         )
         local bottom_titlebar =
-        awful.titlebar(
+            awful.titlebar(
             c,
             {
                 size = 5,
@@ -46,7 +47,7 @@ client.connect_signal(
             }
         )
         local left_titlebar =
-        awful.titlebar(
+            awful.titlebar(
             c,
             {
                 size = 5,
@@ -54,7 +55,7 @@ client.connect_signal(
             }
         )
         local right_titlebar =
-        awful.titlebar(
+            awful.titlebar(
             c,
             {
                 size = 5,
@@ -166,7 +167,7 @@ function border_resize(c)
         return
     end
     local geometry = c:geometry()
-    local range = 7
+    local range = 5
     if
         (coords.x < geometry.x + range and coords.y < geometry.y + range) or --left top
             (coords.x > geometry.x + geometry.width - range and coords.y < geometry.y + range) or --right top
@@ -224,7 +225,9 @@ module.rules = {
             screen = awful.screen.preferred,
             callback = awful.client.setslave,
             placement = awful.placement.centered,
-            titlebars_enabled = false
+            titlebars_enabled = false,
+            tag = "normal",
+            switchtotag = true
         }
     }, -- Floating clients.
     {
@@ -244,7 +247,14 @@ module.rules = {
                 "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
                 "Wpa_gui",
                 "veromix",
-                "xtightvncviewer"
+                "xtightvncviewer",
+                "VirtualBox Machine",
+                "VirtualBox Manager",
+                "VirtualBox",
+                "obs",
+                "Qq",
+                "Peek",
+                "Anki"
             },
             -- Note that the name property shown in xprop might be set slightly after creation of the client
             -- and the name shown there might not match defined rules here.
@@ -260,36 +270,32 @@ module.rules = {
         },
         properties = {floating = true}
     },
+    -- tag
     {
         rule_any = {
             class = {
-                "VirtualBox Machine",
-                "VirtualBox Manager",
-                "VirtualBox",
-                "obs",
-                "Qq",
-                "Peek",
-                "Anki"
+                "Chromium"
             }
         },
-        properties = {
-            floating = true,
-        }
+        properties = {tag = "read"}
     },
-    {
-        rule = {class = "Emacs"},
-        properties = {size_hints_honor = false}
-    },
+    -- tag
     {
         rule_any = {
             class = {
-                "Qq",
+                "Alacritty"
             }
         },
-        properties = {
-            titlebars_enabled = false,
-            border_width = 0,
-        }
+        properties = {tag = "terminal", switchtotag = true}
+    },
+    -- tag
+    {
+        rule_any = {
+            class = {
+                "Emacs"
+            }
+        },
+        properties = {tag = "code", switchtotag = true}
     }
 }
 

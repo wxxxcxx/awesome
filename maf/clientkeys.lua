@@ -1,6 +1,7 @@
 local gears = require("gears")
 local awful = require("awful")
-local sequentialkey = require("desktop.sequentialkey")
+local sequentialkey = require("maf.sequentialkey")
+local keydefine = require("maf.keydefine")
 
 return gears.table.join(
     awful.key(
@@ -188,17 +189,4 @@ return gears.table.join(
         end,
         {description = "Move to master", group = "Client"}
     )
-    -- awful.key(
-    --     {
-    --         {keydefine.modkey},
-    --         "q",
-    --         function(c)
-    --             c:kill()
-    --         end,
-    --         {
-    --             description = "Close",
-    --             group = "Client"
-    --         }
-    --     }
-    -- )
 )

@@ -10,6 +10,7 @@ local themes_path = gears.filesystem.get_configuration_dir() .. "themes/default/
 
 local font = "Noto Sans Regular"
 local icon_font = "Material Icons"
+local font_size = 10
 
 local theme = {}
 
@@ -62,10 +63,10 @@ local cac = "#5af7b0"
 local cbc = "#2ce592"
 local cad = "#ffa56b"
 local cbd = "#ff8537"
-local cae = "#57c7ff"
+local cae = "#00afff"
 local cbe = "#1da0e2"
-local caf = "#c792ea"
-local cbf = "#a742ea"
+local caf = "#7065d1"
+local cbf = "#b0a5f1"
 local cag = "#89edef"
 local cbg = "#47eae8"
 local cah = "#eeffff"
@@ -100,9 +101,9 @@ theme.awesome_icon =
         ty = -2
     }
 )
-theme.icon_theme = "Papirus"
-theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/wallpaper.jpg"
-theme.useless_gap = dpi(5)
+theme.icon_theme = "Numix-White"
+theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/bg.jpg"
+theme.useless_gap = dpi(7)
 
 --[[
 ███████╗ ██████╗ ███╗   ██╗████████╗
@@ -113,6 +114,7 @@ theme.useless_gap = dpi(5)
 ╚═╝      ╚═════╝ ╚═╝  ╚═══╝   ╚═╝
 
 ]]
+-- theme.font = font .. " 10"
 theme.font = font .. " 10"
 theme.icon_font = icon_font .. " 20"
 
@@ -163,12 +165,11 @@ theme.wibar_bg = caa
    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝
 
 ]]
-theme.tasklist_bg_focus = cah .. '66'
-theme.tasklist_bg_normal = cba .. "00"
-theme.tasklist_bg_minimize = caa .. '00'
+theme.tasklist_bg_focus = cbf
+theme.tasklist_bg_normal = cah .. "20"
+theme.tasklist_bg_minimize = cah .. "00"
 theme.tasklist_indicator_focus = cbe
 theme.tasklist_preview_box_bg = cba
-
 
 --[[
 ████████╗ █████╗  ██████╗ ██╗     ██╗███████╗████████╗
@@ -179,12 +180,13 @@ theme.tasklist_preview_box_bg = cba
    ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝╚══════╝   ╚═╝
 
 ]]
-theme.taglist_bg_focus = cah
-theme.taglist_bg_urgent = cbh
-theme.taglist_bg_occupied = cbh
-theme.taglist_bg_empty = cbh
-theme.taglist_bg_volatile = cbh
-theme.taglist_shape = gears.shape.circle
+-- theme.taglist_font = icon_font .. " 12"
+theme.taglist_bg_focus = cbf
+theme.taglist_bg_urgent = cbg .. "60"
+theme.taglist_bg_occupied = cah .. "60"
+theme.taglist_bg_empty = cbc .. "00"
+theme.taglist_bg_volatile = cbb .. "60"
+-- theme.taglist_shape = gears.shape.circle
 -- theme.taglist_shape_border_width_focus = 3
 -- theme.taglist_shape_border_color_focus = fg_normal
 
@@ -227,7 +229,7 @@ theme.layout_cascade = themes_path .. "assets/layouts/dwindle.png"
 ]]
 -- theme.tooltip_shape = gears.shape.infobubble
 theme.tooltip_bg = caa
-theme.tooltip_border_width=0
+theme.tooltip_border_width = 0
 
 --[[
 ██╗  ██╗ ██████╗ ████████╗██╗  ██╗███████╗██╗   ██╗███████╗
@@ -260,7 +262,7 @@ theme.notification_fg = cah
 theme.notification_border_width = 0
 theme.notification_border_color = caa
 theme.notification_margin = 30
-theme.notification_width= 400
+theme.notification_width = 400
 theme.notification_icon_size = 150
 -- theme.notification_shape = function(cr,w,h)
 --    gears.shape.rounded_rect(cr,w,h,2)
@@ -278,11 +280,12 @@ theme.systray_icon_spacing = 10
 ╚═════╝  ╚═════╝    ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 ]]
-theme.border_width = dpi(1)
-theme.border_normal = caa .. "55"
-theme.border_focus = cac .. "55"
-theme.border_marked = cba .. "55"
-theme.border_select = cac .. "55"
+theme.border_width = dpi(3)
+theme.border_normal = caa .. "50"
+-- theme.border_focus = caa
+theme.border_focus = "#7065d1"
+theme.border_marked = caa
+theme.border_select = caa
 
 --[[
 ████████╗██╗████████╗██╗     ███████╗██████╗  █████╗ ██████╗
@@ -291,10 +294,10 @@ theme.border_select = cac .. "55"
    ██║   ██║   ██║   ██║     ██╔══╝  ██╔══██╗██╔══██║██╔══██╗
    ██║   ██║   ██║   ███████╗███████╗██████╔╝██║  ██║██║  ██║
    ╚═╝   ╚═╝   ╚═╝   ╚══════╝╚══════╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-      
+
 ]]
-theme.titlebar_bg_normal = caa .. '33'
-theme.titlebar_bg_focus = caa .. '66'
+theme.titlebar_bg_normal = caa .. "33"
+theme.titlebar_bg_focus = caa .. "66"
 theme.titlebar_font = font .. " 10"
 
 theme.titlebar_close_button_normal =

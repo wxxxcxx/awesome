@@ -8,9 +8,9 @@
 -- @copyright 2019 Pavel Makhov
 -------------------------------------------------
 
-local watch = require('awful.widget.watch')
-local wibox = require('wibox')
-local beautiful = require('beautiful')
+local watch = require("awful.widget.watch")
+local wibox = require("wibox")
+local beautiful = require("beautiful")
 
 local widget = {}
 
@@ -25,12 +25,12 @@ local function worker(args)
     local cpugraph_widget =
         wibox.widget {
         max_value = 100,
-        background_color = '#00000000',
+        background_color = "#00000000",
         forced_width = width,
         step_width = step_width,
         step_spacing = step_spacing,
         widget = wibox.widget.graph,
-        color = 'linear:0,0:0,20:0,#FF0000:0.3,#FFFF00:0.6,' .. color
+        color = "linear:0,0:0,20:0,#FF0000:0.3,#FFFF00:0.6," .. color
     }
 
     --- By default graph widget goes from left to right, so we mirror it and push up a bit
@@ -45,7 +45,7 @@ local function worker(args)
         1,
         function(widget, stdout)
             local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
-                stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
+                stdout:match("(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s")
 
             local total = user + nice + system + idle + iowait + irq + softirq + steal
 
@@ -71,12 +71,12 @@ local function worker(args)
                 },
                 layout = wibox.layout.flex.vertical
             },
-            bg = '#ffffff11',
+            bg = "#ffffff11",
             widget = wibox.container.background
         },
-        border_color = '#777777',
+        border_color = "#777777",
         border_width = 2,
-        color = '#ffffff',
+        color = "#ffffff",
         min_value = 0,
         value = 0,
         max_value = 100,
@@ -89,7 +89,7 @@ local function worker(args)
         1,
         function(widget, stdout, stderr, exitreason, exitcode)
             total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
-                stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
+                stdout:match("(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)")
 
             local percent = tonumber(used) / tonumber(total) * 100
             widget.value = percent

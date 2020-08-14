@@ -1,6 +1,5 @@
 pcall(require, "luarocks.loader")
 gears = require('gears')
-keydefine = require('keydefine')
 beautiful = require('beautiful')
 beautiful.init(gears.filesystem.get_configuration_dir() .. 'themes/default/theme.lua')
 local naughty = require('naughty')
@@ -16,9 +15,9 @@ function notify (msg)
         )
 end
 
-local desktop = require('desktop')
+local maf = require("maf")
 
-desktop:init()
+maf:init()
 
 -- require('test')
 

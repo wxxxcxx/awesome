@@ -1,6 +1,6 @@
 pcall(require, "luarocks.loader")
 gears = require("gears")
-keydefine = require("keydefine")
+-- keydefine = require("keydefine")
 beautiful = require("beautiful")
 beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua")
 local naughty = require("naughty")
@@ -17,9 +17,9 @@ function notify(msg)
     )
 end
 
-local desktop = require("desktop")
+local maf = require("maf")
 
-desktop:init()
+maf:init()
 
 local awful = require("awful")
 
@@ -41,15 +41,20 @@ local cmds = {
     "picom",
     "enpass",
     "nutstore",
-    "flameshot",
-    "python ~/.config/awesome/widget/mblyrics/main.py",
-    -- "emacs --daemon"
-    -- "easystroke"
+    "flameshot"
+    -- "python ~/.config/awesome/widget/mblyrics/main.py",
 }
 
 for _, cmd in pairs(cmds) do
     run_once(cmd)
 end
 
--- require("widget.musicboxlyrics.musicboxlyrics")
+gears.timer.weak_start_new(
+    60,
+    function()
+        collectgarbage("collect")
+        return true
+    end
+)
 
+-- require("widget.musicboxlyrics.musicboxlyrics")

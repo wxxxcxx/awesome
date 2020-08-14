@@ -70,12 +70,15 @@ function module.new(args)
         )
 
         client_preview.preview_popup.x = x - (preview_width / 2)
-        client_preview.preview_popup.y = y - preview_height
+        if client_preview.preview_popup.x < 0 then
+            client_preview.preview_popup.x = 0
+        end
+        client_preview.preview_popup.y = y
         client_preview.preview_popup.visible = true
     end
     function client_preview.hide()
         client_preview.visual = false
-        gears.timer.start_new(
+        gears.timer.weak_start_new(
             0.5,
             function()
                 if not client_preview.visual then

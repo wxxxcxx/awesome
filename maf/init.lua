@@ -1,13 +1,11 @@
 require("awful.autofocus")
 local awful = require("awful")
 local gears = require("gears")
-local error = require("desktop.error")
-local bar = require("desktop.bar")
-local dock = require("desktop.dock")
-local globalkeys = require("desktop.globalkeys")
-local client = require("desktop.client")
-local utils = require("desktop.utils")
--- local lain = require('lain')
+local error = require("maf.error")
+local bar = require("maf.bar")
+local globalkeys = require("maf.globalkeys")
+local client = require("maf.client")
+local utils = require("maf.utils")
 
 awful.mouse.resize.set_mode("live")
 root.keys(globalkeys)
@@ -32,25 +30,19 @@ root.buttons(
     )
 )
 awful.rules.rules = client.rules
--- lain.layout.cascade.offset_x = 32
--- lain.layout.cascade.offset_y = 26
 awful.layout.layouts = {
     awful.layout.suit.floating,
-    -- awful.layout.suit.tile,
-    -- lain.layout.cascade,
-    -- lain.layout.cascade.tile,
-    -- lain.layout.centerwork,
-    -- lain.layout.centerwork.horizontal,
+    -- awful.layout.suit.magnifier,
     -- awful.layout.suit.tile.top,
     awful.layout.suit.tile.left,
+    awful.layout.suit.tile,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.fair,
     awful.layout.suit.spiral.dwindle
     -- awful.layout.suit.max,
-    -- awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.max.fullscreen
     -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
@@ -79,34 +71,43 @@ function module:init()
         function(screen)
             set_wallpaper(screen)
             awful.tag.add(
-                "Default",
+                "normal",
                 {
                     layout = awful.layout.layouts[1],
                     screen = screen,
                     selected = true
                 }
             )
-            -- awful.tag({'1', '2', '3', '4', '5', '6'}, screen, awful.layout.layouts[1])
+            awful.tag.add(
+                "terminal",
+                {
+                    layout = awful.layout.layouts[2],
+                    screen = screen,
+                    selected = true
+                }
+            )
+            awful.tag.add(
+                "read",
+                {
+                    layout = awful.layout.layouts[2],
+                    screen = screen,
+                    selected = true
+                }
+            )
 
-            -- bar:new({screen = screen})
-            -- dock.new({screen = screen})
+            awful.tag.add(
+                "code",
+                {
+                    layout = awful.layout.layouts[2],
+                    screen = screen,
+                    selected = true
+                }
+            )
+
+            set_wallpaper(screen)
         end
     )
-
-    set_wallpaper(screen.primary)
-    awful.tag.add(
-        "Default",
-        {
-            layout = awful.layout.layouts[1],
-            screen = screen.primary,
-            selected = true
-        }
-    )
-    -- awful.tag({'1', '2', '3', '4', '5', '6'}, screen, awful.layout.layouts[1])
-
     bar:new({screen = screen.primary})
-    dock.new({screen = screen.primary})
 end
 
--- kg:start()
 return module
