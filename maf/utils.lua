@@ -5,13 +5,6 @@ local wibox = require("wibox")
 
 local module={}
 
-module.hide_all_menu=function()
-    -- globalmenu:hide()
-    -- if not (tasklist.tasklist_menu == nil) then
-    --     tasklist.tasklist_menu:hide()
-    -- end
-end
-
 
 local function find_widget_in_wibox(wb, wdg)
     local function traverse(hierarchy)

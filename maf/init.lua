@@ -9,22 +9,10 @@ local utils = require("maf.utils")
 
 awful.mouse.resize.set_mode("live")
 root.keys(globalkeys)
+
 root.buttons(
     gears.table.join(
-        awful.button(
-            {},
-            1,
-            function()
-                utils.hide_all_menu()
-            end
-        ),
-        awful.button(
-            {},
-            3,
-            function()
-                utils.hide_all_menu()
-            end
-        ),
+        root.buttons(),
         awful.button({}, 4, awful.tag.viewnext),
         awful.button({}, 5, awful.tag.viewprev)
     )

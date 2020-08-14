@@ -93,8 +93,7 @@ local tasklist_buttons =
         4,
         function()
             awful.client.focus.byidx(-1)
-        end
-    ),
+        end),
     awful.button(
         {},
         5,
@@ -182,5 +181,38 @@ function module.new(args)
     }
     return tasklist
 end
+
+root.buttons(
+    gears.table.join(
+        root.buttons(),
+        awful.button(
+            {},
+            1,
+            function()
+                if not (module.tasklist_menu == nil) then
+                    module.tasklist_menu:hide()
+                end
+            end
+        ),
+        awful.button(
+            {},
+            3,
+            function()
+                if not (module.tasklist_menu == nil) then
+                    module.tasklist_menu:hide()
+                end
+            end
+        )
+    )
+)
+
+client.connect_signal(
+    "button::press",
+    function(c)
+        if not (module.tasklist_menu == nil) then
+            module.tasklist_menu:hide()
+        end
+    end
+)
 
 return module

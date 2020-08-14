@@ -88,8 +88,6 @@ client.connect_signal(
     "focus",
     function(c)
         c.border_color = beautiful.border_focus
-        utils.hide_all_menu()
-        -- gears.debug.dump(c.instance, "", 1)
     end
 )
 client.connect_signal(
@@ -158,7 +156,6 @@ local module = {}
 function border_resize(c)
     client.focus = c
     c:raise()
-    utils.hide_all_menu()
     local coords = mouse.coords()
     if coords == nil then
         return

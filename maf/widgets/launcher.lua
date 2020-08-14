@@ -10,6 +10,26 @@ function module.new(args)
     local args = args or {}
     local menu = args.menu or awful.menu()
 
+    root.buttons(
+        gears.table.join(
+            root.buttons(),
+            awful.button(
+                {},
+                1,
+                function()
+                    menu:hide()
+                end
+            ),
+            awful.button(
+                {},
+                3,
+                function()
+                    menu:hide()
+                end
+            )
+        )
+    )
+
     local launcher_menu = setmetatable({}, menu)
 
     function launcher_menu:toggle()
