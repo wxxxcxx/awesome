@@ -21,6 +21,28 @@ client.connect_signal(
     end
 )
 
+client.connect_signal(
+    "manage",
+    function(c)
+        c.border_width = 0
+        if c.class == "VirtualBox Machine" then
+            local tag =
+                awful.tag.add(
+                "VirtualBox Machine",
+                {
+                    layout = awful.layout.suit.max.fullscreen,
+                    screen = screen.primary,
+                    gap_single_client = false,
+                    gap = 0,
+                    volatile = true
+                }
+            )
+            c:move_to_tag(tag)
+            tag:view_only()
+        end
+    end
+)
+
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal(
     "request::titlebars",
@@ -245,9 +267,6 @@ module.rules = {
                 "Wpa_gui",
                 "veromix",
                 "xtightvncviewer",
-                "VirtualBox Machine",
-                "VirtualBox Manager",
-                "VirtualBox",
                 "obs",
                 "Qq",
                 "Peek",
@@ -266,6 +285,16 @@ module.rules = {
             }
         },
         properties = {floating = true}
+    },
+    {
+        rule_any = {
+            class = {
+                "Wine"
+            }
+        },
+        properties = {
+            border_width = 0
+        }
     },
     -- tag
     {
