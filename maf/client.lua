@@ -24,11 +24,11 @@ client.connect_signal(
 client.connect_signal(
     "manage",
     function(c)
-        c.border_width = 0
         if c.class == "VirtualBox Machine" then
+            c.border_width = 0
             local tag =
                 awful.tag.add(
-                "VirtualBox Machine",
+                c.class,
                 {
                     layout = awful.layout.suit.max.fullscreen,
                     screen = screen.primary,
