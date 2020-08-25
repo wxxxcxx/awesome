@@ -30,7 +30,7 @@ client.connect_signal(
                 awful.tag.add(
                 c.class,
                 {
-                    layout = awful.layout.suit.max.fullscreen,
+                    layout = awful.layout.suit.max,
                     screen = screen.primary,
                     gap_single_client = false,
                     gap = 0,
@@ -251,11 +251,7 @@ module.rules = {
     }, -- Floating clients.
     {
         rule_any = {
-            instance = {
-                "DTA", -- Firefox addon DownThemAll.
-                "copyq", -- Includes session name in class.
-                "pinentry"
-            },
+            instance = {},
             class = {
                 "Arandr",
                 "Blueman-manager",
@@ -270,21 +266,34 @@ module.rules = {
                 "obs",
                 "Qq",
                 "Peek",
-                "Anki"
+                "Anki",
+                "Dragon-drag-and-drop"
             },
-            -- Note that the name property shown in xprop might be set slightly after creation of the client
-            -- and the name shown there might not match defined rules here.
             name = {
                 "Event Tester", -- xev.
                 "win0" -- jetbrains
             },
             role = {
-                "AlarmWindow", -- Thunderbird's calendar.
-                "ConfigManager", -- Thunderbird's about:config.
                 "pop-up" -- e.g. Google Chrome's (detached) Developer Tools.
             }
         },
         properties = {floating = true}
+    }, -- Sticky clients
+    {
+        rule_any = {
+            class = {
+                "Dragon-drag-and-drop"
+            }
+        },
+        properties = {sticky = true}
+    }, -- OnTop clients
+    {
+        rule_any = {
+            class = {
+                "Dragon-drag-and-drop"
+            }
+        },
+        properties = {ontop = true}
     },
     {
         rule_any = {

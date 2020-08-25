@@ -19,6 +19,17 @@ globalkeys =
         }
     ),
     awful.key(
+        {keydefine.modkey},
+        "z",
+        function()
+            awful.spawn.with_shell("python ~/Projects/Temp/hud-menu/hud-menu.py")
+        end,
+        {
+            description = "Screen Record",
+            group = "Application"
+        }
+    ),
+    awful.key(
         {},
         "Print",
         function()
