@@ -7,7 +7,6 @@ local taglist = require("maf.widgets.taglist")
 local tasklist = require("maf.widgets.tasklist")
 local launcher = require("maf.widgets.launcher")
 local systray = require("maf.widgets.systray")
-local titlebar = require("maf.widgets.titlebar")
 
 local globalmenu = require("maf.globalmenu")
 
@@ -65,8 +64,6 @@ module.volume_widget =
 )
 module.net_widget = net_widget()
 
-module.titlebar = titlebar
-
 function module:new(args)
     local mytaglist =
         taglist.new(
@@ -112,6 +109,29 @@ function module:new(args)
 
     args.screen.myprompt = module.myprompt
 
+    local task_wibar =
+        awful.wibar(
+        {
+            position = "right",
+            ontop = false,
+            screen = args.screen,
+            bg = "#00000000",
+            width = 40
+        }
+    )
+    local mytasklist =
+        tasklist.new(
+        {
+            screen = args.screen,
+            wibox = task_wibar
+        }
+    )
+    task_wibar:setup {
+        mytasklist,
+        valign = "top",
+        widget = wibox.container.place
+    }
+
     local mywibar =
         awful.wibar(
         {
@@ -119,14 +139,6 @@ function module:new(args)
             ontop = false,
             screen = args.screen,
             bg = "#00000000"
-        }
-    )
-
-    local mytasklist =
-        tasklist.new(
-        {
-            screen = args.screen,
-            wibox = mywibar
         }
     )
     mywibar:setup {
@@ -144,14 +156,11 @@ function module:new(args)
                     widget = wibox.container.margin
                 },
                 {
-                    mytasklist,
+                    -- mytasklist,
                     left = 15,
                     right = 10,
                     widget = wibox.container.margin
                 },
-                -- module.titlebar.icon_widget,
-                -- module.titlebar.instance_widget,
-                module.titlebar.title_widget,
                 layout = wibox.layout.fixed.horizontal
             },
             {
@@ -160,8 +169,6 @@ function module:new(args)
             layout = wibox.layout.flex.horizontal
         },
         {
-            module.titlebar.other_botton_widget,
-            module.titlebar.main_botton_widget,
             {
                 {
                     module.tray,

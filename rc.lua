@@ -1,10 +1,21 @@
 pcall(require, "luarocks.loader")
+require("utils")
 gears = require("gears")
 -- keydefine = require("keydefine")
+
 beautiful = require("beautiful")
 beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua")
+
+package.path = package.path .. ";" .. gears.filesystem.get_configuration_dir()
+
+-- nice = require("nice")
+
+-- nice{
+--    mb_resize = nice.MB_MIDDLE,
+--    mb_contextmenu = nice.MB_RIGHT,
+--    titlebar_radius = 0
+-- }
 local naughty = require("naughty")
-local freedesktop = require("freedesktop")
 
 function notify(msg)
     naughty.notify(
@@ -37,12 +48,6 @@ function run_once(cmd)
 end
 
 local cmds = {
-    "fcitx",
-    "picom",
-    "enpass",
-    "nutstore",
-    "flameshot"
-    -- "python ~/.config/awesome/widget/mblyrics/main.py",
 }
 
 for _, cmd in pairs(cmds) do

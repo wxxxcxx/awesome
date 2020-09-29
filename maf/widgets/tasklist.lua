@@ -1,6 +1,7 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local utils = require("maf.utils")
+local utils = require("utils")
+
 local client_preview = require("maf.widgets.clientpreview")
 
 local preview =
@@ -116,9 +117,7 @@ function module.new(args)
         style = {},
         layout = {
             spacing = 0,
-            forced_num_rows = 1,
-            forced_height = height,
-            layout = wibox.layout.fixed.horizontal
+            layout = wibox.layout.fixed.vertical
         },
         widget_template = {
             {
@@ -166,8 +165,8 @@ function module.new(args)
                 self:connect_signal(
                     "mouse::enter",
                     function()
-                        local x, y, w, h = utils.get_widget_postion(args.wibox, self)
-                        preview.show(x + (w / 2), 40, c)
+                        local x, y, w, h = utils.widget.get_widget_postion(args.wibox, self)
+                        preview.show(x - 200, y, c)
                     end
                 )
                 self:connect_signal(

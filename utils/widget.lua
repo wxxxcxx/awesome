@@ -1,10 +1,4 @@
-local gears = require("gears")
-local wibox = require("wibox")
--- local globalmenu = require('maf.globalmenu')
--- local tasklist = require('maf.widgets.tasklist')
-
-local module={}
-
+local widget = {}
 
 local function find_widget_in_wibox(wb, wdg)
     local function traverse(hierarchy)
@@ -25,7 +19,7 @@ local function find_widget_in_wibox(wb, wdg)
     end
 end
 
-function module.get_widget_postion(wb, widget)
+function widget.get_widget_postion(wb, widget)
     local widget_hierarchy = find_widget_in_wibox(wb, widget)
     if widget_hierarchy then
         local x, y, w, h =
@@ -37,22 +31,4 @@ function module.get_widget_postion(wb, widget)
     return 0, 0, 0, 0
 end
 
-function module.string_split(input, delimiter)
-    input = tostring(input)
-    delimiter = tostring(delimiter)
-    if (delimiter == "") then
-        return false
-    end
-    local pos, arr = 0, {}
-    -- for each divider found
-    for st, sp in function()
-        return string.find(input, delimiter, pos, true)
-    end do
-        table.insert(arr, string.sub(input, pos, st - 1))
-        pos = sp + 1
-    end
-    table.insert(arr, string.sub(input, pos))
-    return arr
-end
-
-return module
+return widget

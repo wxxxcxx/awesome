@@ -1,24 +1,31 @@
 pcall(require, "luarocks.loader")
-gears = require('gears')
-beautiful = require('beautiful')
-beautiful.init(gears.filesystem.get_configuration_dir() .. 'themes/default/theme.lua')
-local naughty = require('naughty')
+gears = require("gears")
+-- keydefine = require("keydefine")
 
-function notify (msg)
+beautiful = require("beautiful")
+
+
+beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua")
+
+-- local nice = require("nice")
+-- nice{
+--    mb_resize = nice.MB_MIDDLE,
+--    mb_contextmenu = nice.MB_RIGHT,
+--    titlebar_radius = 0
+-- }
+local naughty = require("naughty")
+
+function notify(msg)
     naughty.notify(
-            {
-                border_width = 0,
-                position = 'top_right',
-                title = 'New message!',
-                text = msg
-            }
-        )
+        {
+            border_width = 0,
+            position = "top_right",
+            title = "New message!",
+            text = msg
+        }
+    )
 end
 
 local maf = require("maf")
 
 maf:init()
-
--- require('test')
-
--- require("widget.musicboxlyrics.musicboxlyrics")

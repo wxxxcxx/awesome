@@ -77,18 +77,10 @@ client.connect_signal(
             widget = wibox.container.margin
         }
 
-        module.icon_widget:setup {
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            top = 5,
-            bottom = 5,
-            left = 10,
-            right = 3,
-            widget = wibox.container.margin
-        }
+        module.icon_widget:setup 
         module.title_widget:setup {
             {
-                awful.titlebar.widget.titlewidget(c),
+                
                 buttons = buttons,
                 left = 10,
                 -- bottom = 2,
@@ -97,15 +89,11 @@ client.connect_signal(
             layout = wibox.layout.fixed.horizontal()
         }
         module.main_botton_widget:setup {
-            awful.titlebar.widget.minimizebutton(c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.closebutton(c),
+            
             layout = wibox.layout.fixed.horizontal()
         }
         module.other_botton_widget:setup {
-            awful.titlebar.widget.ontopbutton(c),
-            awful.titlebar.widget.floatingbutton(c),
-            awful.titlebar.widget.stickybutton(c),
+            
             layout = wibox.layout.fixed.horizontal()
         }
     end

@@ -54,7 +54,7 @@ local moudle =
             {
                 {
                     "Lock",
-                    "slimlock"
+                    "dm-tool lock"
                     -- menubar.utils.lookup_icon("system-lock")
                 },
                 {

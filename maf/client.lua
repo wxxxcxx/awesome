@@ -1,8 +1,9 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local gears = require("gears")
 local menubar = require("menubar")
 local clientkeys = require("maf.clientkeys")
-local utils = require("maf.utils")
+local utils = require("utils")
 local keydefine = require("maf.keydefine")
 
 client.connect_signal(
@@ -40,10 +41,20 @@ client.connect_signal(
             c:move_to_tag(tag)
             tag:view_only()
         end
+        local geometry = c:geometry()
+        client.mask =
+            wibox(
+            {
+                x = geometry.x,
+                y = geometry.y,
+                width = geometry.width,
+                height = geometry.height,
+                bg = "#00007799"
+            }
+        )
     end
 )
 
--- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal(
     "request::titlebars",
     function(c)
@@ -56,53 +67,122 @@ client.connect_signal(
             awful.titlebar(
             c,
             {
-                size = 5,
+                size = 30,
                 position = "top"
             }
         )
-        local bottom_titlebar =
-            awful.titlebar(
-            c,
-            {
-                size = 5,
-                position = "bottom"
-            }
-        )
-        local left_titlebar =
-            awful.titlebar(
-            c,
-            {
-                size = 5,
-                position = "left"
-            }
-        )
-        local right_titlebar =
-            awful.titlebar(
-            c,
-            {
-                size = 5,
-                position = "right"
-            }
-        )
+        local click_times = 0
+        local titlebar_buttons =
+            gears.table.join(
+            awful.button(
+                {},
+                1,
+                function()
+                    client.focus = c
+                    c:raise()
+                    -- 双击
+                    click_times = click_times + 1
+                    if click_times == 2 then
+                        c.maximized = not c.maximized
+                        click_times = 0
+                        return
+                    end
+                    gears.timer.weak_start_new(
+                        0.25,
+                        function()
+                            click_times = 0
+                        end
+                    )
 
-        c:connect_signal(
-            "focus",
-            function(c)
-                top_titlebar:set_bg(beautiful.titlebar_bg_focus)
-                bottom_titlebar:set_bg(beautiful.titlebar_bg_focus)
-                left_titlebar:set_bg(beautiful.titlebar_bg_focus)
-                right_titlebar:set_bg(beautiful.titlebar_bg_focus)
-            end
+                    awful.mouse.client.move(c)
+                end
+            ),
+            awful.button(
+                {},
+                2,
+                function()
+                    client.focus = c
+                    c:raise()
+                    c.ontop = not c.ontop
+                end
+            ),
+            awful.button(
+                {},
+                3,
+                function()
+                    client.focus = c
+                    c:raise()
+                    awful.mouse.client.resize(c)
+                end
+            ),
+            awful.button(
+                {keydefine.modkey},
+                1,
+                function()
+                    client.focus = c
+                    c:raise()
+                    utils.client.reset_major_color(c)
+                end
+            ),
+            awful.button(
+                {keydefine.modkey},
+                2,
+                function()
+                    client.focus = c
+                    c:raise()
+                    c.floating = not c.floating
+                end
+            )
         )
-        c:connect_signal(
-            "unfocus",
-            function(c)
-                top_titlebar:set_bg(beautiful.titlebar_bg_normal)
-                bottom_titlebar:set_bg(beautiful.titlebar_bg_normal)
-                left_titlebar:set_bg(beautiful.titlebar_bg_normal)
-                right_titlebar:set_bg(beautiful.titlebar_bg_normal)
-            end
-        )
+        local title_text_widget = awful.titlebar.widget.titlewidget(c)
+        title_text_widget.align = "center"
+        top_titlebar:setup {
+            {
+                -- Left
+                awful.titlebar.widget.ontopbutton(c),
+                awful.titlebar.widget.floatingbutton(c),
+                awful.titlebar.widget.stickybutton(c),
+                layout = wibox.layout.fixed.horizontal
+            },
+            {
+                -- Middle
+                title_text_widget,
+                buttons = titlebar_buttons,
+                layout = wibox.layout.flex.horizontal
+            },
+            {
+                -- Right
+                awful.titlebar.widget.minimizebutton(c),
+                awful.titlebar.widget.maximizedbutton(c),
+                awful.titlebar.widget.closebutton(c),
+                layout = wibox.layout.fixed.horizontal()
+            },
+            layout = wibox.layout.align.horizontal
+        }
+        local function update_color(c)
+            local color = utils.client.get_major_color(c)
+            -- local luminance = utils.color.relative_luminance(color)
+            -- local lighten_amount = luminance * 90 + 10
+            -- local darken_amount = -(luminance * 70) + 100
+            -- local inner_color = utils.color.lighten(color, lighten_amount)
+            -- local outer_color = utils.color.darken(color, darken_amount)
+
+            -- local major_color =
+            --     gears.color.create_pattern(
+            --     {
+            --         type = "linear",
+            --         from = {10, 0, 1},
+            --         to = {0, 25, 1},
+            --         stops = {{0, "#000000"}, {0.01, "#ffffff"}, {1, "#232323"}}
+            --     }
+            -- )
+
+            top_titlebar:set_bg(color)
+            top_titlebar:set_fg(utils.client.get_fg_color(c))
+        end
+        c:connect_signal("reset_major_color", update_color)
+        c:connect_signal("focus", update_color)
+        c:connect_signal("unfocus", update_color)
     end
 )
 
@@ -193,16 +273,7 @@ function border_resize(c)
             (coords.x < geometry.x + range and coords.y > geometry.y + geometry.height - range) or --left bottom
             (coords.x > geometry.x + geometry.width - range and coords.y > geometry.y + geometry.height - range)
      then
-        -- right bottom
         awful.mouse.client.resize(c)
-    elseif coords.y < geometry.y + range then
-        awful.mouse.client.move(c)
-    elseif coords.x < geometry.x + range then
-        awful.mouse.client.resize(c, "left")
-    elseif coords.x > geometry.x + geometry.width - range then
-        awful.mouse.client.resize(c, "right")
-    elseif coords.y > geometry.y + geometry.height - range then
-        awful.mouse.client.resize(c, "bottom")
     end
 end
 
@@ -244,7 +315,7 @@ module.rules = {
             screen = awful.screen.preferred,
             callback = awful.client.setslave,
             placement = awful.placement.centered,
-            titlebars_enabled = false,
+            titlebars_enabled = true,
             tag = "normal",
             switchtotag = true
         }
@@ -330,8 +401,16 @@ module.rules = {
                 "Emacs"
             }
         },
-        properties = {tag = "code", switchtotag = true}
+        properties = {
+            tag = "code",
+            size_hints_honor = false,
+            switchtotag = true
+        }
     }
 }
+
+
+
+
 
 return module

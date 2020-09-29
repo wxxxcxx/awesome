@@ -393,6 +393,7 @@ globalkeys =
             if c then
                 awful.tag.viewprev()
                 c:move_to_tag(awful.screen.focused().selected_tag)
+                c:raise()
             end
         end,
         {description = "Move focused client to previous tag", group = "Tag"}
@@ -408,6 +409,7 @@ globalkeys =
             if c then
                 awful.tag.viewnext()
                 c:move_to_tag(awful.screen.focused().selected_tag)
+                c:raise()
             end
         end,
         {description = "Move focused client to next tag", group = "Tag"}

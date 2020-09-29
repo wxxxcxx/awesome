@@ -2,8 +2,9 @@ local gears = require("gears")
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local cairo = require("lgi").cairo
+local utils = require("utils")
 
-xresources.set_dpi(120)
+-- xresources.set_dpi(120)
 local dpi = xresources.apply_dpi
 
 local themes_path = gears.filesystem.get_configuration_dir() .. "themes/default/"
@@ -13,7 +14,6 @@ local icon_font = "Material Icons"
 local font_size = 10
 
 local theme = {}
-
 theme.font_name = font
 theme.icon_font_name = icon_font
 
@@ -58,10 +58,10 @@ end
 local caa = "#252a33"
 local cba = "#333842"
 local cab = "#f0719b"
-local cbb = "#f02e6e"
+local cbb = "#f02e4e"
 local cac = "#5af7b0"
 local cbc = "#2ce592"
-local cad = "#ffa56b"
+local cad = "#ffd56b"
 local cbd = "#ff8537"
 local cae = "#00afff"
 local cbe = "#1da0e2"
@@ -280,12 +280,12 @@ theme.systray_icon_spacing = 10
 ╚═════╝  ╚═════╝    ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 ]]
-theme.border_width = dpi(3)
-theme.border_normal = caa .. "50"
+theme.border_width = dpi(0)
+theme.border_normal = "#000000"
 -- theme.border_focus = caa
-theme.border_focus = "#7065d1"
-theme.border_marked = caa
-theme.border_select = caa
+theme.border_focus = "#000000"
+theme.border_marked = "#000000"
+theme.border_select = "#000000"
 
 --[[
 ████████╗██╗████████╗██╗     ███████╗██████╗  █████╗ ██████╗
@@ -300,203 +300,127 @@ theme.titlebar_bg_normal = caa .. "33"
 theme.titlebar_bg_focus = caa .. "66"
 theme.titlebar_font = font .. " 10"
 
-theme.titlebar_close_button_normal =
-    icon(
-    {
-        text = utf8.char(0xe5cd),
-        font = icon_font
-    }
-)
-theme.titlebar_close_button_focus = theme.titlebar_close_button_normal
 
-theme.titlebar_close_button_normal_hover =
-    icon(
-    {
-        text = utf8.char(0xe5cd),
-        font = icon_font,
-        color = cah,
-        bg = cba
-    }
-)
-theme.titlebar_close_button_normal_press = theme.titlebar_close_button_normal_hover
-theme.titlebar_close_button_focus_hover = theme.titlebar_close_button_normal_hover
-theme.titlebar_close_button_focus_press = theme.titlebar_close_button_normal_hover
+local normal = {}
+local focus = {
+    bg = "#f02e4e"
+}
+local hover = {
+    bg = "#f02e4e",
+    text = utf8.char(0xe5cd)
+}
 
-theme.titlebar_maximized_button_normal_inactive =
-    icon(
-    {
-        text = utf8.char(0xe5d0),
-        font = icon_font
-    }
-)
-theme.titlebar_maximized_button_focus_inactive = theme.titlebar_maximized_button_normal_inactive
-theme.titlebar_maximized_button_normal_active =
-    icon(
-    {
-        text = utf8.char(0xe5d1),
-        font = icon_font
-    }
-)
-theme.titlebar_maximized_button_focus_active = theme.titlebar_maximized_button_normal_active
+function create_titlebar_button_image(args)
+    local size = args.size or 25
+    local text = args.text or ""
+    local bg = args.bg or "#999999"
+    local fg = args.fg or "#00000055"
 
-theme.titlebar_maximized_button_normal_inactive_hover =
-    icon(
-    {
-        text = utf8.char(0xe5d0),
-        font = icon_font,
-        color = cah,
-        bg = cba
-    }
-)
-theme.titlebar_maximized_button_normal_inactive_press = theme.titlebar_maximized_button_normal_inactive_hover
-theme.titlebar_maximized_button_focus_inactive_hover = theme.titlebar_maximized_button_normal_inactive_hover
-theme.titlebar_maximized_button_focus_inactive_press = theme.titlebar_maximized_button_normal_inactive_hover
-theme.titlebar_maximized_button_normal_active_hover =
-    icon(
-    {
-        text = utf8.char(0xe5d1),
-        font = icon_font,
-        color = cah,
-        bg = cba
-    }
-)
-theme.titlebar_maximized_button_normal_active_press = theme.titlebar_maximized_button_normal_active_hover
-theme.titlebar_maximized_button_focus_active_hover = theme.titlebar_maximized_button_normal_active_hover
-theme.titlebar_maximized_button_focus_active_press = theme.titlebar_maximized_button_normal_active_hover
+    local surface = cairo.ImageSurface.create(cairo.Format.ARGB32, size, size)
+    local cr = cairo.Context.create(surface)
+    cr.antialias = cairo.Antialias.BEST
 
-theme.titlebar_minimize_button_normal =
-    icon(
-    {
-        text = utf8.char(0xe313),
-        font = icon_font
-    }
-)
-theme.titlebar_minimize_button_focus = theme.titlebar_minimize_button_normal
-theme.titlebar_minimize_button_normal_hover =
-    icon(
-    {
-        text = utf8.char(0xe313),
-        font = icon_font,
-        color = cah,
-        bg = cba
-    }
-)
-theme.titlebar_minimize_button_normal_press = theme.titlebar_minimize_button_normal_hover
-theme.titlebar_minimize_button_focus_hover = theme.titlebar_minimize_button_normal_hover
-theme.titlebar_minimize_button_focus_press = theme.titlebar_minimize_button_normal_hover
+    gears.debug.print_error(bg .. "=====" .. utils.color.darken(bg, 10))
 
-theme.titlebar_ontop_button_normal_inactive =
-    icon(
-    {
-        text = utf8.char(0xe5c7),
-        font = icon_font,
-        fontsize = 22
-    }
-)
-theme.titlebar_ontop_button_focus_inactive = theme.titlebar_ontop_button_normal_inactive
-theme.titlebar_ontop_button_normal_inactive_hover =
-    icon(
-    {
-        text = utf8.char(0xe5c7),
-        font = icon_font,
-        fontsize = 22,
-        bg = cba
-    }
-)
-theme.titlebar_ontop_button_focus_inactive_hover = theme.titlebar_ontop_button_normal_inactive_hover
-theme.titlebar_ontop_button_normal_active =
-    icon(
-    {
-        text = utf8.char(0xe5c5),
-        font = icon_font,
-        fontsize = 22
-    }
-)
-theme.titlebar_ontop_button_focus_active = theme.titlebar_ontop_button_normal_active
-theme.titlebar_ontop_button_normal_active_hover =
-    icon(
-    {
-        text = utf8.char(0xe5c5),
-        font = icon_font,
-        fontsize = 22,
-        bg = cba
-    }
-)
+    local radius = size / 3.5
+    -- cr:arc(size / 2, size / 2 - 2, radius , math.rad(0), math.rad(360))
+    -- cr:set_source(gears.color(utils.color.darken(bg, 90)))
+    -- cr:fill()
+    cr:arc(size / 2 - 0.2, size / 2 - 0.2, radius, math.rad(0), math.rad(360))
+    cr:set_source(gears.color(utils.color.darken(bg, 50)))
+    cr:fill()
+    cr:arc(size / 2, size / 2, radius, math.rad(0), math.rad(360))
+    cr:set_source(gears.color(utils.color.darken(bg, 10)))
+    cr:fill()
 
-theme.titlebar_ontop_button_focus_active_hover = theme.titlebar_ontop_button_normal_active_hover
+    cr:select_font_face(icon_font)
+    local fontsize = radius * 1.5
+    cr:set_font_size(fontsize)
+    cr:move_to(size / 2 - fontsize / 2, size / 2 + fontsize / 2)
+    cr:text_path(text)
+    cr:set_operator(cairo.Operator.XOR)
+    cr:fill()
+    cr:set_source(gears.color(fg))
+    cr:show_text(text)
 
-theme.titlebar_floating_button_normal_inactive =
-    icon(
-    {
-        text = utf8.char(0xe15a),
-        fontsize = 15
-    }
-)
-theme.titlebar_floating_button_focus_inactive = theme.titlebar_floating_button_normal_inactive
-theme.titlebar_floating_button_normal_inactive_hover =
-    icon(
-    {
-        text = utf8.char(0xe15a),
-        fontsize = 15,
-        bg = cba
-    }
-)
-theme.titlebar_floating_button_focus_inactive_hover = theme.titlebar_floating_button_normal_inactive_hover
+    return surface
+end
 
-theme.titlebar_floating_button_normal_active =
-    icon(
-    {
-        text = utf8.char(0xe166),
-        fontsize = 15
-    }
-)
-theme.titlebar_floating_button_focus_active = theme.titlebar_floating_button_normal_active
-theme.titlebar_floating_button_normal_active_hover =
-    icon(
-    {
-        text = utf8.char(0xe166),
-        fontsize = 15,
-        bg = cba
-    }
-)
-theme.titlebar_floating_button_focus_active_hover = theme.titlebar_floating_button_normal_active_hover
+theme.titlebar_close_button_normal = create_titlebar_button_image(normal)
+theme.titlebar_close_button_normal_hover = create_titlebar_button_image(hover)
+theme.titlebar_close_button_normal_press = create_titlebar_button_image(hover)
+theme.titlebar_close_button_focus = create_titlebar_button_image(focus)
+theme.titlebar_close_button_focus_hover = create_titlebar_button_image(hover)
+theme.titlebar_close_button_focus_press = create_titlebar_button_image(hover)
 
-theme.titlebar_sticky_button_normal_inactive =
-    icon(
-    {
-        text = utf8.char(0xe3f1),
-        fontsize = 15
-    }
-)
-theme.titlebar_sticky_button_focus_inactive = theme.titlebar_sticky_button_normal_inactive
-theme.titlebar_sticky_button_normal_inactive_hover =
-    icon(
-    {
-        text = utf8.char(0xe3f1),
-        fontsize = 15,
-        bg = cba
-    }
-)
-theme.titlebar_sticky_button_focus_inactive_hover = theme.titlebar_sticky_button_normal_inactive_hover
+focus.bg = "#2ce592"
+hover.bg = "#2ce592"
+hover.text = utf8.char(0xe5d0)
+theme.titlebar_maximized_button_normal_inactive = create_titlebar_button_image(normal)
+theme.titlebar_maximized_button_normal_inactive_hover = create_titlebar_button_image(hover)
+theme.titlebar_maximized_button_normal_inactive_press = create_titlebar_button_image(hover)
+theme.titlebar_maximized_button_focus_inactive = create_titlebar_button_image(focus)
+theme.titlebar_maximized_button_focus_inactive_hover = create_titlebar_button_image(hover)
+theme.titlebar_maximized_button_focus_inactive_press = create_titlebar_button_image(hover)
+hover.text = utf8.char(0xe5d1)
+theme.titlebar_maximized_button_normal_active = create_titlebar_button_image(normal)
+theme.titlebar_maximized_button_normal_active_hover = create_titlebar_button_image(hover)
+theme.titlebar_maximized_button_normal_active_press = create_titlebar_button_image(hover)
+theme.titlebar_maximized_button_focus_active = create_titlebar_button_image(focus)
+theme.titlebar_maximized_button_focus_active_hover = create_titlebar_button_image(hover)
+theme.titlebar_maximized_button_focus_active_press = create_titlebar_button_image(hover)
 
-theme.titlebar_sticky_button_normal_active =
-    icon(
-    {
-        text = utf8.char(0xe3f2),
-        fontsize = 15
-    }
-)
-theme.titlebar_sticky_button_focus_active = theme.titlebar_sticky_button_normal_active
-theme.titlebar_sticky_button_normal_active_hover =
-    icon(
-    {
-        text = utf8.char(0xe3f2),
-        fontsize = 15,
-        bg = cba
-    }
-)
+focus.bg = "#ffd56b"
+hover.bg = "#ffd56b"
+hover.text = utf8.char(0xe313)
+theme.titlebar_minimize_button_normal = create_titlebar_button_image(normal)
+theme.titlebar_minimize_button_normal_hover = create_titlebar_button_image(hover)
+theme.titlebar_minimize_button_normal_press = create_titlebar_button_image(hover)
+theme.titlebar_minimize_button_focus = create_titlebar_button_image(focus)
+theme.titlebar_minimize_button_focus_hover = create_titlebar_button_image(hover)
+theme.titlebar_minimize_button_focus_press = create_titlebar_button_image(hover)
 
-theme.titlebar_sticky_button_focus_active_hover = theme.titlebar_sticky_button_normal_active_hover
+focus.bg = "#7065d1"
+hover.bg = "#7065d1"
+hover.text = utf8.char(0xe5c7)
+theme.titlebar_ontop_button_normal_inactive = create_titlebar_button_image(normal)
+theme.titlebar_ontop_button_normal_inactive_hover = create_titlebar_button_image(hover)
+theme.titlebar_ontop_button_focus_inactive = create_titlebar_button_image(focus)
+theme.titlebar_ontop_button_focus_inactive_hover = create_titlebar_button_image(hover)
+
+hover.text = utf8.char(0xe5c5)
+theme.titlebar_ontop_button_normal_active = create_titlebar_button_image(normal)
+theme.titlebar_ontop_button_normal_active_hover = create_titlebar_button_image(hover)
+theme.titlebar_ontop_button_focus_active = create_titlebar_button_image(focus)
+theme.titlebar_ontop_button_focus_active_hover = create_titlebar_button_image(hover)
+
+focus.bg = "#7065d1"
+hover.bg = "#7065d1"
+hover.text = utf8.char(0xe15a)
+theme.titlebar_floating_button_normal_inactive = create_titlebar_button_image(normal)
+theme.titlebar_floating_button_normal_inactive_hover = create_titlebar_button_image(hover)
+theme.titlebar_floating_button_focus_inactive = create_titlebar_button_image(focus)
+theme.titlebar_floating_button_focus_inactive_hover = create_titlebar_button_image(hover)
+
+hover.text = utf8.char(0xe166)
+theme.titlebar_floating_button_normal_active = create_titlebar_button_image(normal)
+theme.titlebar_floating_button_normal_active_hover = create_titlebar_button_image(hover)
+theme.titlebar_floating_button_focus_active = create_titlebar_button_image(focus)
+theme.titlebar_floating_button_focus_active_hover = create_titlebar_button_image(hover)
+
+focus.bg = "#7065d1"
+hover.bg = "#7065d1"
+hover.text = utf8.char(0xe3f1)
+theme.titlebar_sticky_button_normal_inactive = create_titlebar_button_image(normal)
+theme.titlebar_sticky_button_normal_inactive_hover = create_titlebar_button_image(hover)
+theme.titlebar_sticky_button_focus_inactive = create_titlebar_button_image(focus)
+theme.titlebar_sticky_button_focus_inactive_hover = create_titlebar_button_image(hover)
+
+hover.text = utf8.char(0xe3f2)
+theme.titlebar_sticky_button_normal_active = create_titlebar_button_image(normal)
+theme.titlebar_sticky_button_normal_active_hover = create_titlebar_button_image(hover)
+theme.titlebar_sticky_button_focus_active = create_titlebar_button_image(focus)
+theme.titlebar_sticky_button_focus_active_hover = create_titlebar_button_image(hover)
 
 --[[
 ██╗      █████╗ ██╗   ██╗ ██████╗ ██╗   ██╗████████╗

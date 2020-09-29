@@ -5,7 +5,7 @@ local error = require("maf.error")
 local bar = require("maf.bar")
 local globalkeys = require("maf.globalkeys")
 local client = require("maf.client")
-local utils = require("maf.utils")
+local utils = require("utils")
 
 awful.mouse.resize.set_mode("live")
 root.keys(globalkeys)
@@ -18,6 +18,10 @@ root.buttons(
     )
 )
 awful.rules.rules = client.rules
+-- awful.layout.append_default_layouts(awful.layout.suit.floating)
+-- awful.layout.append_default_layouts(awful.layout.suit.tile.left)
+-- awful.layout.append_default_layouts(awful.layout.suit.tile)
+-- awful.layout.append_default_layouts(awful.layout.suit.spiral.dwindle)
 awful.layout.layouts = {
     awful.layout.suit.floating,
     -- awful.layout.suit.magnifier,
@@ -69,7 +73,7 @@ function module:init()
             awful.tag.add(
                 "terminal",
                 {
-                    layout = awful.layout.layouts[2],
+                    layout = awful.layout.layouts[1],
                     screen = screen,
                     selected = true
                 }
@@ -77,7 +81,7 @@ function module:init()
             awful.tag.add(
                 "read",
                 {
-                    layout = awful.layout.layouts[2],
+                    layout = awful.layout.layouts[1],
                     screen = screen,
                     selected = true
                 }
@@ -86,7 +90,7 @@ function module:init()
             awful.tag.add(
                 "code",
                 {
-                    layout = awful.layout.layouts[2],
+                    layout = awful.layout.layouts[1],
                     screen = screen,
                     selected = true
                 }
