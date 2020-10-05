@@ -21,7 +21,7 @@ local TOG_VOLUME_CMD = "amixer sset Master toggle"
 
 local widget = {}
 
-local function worker(args)
+function widget.new(args)
     local args = args or {}
 
     local main_color = args.main_color or beautiful.fg_normal
@@ -91,7 +91,7 @@ return setmetatable(
     widget,
     {
         __call = function(_, ...)
-            return worker(...)
+            return widget.new(...)
         end
     }
 )

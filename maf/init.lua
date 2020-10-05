@@ -8,14 +8,13 @@ local client = require("maf.client")
 local utils = require("utils")
 
 awful.mouse.resize.set_mode("live")
+awful.mouse.snap.edge_enabled = true
+awful.mouse.snap.client_enabled = false
+awful.mouse.drag_to_tag.enabled = false
 root.keys(globalkeys)
 
 root.buttons(
-    gears.table.join(
-        root.buttons(),
-        awful.button({}, 4, awful.tag.viewnext),
-        awful.button({}, 5, awful.tag.viewprev)
-    )
+    gears.table.join(root.buttons(), awful.button({}, 4, awful.tag.viewnext), awful.button({}, 5, awful.tag.viewprev))
 )
 awful.rules.rules = client.rules
 -- awful.layout.append_default_layouts(awful.layout.suit.floating)
@@ -27,12 +26,12 @@ awful.layout.layouts = {
     -- awful.layout.suit.magnifier,
     -- awful.layout.suit.tile.top,
     awful.layout.suit.tile.left,
-    awful.layout.suit.tile,
-    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile,
+    -- awful.layout.suit.tile.bottom
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.fair,
-    awful.layout.suit.spiral.dwindle
+    -- awful.layout.suit.spiral.dwindle
     -- awful.layout.suit.max,
     -- awful.layout.suit.max.fullscreen
     -- awful.layout.suit.corner.nw,
@@ -62,6 +61,7 @@ function module:init()
     awful.screen.connect_for_each_screen(
         function(screen)
             set_wallpaper(screen)
+
             awful.tag.add(
                 "normal",
                 {
@@ -71,7 +71,7 @@ function module:init()
                 }
             )
             awful.tag.add(
-                "terminal",
+                "view",
                 {
                     layout = awful.layout.layouts[1],
                     screen = screen,
@@ -79,7 +79,7 @@ function module:init()
                 }
             )
             awful.tag.add(
-                "read",
+                "work",
                 {
                     layout = awful.layout.layouts[1],
                     screen = screen,
@@ -87,16 +87,7 @@ function module:init()
                 }
             )
 
-            awful.tag.add(
-                "code",
-                {
-                    layout = awful.layout.layouts[1],
-                    screen = screen,
-                    selected = true
-                }
-            )
-
-            set_wallpaper(screen)
+            
         end
     )
     bar:new({screen = screen.primary})

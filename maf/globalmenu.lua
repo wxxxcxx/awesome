@@ -54,15 +54,8 @@ local moudle =
             {
                 {
                     "Lock",
-                    "dm-tool lock"
+                    "slimlock"
                     -- menubar.utils.lookup_icon("system-lock")
-                },
-                {
-                    "Logout",
-                    function()
-                        awesome.quit()
-                    end
-                    -- menubar.utils.lookup_icon("system-log-out")
                 },
                 {
                     "Suspend",
@@ -77,7 +70,7 @@ local moudle =
                 },
                 {
                     "Shutdown",
-                    "poweroff"
+                    "systemctl poweroff"
                     -- menubar.utils.lookup_icon("system-shutdown")
                 }
             },

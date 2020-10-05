@@ -11,18 +11,7 @@ globalkeys =
         {keydefine.modkey},
         "Print",
         function()
-            awful.spawn.with_shell("deepin-screen-recorder")
-        end,
-        {
-            description = "Screen Record",
-            group = "Application"
-        }
-    ),
-    awful.key(
-        {keydefine.modkey},
-        "z",
-        function()
-            awful.spawn.with_shell("python ~/Projects/Temp/hud-menu/hud-menu.py")
+            -- awful.spawn.with_shell("deepin-screen-recorder")
         end,
         {
             description = "Screen Record",
@@ -45,7 +34,8 @@ globalkeys =
         "space",
         function()
             awful.spawn.with_shell(
-                "rofi -modi 'window,drun' -show drun -drun-show-actions -display-drun '' -show-icons"
+                "rofi -modi 'window,drun' -show drun -drun-show-actions -display-drun '" ..
+                    utf8.char(0xe313) .. "' -show-icons"
             )
         end,
         {
@@ -87,149 +77,6 @@ globalkeys =
     )
 )
 
--- Layout
--- globalkeys =
---     gears.table.join(
---     globalkeys,
---     awful.key(
---         {keydefine.modkey},
---         "l",
---         function()
---             sequentialkey.show(
---                 {
---                     {
---                         {},
---                         "space",
---                         function()
---                             awful.layout.inc(1)
---                         end,
---                         {
---                             description = "select next layout",
---                             group = "Layout",
---                             hold = true
---                         }
---                     },
---                     {
---                         {keydefine.shift},
---                         "space",
---                         function()
---                             awful.layout.inc(1)
---                         end,
---                         {
---                             description = "select previous layout",
---                             group = "Layout",
---                             hold = true
---                         }
---                     },
---                     -- master size
---                     {
---                         {},
---                         "k",
---                         function()
---                             awful.tag.incmwfact(0.05)
---                         end,
---                         {
---                             description = "increase master width factor",
---                             group = "Layout",
---                             hold = true
---                         }
---                     },
---                     {
---                         {},
---                         "j",
---                         function()
---                             awful.tag.incmwfact(-0.05)
---                         end,
---                         {
---                             description = "decrease master width factor",
---                             group = "Layout",
---                             hold = true
---                         }
---                     },
---                     -- master clients number
---                     {
---                         {},
---                         "m",
---                         {
---                             {
---                                 {},
---                                 "k",
---                                 function()
---                                     awful.tag.incnmaster(1, nil, true)
---                                 end,
---                                 {
---                                     description = "increase the number of master clients",
---                                     group = "Layout",
---                                     hold = true
---                                 }
---                             },
---                             {
---                                 {},
---                                 "j",
---                                 function()
---                                     awful.tag.incnmaster(-1, nil, true)
---                                 end,
---                                 {
---                                     description = "decrease the number of master clients",
---                                     group = "Layout",
---                                     hold = true
---                                 }
---                             }
---                         },
---                         {
---                             description = "the number of master clients",
---                             group = "Layout",
---                             hold = true
---                         }
---                     },
---                     {
---                         {},
---                         "c",
---                         {
---                             {
---                                 {},
---                                 "k",
---                                 function()
---                                     awful.tag.incncol(1, nil, true)
---                                 end,
---                                 {
---                                     description = "increase the number of columns",
---                                     group = "Layout",
---                                     hold = true
---                                 }
---                             },
---                             {
---                                 {},
---                                 "j",
---                                 function()
---                                     awful.tag.incncol(-1, nil, true)
---                                 end,
---                                 {
---                                     description = "decrease the number of columns",
---                                     group = "Layout",
---                                     hold = true
---                                 }
---                             }
---                         },
---                         {
---                             description = "the number of layout columns",
---                             group = "Layout",
---                             hold = true
---                         }
---                     }
---                 },
---                 {
---                     description = "Layout control"
---                 }
---             )
---         end,
---         {
---             description = "Layout control",
---             group = "Layout"
---         }
---     )
--- )
-
 -- Client
 globalkeys =
     gears.table.join(
@@ -258,33 +105,11 @@ globalkeys =
     ),
     awful.key(
         {keydefine.modkey},
-        "Tab",
-        function()
-            if client.focus then
-                awful.client.focus.byidx(1)
-                client.focus:raise()
-            end
-        end,
-        {description = "Focus next by index", group = "Client"}
-    ),
-    awful.key(
-        {keydefine.modkey, keydefine.shift},
-        "Tab",
-        function()
-            if client.focus then
-                awful.client.focus.byidx(-1)
-                client.focus:raise()
-            end
-        end,
-        {description = "Focus next by index", group = "Client"}
-    ),
-    awful.key(
-        {keydefine.modkey},
         "j",
         function()
             -- awful.client.focus.byidx(1)
             if client.focus then
-                awful.client.focus.bydirection("down", client.focus, false)
+                awful.client.focus.byidx(1)
                 client.focus:raise()
             end
         end,
@@ -296,29 +121,7 @@ globalkeys =
         function()
             -- awful.client.focus.bydirection('up')
             if client.focus then
-                awful.client.focus.bydirection("up", client.focus, false)
-                client.focus:raise()
-            end
-        end,
-        {description = "Focus previous by index", group = "Client"}
-    ),
-    awful.key(
-        {keydefine.modkey},
-        "h",
-        function()
-            if client.focus then
-                awful.client.focus.bydirection("left", client.focus, false)
-                client.focus:raise()
-            end
-        end,
-        {description = "Focus next by index", group = "Client"}
-    ),
-    awful.key(
-        {keydefine.modkey},
-        "l",
-        function()
-            if client.focus then
-                awful.client.focus.bydirection("right", client.focus, false)
+                awful.client.focus.byidx(-1)
                 client.focus:raise()
             end
         end,
@@ -328,7 +131,7 @@ globalkeys =
         {keydefine.modkey, keydefine.shift},
         "j",
         function()
-            awful.client.swap.bydirection("down")
+            awful.client.swap.byidx(1)
         end,
         {description = "Swap next by index", group = "Client"}
     ),
@@ -336,24 +139,7 @@ globalkeys =
         {keydefine.modkey, keydefine.shift},
         "k",
         function()
-            awful.client.swap.bydirection("up")
-        end,
-        {description = "Swap previous by index", group = "Client"}
-    ),
-
-    awful.key(
-        {keydefine.modkey, keydefine.shift},
-        "h",
-        function()
-            awful.client.swap.bydirection("left")
-        end,
-        {description = "Swap next by index", group = "Client"}
-    ),
-    awful.key(
-        {keydefine.modkey, keydefine.shift},
-        "l",
-        function()
-            awful.client.swap.bydirection("right")
+            awful.client.swap.byidx(-1)
         end,
         {description = "Swap previous by index", group = "Client"}
     )
@@ -368,7 +154,9 @@ globalkeys =
             keydefine.modkey
         },
         "]",
-        awful.tag.viewnext,
+        function()
+            awful.tag.viewnext()
+        end,
         {description = "Focus next by index", group = "Tag"}
     ),
     awful.key(
@@ -376,7 +164,9 @@ globalkeys =
             keydefine.modkey
         },
         "[",
-        awful.tag.viewprev,
+        function()
+            awful.tag.viewprev()
+        end,
         {
             description = "view previous tag",
             group = "Tag"
@@ -392,7 +182,7 @@ globalkeys =
             local c = client.focus
             if c then
                 awful.tag.viewprev()
-                c:move_to_tag(awful.screen.focused().selected_tag)
+                c:move_to_tag(screen.primary.selected_tag)
                 c:raise()
             end
         end,
@@ -408,7 +198,7 @@ globalkeys =
             local c = client.focus
             if c then
                 awful.tag.viewnext()
-                c:move_to_tag(awful.screen.focused().selected_tag)
+                c:move_to_tag(screen.primary.selected_tag)
                 c:raise()
             end
         end,
@@ -526,17 +316,9 @@ globalkeys =
     awful.key(
         {keydefine.modkey},
         -- "XF86AudioLowerVolume",
-        "q",
+        "/",
         function()
             at.query(selection())
-        end
-    ),
-    awful.key(
-        {keydefine.modkey},
-        -- "XF86AudioLowerVolume",
-        "c",
-        function()
-            at.copy()
         end
     )
 )

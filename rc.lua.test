@@ -4,7 +4,6 @@ gears = require("gears")
 
 beautiful = require("beautiful")
 
-
 beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua")
 
 -- local nice = require("nice")
@@ -26,6 +25,15 @@ function notify(msg)
     )
 end
 
+
+
 local maf = require("maf")
+-- local vs = require("virtualscreen")
+-- vs.new(
+--     {
+--         screen = screen.primary
+--     }
+-- )
+
 
 maf:init()

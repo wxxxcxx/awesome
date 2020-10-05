@@ -71,4 +71,11 @@ function module.new(args)
     }
 end
 
-return module
+return setmetatable(
+    module,
+    {
+        __call = function(_, ...)
+            return module.new(...)
+        end
+    }
+)

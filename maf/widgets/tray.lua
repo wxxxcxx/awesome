@@ -59,4 +59,12 @@ function module.new()
     return widget
 end
 
-return module
+return setmetatable(
+    module,
+    {
+        __call = function(_, ...)
+            return module.new(...)
+        end
+    }
+)
+

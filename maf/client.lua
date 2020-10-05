@@ -22,43 +22,31 @@ client.connect_signal(
     end
 )
 
-client.connect_signal(
-    "manage",
-    function(c)
-        if c.class == "VirtualBox Machine" then
-            c.border_width = 0
-            local tag =
-                awful.tag.add(
-                c.class,
-                {
-                    layout = awful.layout.suit.max,
-                    screen = screen.primary,
-                    gap_single_client = false,
-                    gap = 0,
-                    volatile = true
-                }
-            )
-            c:move_to_tag(tag)
-            tag:view_only()
-        end
-        local geometry = c:geometry()
-        client.mask =
-            wibox(
-            {
-                x = geometry.x,
-                y = geometry.y,
-                width = geometry.width,
-                height = geometry.height,
-                bg = "#00007799"
-            }
-        )
+local function update_decoration(c)
+    if not c.top_titlebar then
+        return
     end
-)
+    local color = utils.client.get_major_color(c)
+    local border_width = beautiful.border_width
+    local border_color = color
+    local luminance = utils.color.relative_luminance(color)
+    if luminance > 0.5 then
+        local darken_amount = -(luminance * 70) + 100
+        border_color = utils.color.darken(color, darken_amount)
+    else
+        local lighten_amount = luminance * 90 + 10
+        border_color = utils.color.lighten(color, lighten_amount)
+    end
+    c.border_color = border_color
+
+    c.top_titlebar:set_bg(color)
+    c.top_titlebar:set_fg(utils.client.get_fg_color(c))
+end
 
 client.connect_signal(
     "request::titlebars",
     function(c)
-        if c.titlebars_enabled == false then
+        if c.requests_no_titlebar then
             return
         end
         local title_widget = awful.titlebar.widget.titlewidget(c)
@@ -139,9 +127,26 @@ client.connect_signal(
         top_titlebar:setup {
             {
                 -- Left
-                awful.titlebar.widget.ontopbutton(c),
-                awful.titlebar.widget.floatingbutton(c),
-                awful.titlebar.widget.stickybutton(c),
+                {
+                    awful.widget.clienticon(c),
+                    margins = 5,
+                    widget = wibox.container.margin
+                },
+                {
+                    awful.titlebar.widget.ontopbutton(c),
+                    margins = 8,
+                    widget = wibox.container.margin
+                },
+                {
+                    awful.titlebar.widget.floatingbutton(c),
+                    margins = 8,
+                    widget = wibox.container.margin
+                },
+                {
+                    awful.titlebar.widget.stickybutton(c),
+                    margins = 8,
+                    widget = wibox.container.margin
+                },
                 layout = wibox.layout.fixed.horizontal
             },
             {
@@ -159,43 +164,10 @@ client.connect_signal(
             },
             layout = wibox.layout.align.horizontal
         }
-        local function update_color(c)
-            local color = utils.client.get_major_color(c)
-            -- local luminance = utils.color.relative_luminance(color)
-            -- local lighten_amount = luminance * 90 + 10
-            -- local darken_amount = -(luminance * 70) + 100
-            -- local inner_color = utils.color.lighten(color, lighten_amount)
-            -- local outer_color = utils.color.darken(color, darken_amount)
-
-            -- local major_color =
-            --     gears.color.create_pattern(
-            --     {
-            --         type = "linear",
-            --         from = {10, 0, 1},
-            --         to = {0, 25, 1},
-            --         stops = {{0, "#000000"}, {0.01, "#ffffff"}, {1, "#232323"}}
-            --     }
-            -- )
-
-            top_titlebar:set_bg(color)
-            top_titlebar:set_fg(utils.client.get_fg_color(c))
-        end
-        c:connect_signal("reset_major_color", update_color)
-        c:connect_signal("focus", update_color)
-        c:connect_signal("unfocus", update_color)
-    end
-)
-
-client.connect_signal(
-    "focus",
-    function(c)
-        c.border_color = beautiful.border_focus
-    end
-)
-client.connect_signal(
-    "unfocus",
-    function(c)
-        c.border_color = beautiful.border_normal
+        c.top_titlebar = top_titlebar
+        c:connect_signal("reset_major_color", update_decoration)
+        c:connect_signal("focus", update_decoration)
+        c:connect_signal("unfocus", update_decoration)
     end
 )
 
@@ -208,6 +180,7 @@ icon_map["neovide"] = "nvim"
 client.connect_signal(
     "manage",
     function(c)
+        utils.client.enable_corner_resize(6)
         if c.instance ~= nil then
             local instance = c.instance:lower()
             local prefer_icon = menubar.utils.lookup_icon(icon_map[instance] or instance)
@@ -237,49 +210,18 @@ client.connect_signal(
     end
 )
 
--- client.connect_signal(
---     "mouse::move",
---     function(c)
---         gears.debug.dump(os.time() .. "move", "------", 1)
---         gears.debug.dump(c.cursor, "------", 1)
-
---         if not mousegrabber.isrunning() then
---             mousegrabber.run(
---                 function()
---                 end,
---                 "arrow"
---             )
---         end
---     end
--- )
-
 local module = {}
-
-function border_resize(c)
-    client.focus = c
-    c:raise()
-    local coords = mouse.coords()
-    if coords == nil then
-        return
-    end
-    if c == nil then
-        return
-    end
-    local geometry = c:geometry()
-    local range = 5
-    if
-        (coords.x < geometry.x + range and coords.y < geometry.y + range) or --left top
-            (coords.x > geometry.x + geometry.width - range and coords.y < geometry.y + range) or --right top
-            (coords.x < geometry.x + range and coords.y > geometry.y + geometry.height - range) or --left bottom
-            (coords.x > geometry.x + geometry.width - range and coords.y > geometry.y + geometry.height - range)
-     then
-        awful.mouse.client.resize(c)
-    end
-end
 
 local clientbuttons =
     gears.table.join(
-    awful.button({}, 1, border_resize),
+    awful.button(
+        {},
+        1,
+        function(c)
+            client.focus = c
+            c:raise()
+        end
+    ),
     awful.button(
         {keydefine.modkey},
         1,
@@ -300,6 +242,32 @@ local clientbuttons =
     )
 )
 
+local function create_tag(c)
+    local tag =
+        awful.tag.add(
+        c.instance,
+        {
+            layout = awful.layout.suit.tile.bottom,
+            screen = screen.primary,
+            gap_single_client = false,
+            gap = 0,
+            volatile = true
+        }
+    )
+    c:move_to_tag(tag)
+    tag:view_only()
+end
+
+local function placement(d, args)
+    local args = args or {}
+    args.parent = client.focus or screen.primary
+    args.margins = {
+        top = 50,
+        left = 50
+    }
+    return awful.placement.centered(d, args)
+end
+
 module.rules = {
     -- All clients will match this rule.
     {
@@ -314,10 +282,11 @@ module.rules = {
             size_hints_honor = false, -- Remove gaps between terminals
             screen = awful.screen.preferred,
             callback = awful.client.setslave,
-            placement = awful.placement.centered,
+            -- placement = awful.placement.centered,
+            placement = placement,
             titlebars_enabled = true,
-            tag = "normal",
-            switchtotag = true
+            switchtotag = true,
+            tag = "normal"
         }
     }, -- Floating clients.
     {
@@ -376,41 +345,37 @@ module.rules = {
             border_width = 0
         }
     },
-    -- tag
     {
         rule_any = {
-            class = {
-                "Chromium"
-            }
-        },
-        properties = {tag = "read"}
-    },
-    -- tag
-    {
-        rule_any = {
-            class = {
-                "Alacritty"
-            }
-        },
-        properties = {tag = "terminal", switchtotag = true}
-    },
-    -- tag
-    {
-        rule_any = {
-            class = {
-                "Emacs"
+            instance = {
+                "chromium"
             }
         },
         properties = {
-            tag = "code",
-            size_hints_honor = false,
-            switchtotag = true
+            tag = "view"
         }
+    },
+    {
+        rule_any = {
+            instance = {
+                "jetbrains-idea",
+                "jetbrains-datagrip",
+                "emacs",
+                "code-oss"
+            }
+        },
+        properties = {
+            tag = "work"
+        }
+    },
+    {
+        rule_any = {
+            class = {
+                "VirtualBox Machine"
+            }
+        },
+        callback = create_tag
     }
 }
-
-
-
-
 
 return module

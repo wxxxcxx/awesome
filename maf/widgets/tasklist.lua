@@ -2,24 +2,47 @@ local awful = require("awful")
 local wibox = require("wibox")
 local utils = require("utils")
 
-local client_preview = require("maf.widgets.clientpreview")
-
-local preview =
-    client_preview.new(
-    {
-        screen = screen
-    }
-)
-
 local module = {}
 
-local tasklist_buttons =
+root.buttons(
+    gears.table.join(
+        root.buttons(),
+        awful.button(
+            {},
+            1,
+            function()
+                if module.tasklist_menu then
+                    module.tasklist_menu:hide()
+                end
+            end
+        ),
+        awful.button(
+            {},
+            3,
+            function()
+                if module.tasklist_menu then
+                    module.tasklist_menu:hide()
+                end
+            end
+        )
+    )
+)
+client.connect_signal(
+    "button::press",
+    function(c)
+        if module.tasklist_menu then
+            module.tasklist_menu:hide()
+        end
+    end
+)
+
+local buttons =
     gears.table.join(
     awful.button(
         {},
         1,
         function(c)
-            if not (module.tasklist_menu == nil) then
+            if module.tasklist_menu then
                 module.tasklist_menu:hide()
             end
             if c == client.focus then
@@ -42,7 +65,7 @@ local tasklist_buttons =
         {},
         3,
         function(c)
-            if not (module.tasklist_menu == nil) then
+            if module.tasklist_menu then
                 module.tasklist_menu:hide()
             end
             module.tasklist_menu =
@@ -94,7 +117,8 @@ local tasklist_buttons =
         4,
         function()
             awful.client.focus.byidx(-1)
-        end),
+        end
+    ),
     awful.button(
         {},
         5,
@@ -107,29 +131,28 @@ local tasklist_buttons =
 function module.new(args)
     local args = args or {}
     local screen = args.screen
-    local height = args.height or 70
+    local layout = args.layout or wibox.layout.fixed.horizontal
 
     local tasklist =
         awful.widget.tasklist {
         screen = screen,
         filter = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons,
+        buttons = buttons,
         style = {},
         layout = {
             spacing = 0,
-            layout = wibox.layout.fixed.vertical
+            layout = layout
         },
         widget_template = {
             {
                 {
-                    nil,
+                    wibox.widget.base.empty_widget(),
                     {
                         {
                             {
                                 id = "icon_role",
                                 image = beautiful.awesome_icon,
                                 widget = wibox.widget.imagebox
-                                -- forced_height = 10
                             },
                             valign = "center",
                             halign = "center",
@@ -145,7 +168,8 @@ function module.new(args)
                         {
                             {
                                 widget = wibox.widget.base.empty_widget(),
-                                forced_height = 2
+                                forced_height = 2,
+                                
                             },
                             id = "background_role",
                             shape = gears.shape.rounded_rect,
@@ -160,58 +184,17 @@ function module.new(args)
                 widget = wibox.container.background
             },
             margins = 0,
-            widget = wibox.container.margin,
-            create_callback = function(self, c, index, clients)
-                self:connect_signal(
-                    "mouse::enter",
-                    function()
-                        local x, y, w, h = utils.widget.get_widget_postion(args.wibox, self)
-                        preview.show(x - 200, y, c)
-                    end
-                )
-                self:connect_signal(
-                    "mouse::leave",
-                    function()
-                        preview.hide()
-                    end
-                )
-            end
+            widget = wibox.container.margin
         }
     }
     return tasklist
 end
 
-root.buttons(
-    gears.table.join(
-        root.buttons(),
-        awful.button(
-            {},
-            1,
-            function()
-                if not (module.tasklist_menu == nil) then
-                    module.tasklist_menu:hide()
-                end
-            end
-        ),
-        awful.button(
-            {},
-            3,
-            function()
-                if not (module.tasklist_menu == nil) then
-                    module.tasklist_menu:hide()
-                end
-            end
-        )
-    )
-)
-
-client.connect_signal(
-    "button::press",
-    function(c)
-        if not (module.tasklist_menu == nil) then
-            module.tasklist_menu:hide()
+return setmetatable(
+    module,
+    {
+        __call = function(_, ...)
+            return module.new(...)
         end
-    end
+    }
 )
-
-return module

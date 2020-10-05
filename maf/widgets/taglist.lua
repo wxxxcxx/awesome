@@ -46,9 +46,8 @@ function module.new(args)
 
     local icon_map = {}
     icon_map["normal"] = ""
-    icon_map["terminal"] = ""
-    icon_map["read"] = ""
-    icon_map["code"] = ""
+    icon_map["view"] = ""
+    icon_map["work"] = ""
 
     local taglist =
         awful.widget.taglist {
@@ -111,4 +110,11 @@ function module.new(args)
     return taglist
 end
 
-return module
+return setmetatable(
+    module,
+    {
+        __call = function(_, ...)
+            return module.new(...)
+        end
+    }
+)

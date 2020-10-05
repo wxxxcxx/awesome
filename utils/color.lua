@@ -1,6 +1,6 @@
-local color = {}
+local module = {}
 
-function color.relative_luminance(color)
+function module.relative_luminance(color)
     local r, g, b = gears.color.parse_color(color)
     local function from_sRGB(u)
         return u <= 0.0031308 and 25 * u / 323 or math.pow(((200 * u + 11) / 211), 12 / 5)
@@ -8,17 +8,16 @@ function color.relative_luminance(color)
     return 0.2126 * from_sRGB(r) + 0.7152 * from_sRGB(g) + 0.0722 * from_sRGB(b)
 end
 
-function color.contrast_ratio(fg, bg)
-    return (color.relative_luminance(fg) + 0.05) / (color.relative_luminance(bg) + 0.05)
+function module.contrast_ratio(fg, bg)
+    return (module.relative_luminance(fg) + 0.05) / (module.relative_luminance(bg) + 0.05)
 end
 
-function color.is_contrast_acceptable(fg, bg)
-    gears.debug.print_error(fg .. "|" .. bg .. "|" .. color.contrast_ratio(fg, bg))
-    return color.contrast_ratio(fg, bg) >= 7 and true
+function module.is_contrast_acceptable(fg, bg)
+    return module.contrast_ratio(fg, bg) >= 7 and true
 end
 
 -- Lightens a given hex color by the specified amount
-function color.lighten(color, amount)
+function module.lighten(color, amount)
     local r, g, b
     r, g, b = gears.color.parse_color(color)
     r = 255 * r
@@ -34,7 +33,7 @@ function color.lighten(color, amount)
 end
 
 -- Darkens a given hex color by the specified amount
-function color.darken(color, amount)
+function module.darken(color, amount)
     local r, g, b
     r, g, b = gears.color.parse_color(color)
     r = 255 * r
@@ -46,4 +45,17 @@ function color.darken(color, amount)
     return ("#%02x%02x%02x"):format(r, g, b)
 end
 
-return color
+-- Darkens a given hex color by the specified amount
+function module.auto_lighten_or_darken(color, amount)
+    local luminance = module.relative_luminance(color)
+    -- local luminance = 0.5
+    if luminance > 0.5 then
+        amount = amount or 0 - (luminance * 70) + 100
+        return module.darken(color, amount)
+    else
+        amount = amount or luminance * 90 + 10
+        return module.lighten(color, amount)
+    end
+end
+
+return module
