@@ -7,43 +7,6 @@ local utils = require("utils")
 local keydefine = require("maf.keydefine")
 
 client.connect_signal(
-    "manage",
-    function(c)
-        -- Set the windows at the slave,
-        -- i.e. put it at the end of others instead of setting it master.
-        -- if not awesome.startup then awful.client.setslave(c) end
-        c.shape = function(cr, w, h)
-            gears.shape.rounded_rect(cr, w, h, 2)
-        end
-        if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
-            -- Prevent clients from being unreachable after screen count changes.
-            awful.placement.no_offscreen(c)
-        end
-    end
-)
-
-local function update_decoration(c)
-    if not c.top_titlebar then
-        return
-    end
-    local color = utils.client.get_major_color(c)
-    local border_width = beautiful.border_width
-    local border_color = color
-    local luminance = utils.color.relative_luminance(color)
-    if luminance > 0.5 then
-        local darken_amount = -(luminance * 70) + 100
-        border_color = utils.color.darken(color, darken_amount)
-    else
-        local lighten_amount = luminance * 90 + 10
-        border_color = utils.color.lighten(color, lighten_amount)
-    end
-    c.border_color = border_color
-
-    c.top_titlebar:set_bg(color)
-    c.top_titlebar:set_fg(utils.client.get_fg_color(c))
-end
-
-client.connect_signal(
     "request::titlebars",
     function(c)
         if c.requests_no_titlebar then
@@ -102,24 +65,6 @@ client.connect_signal(
                     c:raise()
                     awful.mouse.client.resize(c)
                 end
-            ),
-            awful.button(
-                {keydefine.modkey},
-                1,
-                function()
-                    client.focus = c
-                    c:raise()
-                    utils.client.reset_major_color(c)
-                end
-            ),
-            awful.button(
-                {keydefine.modkey},
-                2,
-                function()
-                    client.focus = c
-                    c:raise()
-                    c.floating = not c.floating
-                end
             )
         )
         local title_text_widget = awful.titlebar.widget.titlewidget(c)
@@ -165,50 +110,30 @@ client.connect_signal(
             layout = wibox.layout.align.horizontal
         }
         c.top_titlebar = top_titlebar
-        c:connect_signal("reset_major_color", update_decoration)
-        c:connect_signal("focus", update_decoration)
-        c:connect_signal("unfocus", update_decoration)
     end
 )
 
-local icon_map = {}
-icon_map["code-oss"] = "code"
-icon_map["alacritty"] = "terminal"
-icon_map["jetbrains-idea"] = "idea"
-icon_map["neovide"] = "nvim"
-
-client.connect_signal(
-    "manage",
-    function(c)
-        utils.client.enable_corner_resize(6)
-        if c.instance ~= nil then
-            local instance = c.instance:lower()
-            local prefer_icon = menubar.utils.lookup_icon(icon_map[instance] or instance)
-            local icon = menubar.utils.lookup_icon(c.instance)
-            local lower_icon = menubar.utils.lookup_icon(c.instance:lower())
-
-            -- gears.debug.dump(icon, c.instance, 2)
-
-            --Check if the icon exists
-            if prefer_icon ~= nil then
-                --Check if the icon exists in the lowercase variety
-                local temp_icon = gears.surface(prefer_icon)
-                c.icon = temp_icon._native
-            elseif icon ~= nil then
-                --Check if the icon exists in the lowercase variety
-                local temp_icon = gears.surface(icon)
-                c.icon = temp_icon._native
-            elseif lower_icon ~= nil then
-                --Check if the client already has an icon. If not, give it a default.
-                local temp_icon = gears.surface(lower_icon)
-                c.icon = temp_icon._native
-            elseif c.icon == nil then
-                local temp_icon = gears.surface(menubar.utils.lookup_icon("application-default-icon"))
-                c.icon = temp_icon._native
-            end
-        end
+local function update_decoration(c)
+    local color = utils.client.get_major_color(c)
+    local border_width = beautiful.border_width
+    local border_color = color
+    local luminance = utils.color.relative_luminance(color)
+    if luminance > 0.5 then
+        local darken_amount = -(luminance * 70) + 100
+        border_color = utils.color.darken(color, darken_amount)
+    else
+        local lighten_amount = luminance * 90 + 10
+        border_color = utils.color.lighten(color, lighten_amount)
     end
-)
+    c.border_color = border_color
+    if c.top_titlebar then
+        c.top_titlebar:set_bg(color)
+        c.top_titlebar:set_fg(utils.client.get_fg_color(c))
+    end
+end
+client.connect_signal("reset_major_color", update_decoration)
+client.connect_signal("focus", update_decoration)
+client.connect_signal("unfocus", update_decoration)
 
 local module = {}
 
@@ -247,7 +172,7 @@ local function create_tag(c)
         awful.tag.add(
         c.instance,
         {
-            layout = awful.layout.suit.tile.bottom,
+            layout = awful.layout.suit.floating,
             screen = screen.primary,
             gap_single_client = false,
             gap = 0,
@@ -261,10 +186,16 @@ end
 local function placement(d, args)
     local args = args or {}
     args.parent = client.focus or screen.primary
-    args.margins = {
-        top = 50,
-        left = 50
-    }
+    -- args.margins = {
+    --     top = 25,
+    --     left = 25
+    -- }
+    -- if d.maximized then
+    --     args.margins.left = 0
+    -- end
+    -- args.attach = true
+    args.store_geometry = true
+    -- args.honor_workarea = true
     return awful.placement.centered(d, args)
 end
 
@@ -287,7 +218,12 @@ module.rules = {
             titlebars_enabled = true,
             switchtotag = true,
             tag = "normal"
-        }
+        },
+        callback = function(c)
+            if c.transient_for then
+                c:move_to_tag(c.transient_for.first_tag)
+            end
+        end
     }, -- Floating clients.
     {
         rule_any = {
@@ -323,6 +259,9 @@ module.rules = {
         rule_any = {
             class = {
                 "Dragon-drag-and-drop"
+            },
+            type = {
+                "utility"
             }
         },
         properties = {sticky = true}
@@ -334,11 +273,14 @@ module.rules = {
             }
         },
         properties = {ontop = true}
-    },
+    }, -- No border clients
     {
         rule_any = {
             class = {
                 "Wine"
+            },
+            type = {
+                "utility"
             }
         },
         properties = {
@@ -375,6 +317,14 @@ module.rules = {
             }
         },
         callback = create_tag
+    },
+    {
+        rule = {
+            class = "scrcpy"
+        },
+        properties = {
+            floating = true
+        }
     }
 }
 

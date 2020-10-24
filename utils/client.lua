@@ -26,7 +26,7 @@ local function get_client_major_color(client)
     local client_geometry = client:geometry()
     local width = math.floor(client_geometry.width / 2)
     for x = 0, width, 2 do
-        for y = 0, 8, 1 do
+        for y = 0, 2, 1 do
             local pixbuf = gdk.pixbuf_get_from_surface(content, x + 2, y + 2, 1, 1)
             if not pixbuf then
                 return

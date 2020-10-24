@@ -27,7 +27,7 @@ local function worker(args)
         markup = "",
         align = "left",
         valign = "top",
-        font = beautiful.font_name .. " 5",
+        font = beautiful.gtk_theme.font_family .. " 5",
         widget = wibox.widget.textbox
     }
     local ram_widget =
@@ -35,7 +35,7 @@ local function worker(args)
         markup = "",
         align = "left",
         valign = "bottom",
-        font = beautiful.font_name .. " 5",
+        font = beautiful.gtk_theme.font_family .. " 5",
         widget = wibox.widget.textbox
     }
     local wrapper =

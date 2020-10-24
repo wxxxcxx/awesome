@@ -1,5 +1,5 @@
 local module={}
-module.terminal = os.getenv('TERMINAL') or 'kitty'
+module.terminal = os.getenv('TERMINAL') or 'alacritty'
 module.browser = 'chromium'
 module.filemanager = module.terminal .. ' -e ranger'
 module.gui_editor = 'code'

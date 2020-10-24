@@ -2,8 +2,20 @@ local gears = require("gears")
 local awful = require("awful")
 local sequentialkey = require("maf.sequentialkey")
 local keydefine = require("maf.keydefine")
+local utils = require("utils")
 
 return gears.table.join(
+    awful.key(
+        {keydefine.modkey},
+        "Home",
+        function(c)
+            utils.client.reset_major_color(c)
+        end,
+        {
+            description = "Update client decoration",
+            group = "Client"
+        }
+    ),
     awful.key(
         {keydefine.modkey},
         "Return",

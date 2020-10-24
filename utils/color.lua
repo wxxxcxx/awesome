@@ -18,31 +18,33 @@ end
 
 -- Lightens a given hex color by the specified amount
 function module.lighten(color, amount)
-    local r, g, b
-    r, g, b = gears.color.parse_color(color)
+    local r, g, b, a
+    r, g, b, a = gears.color.parse_color(color)
     r = 255 * r
     g = 255 * g
     b = 255 * b
+    a = 255 * a
     r = r + math.floor(2.55 * amount)
     g = g + math.floor(2.55 * amount)
     b = b + math.floor(2.55 * amount)
     r = r > 255 and 255 or r
     g = g > 255 and 255 or g
     b = b > 255 and 255 or b
-    return ("#%02x%02x%02x"):format(r, g, b)
+    return ("#%02x%02x%02x%02x"):format(r, g, b, a)
 end
 
 -- Darkens a given hex color by the specified amount
 function module.darken(color, amount)
-    local r, g, b
-    r, g, b = gears.color.parse_color(color)
+    local r, g, b, a
+    r, g, b, a = gears.color.parse_color(color)
     r = 255 * r
     g = 255 * g
     b = 255 * b
+    a = 255 * a
     r = math.max(0, r - math.floor(r * (amount / 100)))
     g = math.max(0, g - math.floor(g * (amount / 100)))
     b = math.max(0, b - math.floor(b * (amount / 100)))
-    return ("#%02x%02x%02x"):format(r, g, b)
+    return ("#%02x%02x%02x%02x"):format(r, g, b, a)
 end
 
 -- Darkens a given hex color by the specified amount
@@ -56,6 +58,25 @@ function module.auto_lighten_or_darken(color, amount)
         amount = amount or luminance * 90 + 10
         return module.lighten(color, amount)
     end
+end
+
+function module.opacity(color, opacity)
+    local r, g, b, a
+    r, g, b, a = gears.color.parse_color(color)
+    r = 255 * r
+    g = 255 * g
+    b = 255 * b
+    a = 255 * opacity
+    return ("#%02x%02x%02x%02x"):format(r, g, b, a)
+end
+
+function module.inverse(color, opacity)
+    local r, g, b, a
+    r, g, b, a = gears.color.parse_color(color)
+    r = 255 - 255 * r
+    g = 255 - 255 * g
+    b = 255 - 255 * b
+    return ("#%02x%02x%02x%02x"):format(r, g, b, a)
 end
 
 return module

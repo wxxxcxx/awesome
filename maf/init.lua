@@ -13,9 +13,7 @@ awful.mouse.snap.client_enabled = false
 awful.mouse.drag_to_tag.enabled = false
 root.keys(globalkeys)
 
-root.buttons(
-    gears.table.join(root.buttons(), awful.button({}, 4, awful.tag.viewnext), awful.button({}, 5, awful.tag.viewprev))
-)
+root.buttons(gears.table.join(root.buttons()))
 awful.rules.rules = client.rules
 -- awful.layout.append_default_layouts(awful.layout.suit.floating)
 -- awful.layout.append_default_layouts(awful.layout.suit.tile.left)
@@ -25,7 +23,7 @@ awful.layout.layouts = {
     awful.layout.suit.floating,
     -- awful.layout.suit.magnifier,
     -- awful.layout.suit.tile.top,
-    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.left
     -- awful.layout.suit.tile,
     -- awful.layout.suit.tile.bottom
     -- awful.layout.suit.fair.horizontal,
@@ -86,8 +84,6 @@ function module:init()
                     selected = true
                 }
             )
-
-            
         end
     )
     bar:new({screen = screen.primary})

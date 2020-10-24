@@ -150,25 +150,21 @@ end
 -- 保存到anki
 function saveAnki(data)
     local request_data = buildAnkiData(data)
-    gears.debug.dump(request_data, "fields", 4)
     local command =
         string.format(
         "curl --location --request GET 'localhost:%s'  --header 'Content-Type: application/json' --data-raw '%s'",
         module.anki.connect_port,
         string_trim(string_safe(request_data))
     )
-    gears.debug.dump(command, "", 1)
     awful.spawn.easy_async_with_shell(
         command,
         function(stdout, stderr, reason, exit_code)
             if exit_code ~= 0 then
                 show_message("保存失败：连接Anki出错")
-                gears.debug.dump(reason .. "|" .. stderr, "request failed", 2)
                 return
             end
 
             local response = json.decode(stdout)
-            gears.debug.dump(response, "", 2)
             if response.error ~= nil then
                 show_message("保存失败：" .. response.error)
             else
@@ -254,7 +250,6 @@ function translate(input, copy)
 
             local sentences = {}
             for _, paragraph in ipairs(response.translateResult) do
-                gears.debug.dump(paragraph, "paragraph", 4)
                 for _, item in ipairs(paragraph) do
                     table.insert(sentences, item.tgt)
                 end

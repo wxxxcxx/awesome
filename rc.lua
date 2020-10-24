@@ -8,13 +8,6 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme
 
 package.path = package.path .. ";" .. gears.filesystem.get_configuration_dir()
 
--- nice = require("nice")
-
--- nice{
---    mb_resize = nice.MB_MIDDLE,
---    mb_contextmenu = nice.MB_RIGHT,
---    titlebar_radius = 0
--- }
 local naughty = require("naughty")
 
 function notify(msg)

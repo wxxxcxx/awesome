@@ -24,14 +24,14 @@ local function worker(args)
         wibox.widget {
         align = "left",
         valign = "bottom",
-        font = beautiful.font_name .. " 5",
+        font = beautiful.gtk_theme.font_family .. " 5",
         widget = wibox.widget.textbox
     }
     local rx_widget =
         wibox.widget {
         align = "left",
         valign = "top",
-        font = beautiful.font_name .. " 5",
+        font = beautiful.gtk_theme.font_family .. " 5",
         widget = wibox.widget.textbox
     }
     local net_widget =

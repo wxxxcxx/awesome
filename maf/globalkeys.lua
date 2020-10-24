@@ -34,8 +34,7 @@ globalkeys =
         "space",
         function()
             awful.spawn.with_shell(
-                "rofi -modi 'window,drun' -show drun -drun-show-actions -display-drun '" ..
-                    utf8.char(0xe313) .. "' -show-icons"
+                "rofi -modi 'window,drun' -show drun -drun-show-actions -display-drun '' -show-icons"
             )
         end,
         {
@@ -67,11 +66,46 @@ globalkeys =
         }
     ),
     awful.key(
-        {keydefine.modkey, keydefine.control},
-        "q",
-        awesome.quit,
+        {keydefine.modkey,keydefine.control,keydefine.shift},
+        "r",
+        function()
+            os.execute("systemctl reboot")
+        end,
         {
-            description = "Quit awesome",
+            description = "Reboot",
+            group = "Awesome"
+        }
+    ),
+    awful.key(
+        {keydefine.modkey,keydefine.control},
+        "l",
+        function()
+            os.execute("slimlock")
+        end,
+        {
+            description = "Lock",
+            group = "Awesome"
+        }
+    ),
+    awful.key(
+        {keydefine.modkey,keydefine.control},
+        "s",
+        function()
+            os.execute("systemctl suspend")
+        end,
+        {
+            description = "Suspend",
+            group = "Awesome"
+        }
+    ),
+    awful.key(
+        {keydefine.modkey,keydefine.control,keydefine.shift},
+        "s",
+        function()
+            os.execute("systemctl poweroff")
+        end,
+        {
+            description = "Shutdown",
             group = "Awesome"
         }
     )
@@ -316,7 +350,7 @@ globalkeys =
     awful.key(
         {keydefine.modkey},
         -- "XF86AudioLowerVolume",
-        "/",
+        "`",
         function()
             at.query(selection())
         end

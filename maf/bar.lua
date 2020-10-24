@@ -25,7 +25,7 @@ local tray = tray.new()
 local volumecontroller =
     volumecontroller {
     main_color = beautiful.fg_normal,
-    mute_color = beautiful.fg_normal .. "88",
+    mute_color = utils.color.auto_lighten_or_darken(beautiful.fg_normal, 30),
     thickness = 5,
     height = 25,
     get_volume_cmd = "amixer sget Master",
@@ -39,7 +39,7 @@ local systemmonitor =
     width = 40,
     step_width = 2,
     step_spacing = 0,
-    color = beautiful.fg_normal
+    color = beautiful.fg_normal,
 }
 
 local netmonitor = netmonitor()
@@ -66,8 +66,6 @@ function module:new(args)
             position = "top",
             ontop = false,
             screen = args.screen,
-            border_width = 1,
-            border_color = utils.color.auto_lighten_or_darken(beautiful.bg_normal),
             y = -1
         }
     )
@@ -119,7 +117,7 @@ function module:new(args)
                         },
                         layout = wibox.layout.fixed.horizontal
                     },
-                    bg = beautiful.bg_focus,
+                    bg = beautiful.transparent,
                     widget = wibox.container.background
                 },
                 layout = wibox.layout.fixed.horizontal
