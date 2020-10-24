@@ -9,7 +9,7 @@ local moudle =
         {
             "Terminal",
             environment.terminal
-            -- menubar.utils.lookup_icon('utilities-terminal')
+            -- menubar.utils.lookup_icon('emacs')
         },
         {
             "Browser",

@@ -92,8 +92,8 @@ theme.menu_submenu_icon =
 
 theme.menu_height = dpi(25)
 theme.menu_width = dpi(220)
--- theme.menu_border_width = 1
--- theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_normal, 20)
+theme.menu_border_width = 0
+theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_normal, 20)
 
 --[[
 ██╗    ██╗██╗██████╗  █████╗ ██████╗

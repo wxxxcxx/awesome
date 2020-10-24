@@ -6,6 +6,7 @@ local clientkeys = require("maf.clientkeys")
 local utils = require("utils")
 local keydefine = require("maf.keydefine")
 
+
 client.connect_signal(
     "request::titlebars",
     function(c)
