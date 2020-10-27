@@ -9,6 +9,7 @@ local launcher = require("maf.widgets.launcher")
 local tray = require("maf.widgets.tray")
 local layoutcontroller = require("maf.widgets.layoutcontroller")
 local utils = require("utils")
+local xresources = require("beautiful.xresources")
 
 local globalmenu = require("maf.globalmenu")
 
@@ -26,8 +27,8 @@ local volumecontroller =
     volumecontroller {
     main_color = beautiful.fg_normal,
     mute_color = utils.color.auto_lighten_or_darken(beautiful.fg_normal, 30),
-    thickness = 5,
-    height = 25,
+    thickness = xresources.apply_dpi(3),
+    height = xresources.apply_dpi(15),
     get_volume_cmd = "amixer sget Master",
     dec_volume_cmd = "amixer sset Master 5%-",
     inc_volume_cmd = "amixer sset Master 5%+",
@@ -36,10 +37,10 @@ local volumecontroller =
 
 local systemmonitor =
     systemmonitor {
-    width = 40,
-    step_width = 2,
-    step_spacing = 0,
-    color = beautiful.fg_normal,
+    width = xresources.apply_dpi(40),
+    step_width = xresources.apply_dpi(2),
+    step_spacing = xresources.apply_dpi(0),
+    color = beautiful.fg_normal
 }
 
 local netmonitor = netmonitor()
@@ -55,7 +56,7 @@ local time =
         wibox.widget.textclock(" %H:%M "),
         layout = wibox.layout.fixed.horizontal
     },
-    margins = 4,
+    margins = xresources.apply_dpi(4),
     widget = wibox.container.margin
 }
 
@@ -79,14 +80,13 @@ function module:new(args)
             },
             {
                 {
-                    taglist {
-                        screen = args.screen
+                    tasklist.new {
+                        screen = args.screen,
+                        wibox = default_bar
                     },
-                    left = 15,
+                    left = xresources.apply_dpi(15),
+                    right = xresources.apply_dpi(10),
                     widget = wibox.container.margin
-                },
-                {
-                    layout = wibox.layout.fixed.horizontal
                 },
                 layout = wibox.layout.flex.horizontal
             },
@@ -94,12 +94,10 @@ function module:new(args)
                 {
                     {
                         {
-                            tasklist.new {
-                                screen = args.screen,
-                                wibox = default_bar
+                            taglist {
+                                screen = args.screen
                             },
-                            left = 15,
-                            right = 10,
+                            left = xresources.apply_dpi(15),
                             widget = wibox.container.margin
                         },
                         tray,
@@ -109,10 +107,10 @@ function module:new(args)
                         time,
                         {
                             layoutcontroller.new(args),
-                            top = 2,
-                            bottom = 2,
-                            left = 5,
-                            right = 2,
+                            top = xresources.apply_dpi(2),
+                            bottom = xresources.apply_dpi(2),
+                            left = xresources.apply_dpi(5),
+                            right = xresources.apply_dpi(2),
                             widget = wibox.container.margin
                         },
                         layout = wibox.layout.fixed.horizontal
@@ -126,22 +124,21 @@ function module:new(args)
     else
         default_bar:setup {
             layout = wibox.layout.align.horizontal,
-            {
-                tasklist.new {
-                    screen = args.screen,
-                    wibox = default_bar
-                },
-                left = 3,
-                right = 10,
-                widget = wibox.container.margin
-            },
+            nil,
             nil,
             {
-                layoutcontroller.new(args),
-                top = 2,
-                bottom = 2,
-                left = 5,
-                right = 2,
+                {
+                    tasklist.new {
+                        screen = args.screen,
+                        wibox = default_bar
+                    },
+                    layoutcontroller.new(args),
+                    layout = wibox.layout.fixed.horizontal
+                },
+                top = xresources.apply_dpi(2),
+                bottom = xresources.apply_dpi(2),
+                left = xresources.apply_dpi(5),
+                right = xresources.apply_dpi(2),
                 widget = wibox.container.margin
             }
         }

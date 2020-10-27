@@ -9,17 +9,14 @@ local moudle =
         {
             "Terminal",
             environment.terminal
-            -- menubar.utils.lookup_icon('emacs')
         },
         {
             "Browser",
             environment.browser
-            -- menubar.utils.lookup_icon('internet-web-browser')
         },
         {
             "Files",
             environment.filemanager
-            -- menubar.utils.lookup_icon('system-file-manager')
         },
         {
             "Awesome",
@@ -29,25 +26,20 @@ local moudle =
                     function()
                         return false, hotkeys_popup.show_help
                     end
-                    -- menubar.utils.lookup_icon('preferences-desktop-keyboard-shortcuts')
                 },
                 {
                     "manual",
                     environment.terminal .. " -e man awesome"
-                    -- menubar.utils.lookup_icon('system-help')
                 },
                 {
                     "edit config",
                     environment.gui_editor .. " " .. awesome.conffile
-                    -- menubar.utils.lookup_icon('accessories-text-editor')
                 },
                 {
                     "restart",
                     awesome.restart
-                    -- menubar.utils.lookup_icon('system-restart')
                 }
-            },
-            nil
+            }
         },
         {
             "System",
@@ -55,26 +47,20 @@ local moudle =
                 {
                     "Lock",
                     "slimlock"
-                    -- menubar.utils.lookup_icon("system-lock")
                 },
                 {
                     "Suspend",
                     "systemctl suspend"
-                    -- menubar.utils.lookup_icon("system-suspend")
                 },
-                -- { 'hibernate', 'systemctl hibernate', menubar.utils.lookup_icon('system-suspend-hibernate') },
                 {
                     "Reboot",
                     "systemctl reboot"
-                    -- menubar.utils.lookup_icon("system-reboot")
                 },
                 {
                     "Shutdown",
                     "systemctl poweroff"
-                    -- menubar.utils.lookup_icon("system-shutdown")
                 }
-            },
-            nil
+            }
         }
     }
 )

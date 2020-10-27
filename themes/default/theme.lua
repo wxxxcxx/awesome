@@ -7,7 +7,7 @@ local utils = require("utils")
 
 local theme = {}
 
-local dpi = xresources.apply_dpi
+
 local gtk_theme = gtk.get_theme_variables()
 local themes_path = gears.filesystem.get_configuration_dir() .. "themes/default/"
 
@@ -16,7 +16,7 @@ local icon_font = "Material Icons"
 
 theme.icon_theme = "Flat-Remix-Blue"
 theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/dark-forest.jpg"
-theme.useless_gap = dpi(7)
+theme.useless_gap = xresources.apply_dpi(7)
 theme.gtk_theme = gtk_theme
 
 theme.systray_icon_spacing = 10
@@ -90,8 +90,8 @@ theme.menu_submenu_icon =
     ty = -2
 }
 
-theme.menu_height = dpi(25)
-theme.menu_width = dpi(220)
+theme.menu_height = xresources.apply_dpi(25)
+theme.menu_width = xresources.apply_dpi(220)
 theme.menu_border_width = 0
 theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_normal, 20)
 
@@ -104,7 +104,7 @@ theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_norma
  ╚══╝╚══╝ ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
 
 ]]
-theme.wibar_height = 30
+theme.wibar_height = xresources.apply_dpi(25)
 theme.wibar_bg = gtk_theme.bg_color
 theme.wibar_border_width = 1
 theme.wibar_border_color = utils.color.auto_lighten_or_darken(theme.wibar_bg, 10)
@@ -226,7 +226,7 @@ theme.notification_icon_size = 150
 ╚═════╝  ╚═════╝    ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝
 
 ]]
-theme.border_width = dpi(1)
+theme.border_width = 1
 theme.border_normal = transparent
 -- theme.border_focus = caa
 theme.border_focus = transparent

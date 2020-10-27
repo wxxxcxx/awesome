@@ -1,6 +1,7 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local utils = require("utils")
+local xresources = require("beautiful.xresources")
 
 local module = {}
 
@@ -158,18 +159,17 @@ function module.new(args)
                             halign = "center",
                             widget = wibox.container.place
                         },
-                        left = 3,
-                        right = 3,
-                        top = 7,
-                        bottom = 2,
+                        left = xresources.apply_dpi(5),
+                        right = xresources.apply_dpi(5),
+                        top = xresources.apply_dpi(5),
+                        bottom = xresources.apply_dpi(5),
                         widget = wibox.container.margin
                     },
                     {
                         {
                             {
                                 widget = wibox.widget.base.empty_widget(),
-                                forced_height = 2,
-                                
+                                forced_height = xresources.apply_dpi(2)
                             },
                             id = "background_role",
                             shape = gears.shape.rounded_rect,

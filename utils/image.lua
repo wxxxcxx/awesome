@@ -1,6 +1,7 @@
 local gears = require("gears")
 local cairo = require("lgi").cairo
 local color = require("utils.color")
+local xresources = require("beautiful.xresources")
 
 local module = {}
 
@@ -34,7 +35,7 @@ function module.iconfont(args)
 end
 
 function module.titlebar_botton_image(args)
-    local size = args.size or 25
+    local size = args.size or xresources.apply_dpi(25)
     local text = args.text or ""
     local bg = args.bg or "#999999"
     local fg = args.fg or "#00000055"
@@ -44,10 +45,14 @@ function module.titlebar_botton_image(args)
     cr.antialias = cairo.Antialias.BEST
 
     local radius = size / 3.5
-    -- cr:arc(size / 2, size / 2 - 2, radius , math.rad(0), math.rad(360))
-    -- cr:set_source(gears.color(utils.color.darken(bg, 90)))
-    -- cr:fill()
-    cr:arc(size / 2 - 0.2, size / 2 - 0.2, radius, math.rad(0), math.rad(360))
+
+    cr:arc(
+        size / 2 - xresources.apply_dpi(0.2),
+        size / 2 - xresources.apply_dpi(0.2),
+        radius,
+        math.rad(0),
+        math.rad(360)
+    )
     cr:set_source(gears.color(color.darken(bg, 50)))
     cr:fill()
     cr:arc(size / 2, size / 2, radius, math.rad(0), math.rad(360))
@@ -66,6 +71,5 @@ function module.titlebar_botton_image(args)
 
     return surface
 end
-
 
 return module

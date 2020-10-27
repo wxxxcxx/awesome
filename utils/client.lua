@@ -68,15 +68,23 @@ function module.get_fg_color(client)
 end
 
 function module.reset_major_color(client)
-    local name = (client.instance or "") .. "_" .. client.type
-    save_color(name .. "_focus", nil)
-    save_color(name .. "_unfocus", nil)
+    local name =
+        (client.instance or "") ..
+        "<class=" ..
+            (client.class or "") ..
+                ">" .. "<type=" .. (client.type or "") .. ">" .. "<role=" .. (client.role or "") .. ">"
+    save_color(name .. "<focus>", nil)
+    save_color(name .. "<unfocus>", nil)
     client:emit_signal("reset_major_color")
 end
 
 function module.get_major_color(client)
-    local name = (client.instance or "") .. "_" .. client.type
-    name = _G.client.focus == client and name .. "_focus" or name .. "_unfocus"
+    local name =
+        (client.instance or "") ..
+        "<class=" ..
+            (client.class or "") ..
+                ">" .. "<type=" .. (client.type or "") .. ">" .. "<role=" .. (client.role or "") .. ">"
+    name = _G.client.focus == client and name .. "<focus>" or name .. "<unfocus>"
     if module._color_rules[name] then
         return module._color_rules[name]
     end

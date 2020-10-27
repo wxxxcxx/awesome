@@ -11,6 +11,7 @@
 local watch = require("awful.widget.watch")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local xresources = require("beautiful.xresources")
 
 local widget = {}
 
@@ -45,12 +46,12 @@ local function worker(args)
             {
                 tx_widget,
                 rx_widget,
-                forced_width = 40,
+                forced_width = xresources.apply_dpi(40),
                 layout = wibox.layout.flex.vertical
             },
             layout = wibox.layout.fixed.horizontal
         },
-        margins = 4,
+        margins = xresources.apply_dpi(4),
         widget = wibox.container.margin
     }
 

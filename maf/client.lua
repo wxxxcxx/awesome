@@ -5,8 +5,18 @@ local menubar = require("menubar")
 local clientkeys = require("maf.clientkeys")
 local utils = require("utils")
 local keydefine = require("maf.keydefine")
+local xresources = require("beautiful.xresources")
 
-
+client.connect_signal(
+    "property::maximized",
+    function(c)
+        if c.maximized then
+            c.border_width = 0
+        else
+            c.border_width = 1
+        end
+    end
+)
 client.connect_signal(
     "request::titlebars",
     function(c)
@@ -19,7 +29,7 @@ client.connect_signal(
             awful.titlebar(
             c,
             {
-                size = 30,
+                size = xresources.apply_dpi(25),
                 position = "top"
             }
         )
@@ -186,7 +196,7 @@ end
 
 local function placement(d, args)
     local args = args or {}
-    args.parent = client.focus or screen.primary
+    args.parent = d.transient_for or screen.primary
     -- args.margins = {
     --     top = 25,
     --     left = 25
@@ -292,6 +302,9 @@ module.rules = {
         rule_any = {
             instance = {
                 "chromium"
+            },
+            class = {
+                "firefox"
             }
         },
         properties = {

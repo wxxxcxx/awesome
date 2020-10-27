@@ -1,5 +1,6 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local xresources = require("beautiful.xresources")
 
 local keydefine = require("maf.keydefine")
 
@@ -69,17 +70,17 @@ function module.new(args)
                             },
                             layout = wibox.layout.fixed.horizontal
                         },
-                        left = 5,
-                        right = 5,
-                        top = 5,
-                        bottom = 5,
+                        left = xresources.apply_dpi(5),
+                        right = xresources.apply_dpi(5),
+                        top = xresources.apply_dpi(5),
+                        bottom = xresources.apply_dpi(5),
                         widget = wibox.container.margin
                     },
                     {
                         {
                             {
                                 widget = wibox.widget.base.empty_widget(),
-                                forced_height = 2
+                                forced_height = xresources.apply_dpi(2)
                             },
                             id = "background_role",
                             shape = gears.shape.rounded_rect,

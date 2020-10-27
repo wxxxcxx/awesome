@@ -13,6 +13,7 @@ local beautiful = require("beautiful")
 local spawn = require("awful.spawn")
 local watch = require("awful.widget.watch")
 local wibox = require("wibox")
+local xresources = require("beautiful.xresources")
 
 local GET_VOLUME_CMD = "amixer sget Master"
 local INC_VOLUME_CMD = "amixer sset Master 5%+"
@@ -26,8 +27,8 @@ function widget.new(args)
 
     local main_color = args.main_color or beautiful.fg_normal
     local mute_color = args.mute_color or beautiful.fg_normal .. '88'
-    local thickness = args.thickness or 2
-    local height = args.height or 18
+    local thickness = args.thickness or xresources.apply_dpi(2)
+    local height = args.height or xresources.apply_dpi(18)
 
     -- gears.debug.dump(args.main_color,'Mute',1)
 
@@ -82,7 +83,7 @@ function widget.new(args)
 
     return wibox.widget {
         volumearc,
-        margins = 6,
+        margins = xresources.apply_dpi(0),
         widget = wibox.container.margin
     }
 end
