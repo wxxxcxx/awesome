@@ -7,6 +7,24 @@ local utils = require("utils")
 return gears.table.join(
     awful.key(
         {keydefine.modkey},
+        "End",
+        function(c)
+           local message = ""
+           for c in awful.client.iterate(function()
+                 return true
+           end) do
+              message = message..("=============\r<b>instance:</b>\t%s\r<b>name:</b>\t%s\r<b>class:</b>\t%s\r<b>type:</b>\t%s\r<b>rule:</b>\t%s\r"):format(c.instance,c.name,c.class,c.type,c.rule)
+           end
+
+           notify(message)
+        end,
+        {
+            description = "Update client decoration",
+            group = "Client"
+        }
+    ),
+    awful.key(
+        {keydefine.modkey},
         "Home",
         function(c)
             utils.client.reset_major_color(c)

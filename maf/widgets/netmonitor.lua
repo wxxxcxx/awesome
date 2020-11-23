@@ -39,14 +39,14 @@ local function worker(args)
         wibox.widget {
         {
             {
-                image = beautiful.net_monitor,
+                image = beautiful.net_monitor_icon,
                 resize = true,
                 widget = wibox.widget.imagebox
             },
             {
                 tx_widget,
                 rx_widget,
-                forced_width = xresources.apply_dpi(40),
+                forced_width = xresources.apply_dpi(30),
                 layout = wibox.layout.flex.vertical
             },
             layout = wibox.layout.fixed.horizontal

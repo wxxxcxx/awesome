@@ -3,18 +3,13 @@ local wibox = require("wibox")
 
 local module = {}
 
-function module.new()
-    local tray =
+function module.new(inner_widget)
+    inner_widget =
         wibox.widget {
-        wibox.widget.systray(),
-        top = 4,
-        bottom = 4,
-        left = 7,
-        right = 7,
-        widget = wibox.container.margin,
-        visible = false
+        inner_widget,
+        visible=false,
+        widget = wibox.container.background
     }
-
     local toggle =
         wibox.widget {
         markup = utf8.char(0xe5dc),
@@ -30,12 +25,12 @@ function module.new()
             1,
             nil,
             function()
-                if tray.visible then
+                if inner_widget.visible then
                     toggle.markup = utf8.char(0xe5dc)
                 else
                     toggle.markup = utf8.char(0xe5dd)
                 end
-                tray.visible = not tray.visible
+                inner_widget.visible = not inner_widget.visible
             end
         )
     )
@@ -50,10 +45,11 @@ function module.new()
                 right = 5,
                 widget = wibox.container.margin
             },
-            tray,
+            inner_widget,
             layout = wibox.layout.fixed.horizontal
         },
-        margins = 4,
+        left = 4,
+        right = 4,
         widget = wibox.container.margin
     }
     return widget
@@ -67,4 +63,3 @@ return setmetatable(
         end
     }
 )
-

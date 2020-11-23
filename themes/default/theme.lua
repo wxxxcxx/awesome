@@ -7,7 +7,6 @@ local utils = require("utils")
 
 local theme = {}
 
-
 local gtk_theme = gtk.get_theme_variables()
 local themes_path = gears.filesystem.get_configuration_dir() .. "themes/default/"
 
@@ -15,7 +14,7 @@ local transparent = "#00000000"
 local icon_font = "Material Icons"
 
 theme.icon_theme = "Flat-Remix-Blue"
-theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/dark-forest.jpg"
+theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/archlinux.png"
 theme.useless_gap = xresources.apply_dpi(7)
 theme.gtk_theme = gtk_theme
 
@@ -38,7 +37,7 @@ theme.icon_font = icon_font .. " 20"
 
 theme.awesome_icon =
     utils.image.iconfont {
-    text = utf8.char(0xe5c3),
+    text = utf8.char(0xe80e),
     width = 50,
     height = 50,
     fontsize = 40,
@@ -105,8 +104,9 @@ theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_norma
 
 ]]
 theme.wibar_height = xresources.apply_dpi(25)
-theme.wibar_bg = gtk_theme.bg_color
-theme.wibar_border_width = 1
+
+theme.wibar_bg = utils.color.opacity(gtk_theme.bg_color, 1)
+theme.wibar_border_width = 0
 theme.wibar_border_color = utils.color.auto_lighten_or_darken(theme.wibar_bg, 10)
 
 --[[
@@ -118,7 +118,7 @@ theme.wibar_border_color = utils.color.auto_lighten_or_darken(theme.wibar_bg, 10
    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝
 
 ]]
-theme.tasklist_bg_focus =  gtk_theme.selected_bg_color
+theme.tasklist_bg_focus = gtk_theme.selected_bg_color
 theme.tasklist_bg_normal = utils.color.opacity(gtk_theme.selected_bg_color, 0.4)
 theme.tasklist_bg_minimize = transparent
 
@@ -233,6 +233,10 @@ theme.border_focus = transparent
 theme.border_marked = transparent
 theme.border_select = transparent
 
+
+theme.snap_bg = gtk_theme.bg_color
+theme.snap_border_width = 1
+
 --[[
 ████████╗██╗████████╗██╗     ███████╗██████╗  █████╗ ██████╗
 ╚══██╔══╝██║╚══██╔══╝██║     ██╔════╝██╔══██╗██╔══██╗██╔══██╗
@@ -339,29 +343,6 @@ theme.titlebar_sticky_button_focus_active_hover = utils.image.titlebar_botton_im
 ]]
 theme.master_width_factor = 0.6
 
-theme.system_monitor =
-    utils.image.iconfont(
-    {
-        text = utf8.char(0xe54a),
-        fontsize = 30
-    }
-)
-
-theme.net_monitor =
-    utils.image.iconfont(
-    {
-        text = utf8.char(0xe2bd),
-        fontsize = 30
-    }
-)
-theme.time =
-    utils.image.iconfont(
-    {
-        text = utf8.char(0xe01b),
-        fontsize = 30
-    }
-)
-
 -- Switcher
 theme.switcher_preview_box_delay = 10
 theme.switcher_preview_box_border = major_color
@@ -370,4 +351,36 @@ theme.switcher_preview_box_title_color = inverse_major_color
 theme.switcher_client_bg_selected = accent_color
 theme.switcher_client_bg_normal = minor_color
 theme.switcher_client_border_color = minor_color
+
+-- icon
+theme.system_monitor_icon =
+    utils.image.iconfont(
+    {
+        text = utf8.char(0xe54a),
+        fontsize = 30
+    }
+)
+
+theme.net_monitor_icon =
+    utils.image.iconfont(
+    {
+        text = utf8.char(0xe2bd),
+        fontsize = 30
+    }
+)
+theme.time_icon =
+    utils.image.iconfont(
+    {
+        text = "",
+        fontsize = 30
+    }
+)
+
+theme.search_icon =
+    utils.image.iconfont(
+    {
+        text = utf8.char(0xe8b6),
+        fontsize = 30
+    }
+)
 return theme

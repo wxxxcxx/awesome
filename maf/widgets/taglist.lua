@@ -46,9 +46,10 @@ function module.new(args)
     local screen = args.screen
 
     local icon_map = {}
-    icon_map["normal"] = ""
-    icon_map["view"] = ""
-    icon_map["work"] = ""
+    --utf8.char()
+    icon_map["normal"] = ""
+    icon_map["view"] = ""
+    icon_map["work"] = ""
 
     local taglist =
         awful.widget.taglist {
@@ -96,13 +97,13 @@ function module.new(args)
             widget = wibox.container.margin,
             create_callback = function(self, tag, index, objects) --luacheck: no unused args
                 local textbox = self:get_children_by_id("text")[1]
-                textbox.text = icon_map[tag.name] or ""
-                textbox.markup = icon_map[tag.name] or ""
+                textbox.text = icon_map[tag.name] or ""
+                textbox.markup = icon_map[tag.name] or ""
             end,
             update_callback = function(self, tag, index, objects) --luacheck: no unused args
                 local textbox = self:get_children_by_id("text")[1]
-                textbox.text = icon_map[tag.name] or ""
-                textbox.markup = icon_map[tag.name] or ""
+                textbox.text = icon_map[tag.name] or ""
+                textbox.markup = icon_map[tag.name] or ""
             end
         },
         buttons = taglist_buttons

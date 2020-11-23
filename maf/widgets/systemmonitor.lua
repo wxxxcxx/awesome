@@ -43,7 +43,7 @@ local function worker(args)
         wibox.widget {
         {
             {
-                image = beautiful.system_monitor,
+                image = beautiful.system_monitor_icon,
                 resize = true,
                 widget = wibox.widget.imagebox
             },

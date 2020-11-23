@@ -13,25 +13,7 @@ awful.mouse.snap.client_enabled = false
 awful.mouse.drag_to_tag.enabled = false
 root.keys(globalkeys)
 
-root.buttons(
-    gears.table.join(
-        root.buttons(),
-        awful.button(
-            {},
-            4,
-            function(t)
-                awful.tag.viewprev()
-            end
-        ),
-        awful.button(
-            {},
-            5,
-            function(t)
-                awful.tag.viewnext()
-            end
-        )
-    )
-)
+root.buttons(root.buttons())
 awful.rules.rules = client.rules
 -- awful.layout.append_default_layouts(awful.layout.suit.floating)
 -- awful.layout.append_default_layouts(awful.layout.suit.tile.left)

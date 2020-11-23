@@ -6,7 +6,8 @@ local netmonitor = require("maf.widgets.netmonitor")
 local taglist = require("maf.widgets.taglist")
 local tasklist = require("maf.widgets.tasklist")
 local launcher = require("maf.widgets.launcher")
-local tray = require("maf.widgets.tray")
+local folder = require("maf.widgets.folder")
+local search = require("maf.widgets.search")
 local layoutcontroller = require("maf.widgets.layoutcontroller")
 local utils = require("utils")
 local xresources = require("beautiful.xresources")
@@ -21,7 +22,6 @@ local launcher =
         menu = globalmenu
     }
 )
-local tray = tray.new()
 
 local volumecontroller =
     volumecontroller {
@@ -45,11 +45,30 @@ local systemmonitor =
 
 local netmonitor = netmonitor()
 
+local tray =
+    wibox.widget {
+    wibox.widget.systray(),
+    top = 6,
+    bottom = 6,
+    left = 4,
+    right = 4,
+    widget = wibox.container.margin
+}
+
+local folder =
+    folder.new {
+    tray,
+    systemmonitor,
+    netmonitor,
+    volumecontroller,
+    layout = wibox.layout.fixed.horizontal
+}
+
 local time =
     wibox.widget {
     {
         {
-            image = beautiful.time,
+            image = beautiful.time_icon,
             resize = true,
             widget = wibox.widget.imagebox
         },
@@ -59,6 +78,30 @@ local time =
     margins = xresources.apply_dpi(4),
     widget = wibox.container.margin
 }
+local search =
+    wibox.widget {
+    search {},
+    margins = xresources.apply_dpi(4),
+    widget = wibox.container.margin
+}
+
+local tag_switch_buttons =
+    gears.table.join(
+    awful.button(
+        {},
+        4,
+        function(t)
+            awful.tag.viewprev()
+        end
+    ),
+    awful.button(
+        {},
+        5,
+        function(t)
+            awful.tag.viewnext()
+        end
+    )
+)
 
 function module:new(args)
     local default_bar =
@@ -76,35 +119,42 @@ function module:new(args)
             layout = wibox.layout.align.horizontal,
             {
                 launcher,
-                layout = wibox.layout.fixed.horizontal
-            },
-            {
+                {
+                    taglist {
+                        screen = args.screen
+                    },
+                    left = xresources.apply_dpi(5),
+                    widget = wibox.container.margin
+                },
                 {
                     tasklist.new {
                         screen = args.screen,
                         wibox = default_bar
                     },
-                    left = xresources.apply_dpi(15),
+                    left = xresources.apply_dpi(10),
                     right = xresources.apply_dpi(10),
                     widget = wibox.container.margin
                 },
-                layout = wibox.layout.flex.horizontal
+                layout = wibox.layout.fixed.horizontal
+            },
+            {
+                nil,
+                {
+                    markup = "",
+                    align = "right",
+                    valign = "center",
+                    buttons = tag_switch_buttons,
+                    widget = wibox.widget.textbox
+                },
+                nil,
+                layout = wibox.layout.align.horizontal
             },
             {
                 {
                     {
-                        {
-                            taglist {
-                                screen = args.screen
-                            },
-                            left = xresources.apply_dpi(15),
-                            widget = wibox.container.margin
-                        },
-                        tray,
-                        volumecontroller,
-                        systemmonitor,
-                        netmonitor,
+                        folder,
                         time,
+                        search,
                         {
                             layoutcontroller.new(args),
                             top = xresources.apply_dpi(2),

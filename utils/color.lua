@@ -13,7 +13,7 @@ function module.contrast_ratio(fg, bg)
 end
 
 function module.is_contrast_acceptable(fg, bg)
-    return module.contrast_ratio(fg, bg) >= 7 and true
+    return module.contrast_ratio(fg, bg) >= 5 and true
 end
 
 -- Lightens a given hex color by the specified amount
@@ -66,7 +66,8 @@ function module.opacity(color, opacity)
     r = 255 * r
     g = 255 * g
     b = 255 * b
-    a = 255 * opacity
+    a = math.floor(255 * opacity)
+
     return ("#%02x%02x%02x%02x"):format(r, g, b, a)
 end
 

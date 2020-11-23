@@ -44,7 +44,7 @@ function module.titlebar_botton_image(args)
     local cr = cairo.Context.create(surface)
     cr.antialias = cairo.Antialias.BEST
 
-    local radius = size / 3.5
+    local radius = size / 4.5
 
     cr:arc(
         size / 2 - xresources.apply_dpi(0.2),
