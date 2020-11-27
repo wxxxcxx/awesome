@@ -62,8 +62,7 @@ local function placement(d, args)
 
     if d.transient_for then
         args.parent = d.transient_for
-        args.parent = nil
-        return
+        -- args.parent = nil
     elseif d.instance ~= nil and client.focus ~= nil and d.instance == client.focus.instance then
         args.parent = client.focus
         args.offset = {
@@ -94,7 +93,7 @@ local function placement(d, args)
         }
         args.honor_workarea = true
     end
-
+    -- notify(gears.debug.dump_return(args,"==",2))
     return awful.placement.centered(d, args)
 end
 
@@ -200,6 +199,7 @@ module = {
                 "jetbrains-idea",
                 "jetbrains-datagrip",
                 "emacs",
+                "code",
                 "code-oss"
             }
         },
