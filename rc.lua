@@ -46,12 +46,5 @@ for _, cmd in pairs(cmds) do
     run_once(cmd)
 end
 
-gears.timer.weak_start_new(
-    60,
-    function()
-        collectgarbage("collect")
-        return true
-    end
-)
 
 -- require("widget.musicboxlyrics.musicboxlyrics")

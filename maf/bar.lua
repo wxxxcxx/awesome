@@ -1,8 +1,8 @@
 local awful = require("awful")
 local wibox = require("wibox")
-local systemmonitor = require("maf.widgets.systemmonitor")
-local volumecontroller = require("maf.widgets.volumecontroller")
-local netmonitor = require("maf.widgets.netmonitor")
+-- local systemmonitor = require("maf.widgets.systemmonitor")
+-- local volumecontroller = require("maf.widgets.volumecontroller")
+-- local netmonitor = require("maf.widgets.netmonitor")
 local taglist = require("maf.widgets.taglist")
 local tasklist = require("maf.widgets.tasklist")
 local launcher = require("maf.widgets.launcher")
@@ -15,38 +15,34 @@ local xresources = require("beautiful.xresources")
 local globalmenu = require("maf.globalmenu")
 
 local module = {}
-local launcher =
-    launcher.new(
-    {
-        margin = 0,
-        menu = globalmenu
-    }
-)
+local launcher = launcher.new({
+    margin = 0,
+    menu = globalmenu
+})
 
-local volumecontroller =
-    volumecontroller {
-    main_color = beautiful.fg_normal,
-    mute_color = utils.color.auto_lighten_or_darken(beautiful.fg_normal, 30),
-    thickness = xresources.apply_dpi(3),
-    height = xresources.apply_dpi(15),
-    get_volume_cmd = "amixer sget Master",
-    dec_volume_cmd = "amixer sset Master 5%-",
-    inc_volume_cmd = "amixer sset Master 5%+",
-    tog_volume_cmd = "amixer sset Master toggle"
-}
+-- local volumecontroller =
+--     volumecontroller {
+--     main_color = beautiful.fg_normal,
+--     mute_color = utils.color.auto_lighten_or_darken(beautiful.fg_normal, 30),
+--     thickness = xresources.apply_dpi(3),
+--     height = xresources.apply_dpi(15),
+--     get_volume_cmd = "amixer sget Master",
+--     dec_volume_cmd = "amixer sset Master 5%-",
+--     inc_volume_cmd = "amixer sset Master 5%+",
+--     tog_volume_cmd = "amixer sset Master toggle"
+-- }
 
-local systemmonitor =
-    systemmonitor {
-    width = xresources.apply_dpi(40),
-    step_width = xresources.apply_dpi(2),
-    step_spacing = xresources.apply_dpi(0),
-    color = beautiful.fg_normal
-}
+-- local systemmonitor =
+--     systemmonitor {
+--     width = xresources.apply_dpi(40),
+--     step_width = xresources.apply_dpi(2),
+--     step_spacing = xresources.apply_dpi(0),
+--     color = beautiful.fg_normal
+-- }
 
-local netmonitor = netmonitor()
+-- local netmonitor = netmonitor()
 
-local tray =
-    wibox.widget {
+local tray = wibox.widget {
     wibox.widget.systray(),
     top = 6,
     bottom = 6,
@@ -55,17 +51,15 @@ local tray =
     widget = wibox.container.margin
 }
 
-local folder =
-    folder.new {
+local folder = folder.new {
     tray,
-    systemmonitor,
-    netmonitor,
-    volumecontroller,
+    -- systemmonitor,
+    -- netmonitor,
+    -- volumecontroller,
     layout = wibox.layout.fixed.horizontal
 }
 
-local time =
-    wibox.widget {
+local time = wibox.widget {
     {
         {
             image = beautiful.time_icon,
@@ -78,44 +72,28 @@ local time =
     margins = xresources.apply_dpi(4),
     widget = wibox.container.margin
 }
-local search =
-    wibox.widget {
+local search = wibox.widget {
     search {},
     margins = xresources.apply_dpi(4),
     widget = wibox.container.margin
 }
 
-local tag_switch_buttons =
-    gears.table.join(
-    awful.button(
-        {},
-        4,
-        function(t)
-            awful.tag.viewprev()
-        end
-    ),
-    awful.button(
-        {},
-        5,
-        function(t)
-            awful.tag.viewnext()
-        end
-    )
-)
+local tag_switch_buttons = gears.table.join(awful.button({}, 4, function(t)
+    awful.tag.viewprev()
+end), awful.button({}, 5, function(t)
+    awful.tag.viewnext()
+end))
 
 function module:new(args)
-    local default_bar =
-        awful.wibar(
-        {
-            position = "top",
-            ontop = false,
-            screen = args.screen,
-            y = -1
-        }
-    )
+    local default_bar = awful.wibar({
+        position = "top",
+        ontop = false,
+        screen = args.screen,
+        y = -1
+    })
 
     if args.screen == screen.primary then
-        default_bar:setup {
+        default_bar:setup{
             layout = wibox.layout.align.horizontal,
             {
                 launcher,
@@ -172,7 +150,7 @@ function module:new(args)
             }
         }
     else
-        default_bar:setup {
+        default_bar:setup{
             layout = wibox.layout.align.horizontal,
             nil,
             nil,

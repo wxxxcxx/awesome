@@ -12,7 +12,6 @@ local themes_path = gears.filesystem.get_configuration_dir() .. "themes/default/
 
 local transparent = "#00000000"
 local icon_font = "Material Icons"
-
 theme.icon_theme = "Flat-Remix-Blue"
 theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/archlinux.png"
 theme.useless_gap = xresources.apply_dpi(7)
@@ -297,10 +296,10 @@ theme.titlebar_minimize_button_focus_press = utils.image.titlebar_botton_image(h
 local active = {
     bg = "#19a187"
 }
+
 local inactice = {
     bg = "#999999"
 }
-
 theme.titlebar_ontop_button_normal_inactive = utils.image.titlebar_botton_image(inactice)
 theme.titlebar_ontop_button_normal_inactive_hover = utils.image.titlebar_botton_image(inactice)
 theme.titlebar_ontop_button_focus_inactive = utils.image.titlebar_botton_image(inactice)

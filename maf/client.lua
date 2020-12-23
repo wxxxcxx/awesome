@@ -55,12 +55,11 @@ client.connect_signal(
                         return
                     end
                     gears.timer.weak_start_new(
-                        0.25,
+                        0.20,
                         function()
                             click_times = 0
                         end
                     )
-
                     awful.mouse.client.move(c)
                 end
             ),
@@ -138,7 +137,7 @@ local function update_decoration(c)
         local darken_amount = -(luminance * 70) + 100
         border_color = utils.color.darken(color, darken_amount)
     else
-        local lighten_amount = luminance * 90 + 10
+        local lighten_amount = luminance * 90 + 20
         border_color = utils.color.lighten(color, lighten_amount)
     end
     c.border_color = border_color
