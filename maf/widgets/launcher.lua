@@ -36,7 +36,7 @@ function module.new(args)
             {
                 coords = {
                     x = 0,
-                    y = 35
+                    y = 30
                 }
             }
         )
@@ -46,7 +46,7 @@ function module.new(args)
             {
                 coords = {
                     x = 0,
-                    y = 35
+                    y = 30
                 }
             }
         )

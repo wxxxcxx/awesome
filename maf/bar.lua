@@ -87,7 +87,7 @@ end))
 function module:new(args)
     local default_bar = awful.wibar({
         position = "top",
-        ontop = false,
+        ontop = true,
         screen = args.screen,
         y = -1
     })
