@@ -95,7 +95,11 @@ local function placement(d, args)
     -- notify(gears.debug.dump_return(args,"==",2))
     return awful.placement.centered(d, args)
 end
-
+client.connect_signal("manage", function (c)
+    c.shape = function(cr,w,h)
+        gears.shape.rounded_rect(cr,w,h,3)
+    end
+end)
 module = {
     {
         rule = {},

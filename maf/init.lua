@@ -3,6 +3,7 @@ local awful = require("awful")
 local gears = require("gears")
 local error = require("maf.error")
 local bar = require("maf.bar")
+-- local dock = require("maf.dock")
 local globalkeys = require("maf.globalkeys")
 local client = require("maf.client")
 local utils = require("utils")
@@ -87,6 +88,7 @@ function module:init()
         end
     )
     bar:new({screen = screen.primary})
+    -- dock:new({screen = screen.primary})
 end
 
 return module
