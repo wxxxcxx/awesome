@@ -13,16 +13,6 @@ local module = {}
 module.rules = clientrules
 
 client.connect_signal(
-    "property::maximized",
-    function(c)
-        if c.maximized then
-            c.border_width = 0
-        else
-            c.border_width = 1
-        end
-    end
-)
-client.connect_signal(
     "request::titlebars",
     function(c)
         if c.requests_no_titlebar then

@@ -8,26 +8,12 @@ local keydefine = require("maf.keydefine")
 globalkeys =
     gears.table.join(
     awful.key(
-        {keydefine.modkey},
-        "Print",
-        function()
-            -- awful.spawn.with_shell("deepin-screen-recorder")
-        end,
-        {
-            description = "Screen Record",
-            group = "Application"
-        }
-    ),
-    awful.key(
         {},
         "Print",
         function()
             awful.spawn.with_shell("flameshot gui")
         end,
-        {
-            description = "Screen capture",
-            group = "Application"
-        }
+        {description = "Screen capture", group = "Application"}
     ),
     awful.key(
         {keydefine.alt},
@@ -37,10 +23,7 @@ globalkeys =
                 "rofi -modi 'window,drun' -show drun -drun-show-actions -display-drun '' -show-icons"
             )
         end,
-        {
-            description = "Show rofi",
-            group = "Application"
-        }
+        {description = "Show rofi", group = "Application"}
     )
 )
 
@@ -60,13 +43,14 @@ globalkeys =
         {keydefine.modkey, keydefine.control},
         "r",
         awesome.restart,
-        {
-            description = "Reload awesome",
-            group = "Awesome"
-        }
+        {description = "Reload awesome", group = "Awesome"}
     ),
     awful.key(
-        {keydefine.modkey,keydefine.control,keydefine.shift},
+        {
+            keydefine.modkey,
+            keydefine.control,
+            keydefine.shift
+        },
         "r",
         function()
             os.execute("systemctl reboot")
@@ -77,29 +61,27 @@ globalkeys =
         }
     ),
     awful.key(
-        {keydefine.modkey,keydefine.control},
+        {keydefine.modkey, keydefine.control},
         "l",
         function()
             os.execute("slimlock")
         end,
-        {
-            description = "Lock",
-            group = "Awesome"
-        }
+        {description = "Lock", group = "Awesome"}
     ),
     awful.key(
-        {keydefine.modkey,keydefine.control},
+        {keydefine.modkey, keydefine.control},
         "s",
         function()
             os.execute("systemctl suspend")
         end,
-        {
-            description = "Suspend",
-            group = "Awesome"
-        }
+        {description = "Suspend", group = "Awesome"}
     ),
     awful.key(
-        {keydefine.modkey,keydefine.control,keydefine.shift},
+        {
+            keydefine.modkey,
+            keydefine.control,
+            keydefine.shift
+        },
         "s",
         function()
             os.execute("systemctl poweroff")
@@ -121,10 +103,7 @@ globalkeys =
         function()
             switcher.switch(1, keydefine.alt, "Alt_L", "Shift", "Tab")
         end,
-        {
-            description = "Next client",
-            group = "Awesome"
-        }
+        {description = "Next client", group = "Awesome"}
     ),
     awful.key(
         {keydefine.alt, keydefine.shift},
@@ -132,10 +111,7 @@ globalkeys =
         function()
             switcher.switch(-1, keydefine.alt, "Alt_L", "Shift", "Tab")
         end,
-        {
-            description = "Previous client",
-            group = "Awesome"
-        }
+        {description = "Previous client", group = "Awesome"}
     ),
     awful.key(
         {keydefine.modkey},
@@ -184,33 +160,26 @@ globalkeys =
     gears.table.join(
     globalkeys,
     awful.key(
-        {
-            keydefine.modkey
-        },
+        {keydefine.modkey},
         "]",
         function()
             awful.tag.viewnext()
         end,
-        {description = "Focus next by index", group = "Tag"}
-    ),
-    awful.key(
         {
-            keydefine.modkey
-        },
-        "[",
-        function()
-            awful.tag.viewprev()
-        end,
-        {
-            description = "view previous tag",
+            description = "Focus next by index",
             group = "Tag"
         }
     ),
     awful.key(
-        {
-            keydefine.modkey,
-            keydefine.shift
-        },
+        {keydefine.modkey},
+        "[",
+        function()
+            awful.tag.viewprev()
+        end,
+        {description = "view previous tag", group = "Tag"}
+    ),
+    awful.key(
+        {keydefine.modkey, keydefine.shift},
         "[",
         function()
             local c = client.focus
@@ -223,10 +192,7 @@ globalkeys =
         {description = "Move focused client to previous tag", group = "Tag"}
     ),
     awful.key(
-        {
-            keydefine.modkey,
-            keydefine.shift
-        },
+        {keydefine.modkey, keydefine.shift},
         "]",
         function()
             local c = client.focus
@@ -295,8 +261,7 @@ globalkeys =
     gears.table.join(
     globalkeys,
     awful.key(
-        {},
-        -- "XF86AudioLowerVolume",
+        {}, -- "XF86AudioLowerVolume",
         "#122",
         function()
             -- os.execute("amixer -q sset Master 5%-")
