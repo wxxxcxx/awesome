@@ -97,22 +97,22 @@ globalkeys =
 globalkeys =
     gears.table.join(
     globalkeys,
-    awful.key(
-        {keydefine.alt},
-        "Tab",
-        function()
-            switcher.switch(1, keydefine.alt, "Alt_L", "Shift", "Tab")
-        end,
-        {description = "Next client", group = "Awesome"}
-    ),
-    awful.key(
-        {keydefine.alt, keydefine.shift},
-        "Tab",
-        function()
-            switcher.switch(-1, keydefine.alt, "Alt_L", "Shift", "Tab")
-        end,
-        {description = "Previous client", group = "Awesome"}
-    ),
+    -- awful.key(
+    --     {keydefine.alt},
+    --     "Tab",
+    --     function()
+    --         switcher.switch(1, keydefine.alt, "Alt_L", "Shift", "Tab")
+    --     end,
+    --     {description = "Next client", group = "Awesome"}
+    -- ),
+    -- awful.key(
+    --     {keydefine.alt, keydefine.shift},
+    --     "Tab",
+    --     function()
+    --         switcher.switch(-1, keydefine.alt, "Alt_L", "Shift", "Tab")
+    --     end,
+    --     {description = "Previous client", group = "Awesome"}
+    -- ),
     awful.key(
         {keydefine.modkey},
         "j",

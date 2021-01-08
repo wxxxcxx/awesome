@@ -31,6 +31,13 @@ function module.new(args)
 
     local launcher_menu = setmetatable({}, menu)
 
+    client.connect_signal(
+        "button::press",
+        function(c)
+            menu:hide()
+        end
+    )
+
     function launcher_menu:toggle()
         menu:toggle(
             {
