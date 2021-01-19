@@ -210,7 +210,7 @@ module = {
         properties = {tag = "work"}
     },
     {
-        rule_any = {class = {"VirtualBox Machine"}},
+        rule = {instance = "VirtualBox Machine"},
         properties = {
             maximized = true,
             titlebars_enabled = false,

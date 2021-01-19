@@ -15,10 +15,13 @@ local xresources = require("beautiful.xresources")
 local globalmenu = require("maf.globalmenu")
 
 local module = {}
-local launcher = launcher.new({
-    margin = 0,
-    menu = globalmenu
-})
+local launcher =
+    launcher.new(
+    {
+        margin = 0,
+        menu = globalmenu
+    }
+)
 
 -- local volumecontroller =
 --     volumecontroller {
@@ -42,7 +45,8 @@ local launcher = launcher.new({
 
 -- local netmonitor = netmonitor()
 
-local tray = wibox.widget {
+local tray =
+    wibox.widget {
     wibox.widget.systray(),
     top = 6,
     bottom = 6,
@@ -51,7 +55,8 @@ local tray = wibox.widget {
     widget = wibox.container.margin
 }
 
-local folder = folder.new {
+local folder =
+    folder.new {
     tray,
     -- systemmonitor,
     -- netmonitor,
@@ -59,7 +64,8 @@ local folder = folder.new {
     layout = wibox.layout.fixed.horizontal
 }
 
-local time = wibox.widget {
+local time =
+    wibox.widget {
     {
         {
             image = beautiful.time_icon,
@@ -72,28 +78,51 @@ local time = wibox.widget {
     margins = xresources.apply_dpi(4),
     widget = wibox.container.margin
 }
-local search = wibox.widget {
+local search =
+    wibox.widget {
     search {},
     margins = xresources.apply_dpi(4),
     widget = wibox.container.margin
 }
 
-local tag_switch_buttons = gears.table.join(awful.button({}, 4, function(t)
-    awful.tag.viewprev()
-end), awful.button({}, 5, function(t)
-    awful.tag.viewnext()
-end))
+local tag_switch_buttons =
+    gears.table.join(
+    awful.button(
+        {},
+        4,
+        function(t)
+            awful.tag.viewprev()
+        end
+    ),
+    awful.button(
+        {},
+        5,
+        function(t)
+            awful.tag.viewnext()
+        end
+    )
+)
 
 function module:new(args)
-    local default_bar = awful.wibar({
-        position = "top",
-        ontop = true,
-        screen = args.screen,
-        y = -1
-    })
+    local default_bar =
+        awful.wibar(
+        {
+            position = "top",
+            ontop = true,
+            screen = args.screen,
+            y = -1
+        }
+    )
+
+    client.connect_signal(
+        "property::fullscreen",
+        function(c)
+            default_bar.ontop = not c.fullscreen
+        end
+    )
 
     if args.screen == screen.primary then
-        default_bar:setup{
+        default_bar:setup {
             layout = wibox.layout.align.horizontal,
             {
                 launcher,
@@ -150,7 +179,7 @@ function module:new(args)
             }
         }
     else
-        default_bar:setup{
+        default_bar:setup {
             layout = wibox.layout.align.horizontal,
             nil,
             nil,

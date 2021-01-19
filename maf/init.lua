@@ -72,7 +72,7 @@ function module:init()
             awful.tag.add(
                 "view",
                 {
-                    layout = awful.layout.layouts[1],
+                    layout = awful.layout.layouts[2],
                     screen = screen,
                     selected = true
                 }
@@ -80,7 +80,7 @@ function module:init()
             awful.tag.add(
                 "work",
                 {
-                    layout = awful.layout.layouts[1],
+                    layout = awful.layout.layouts[2],
                     screen = screen,
                     selected = true
                 }
