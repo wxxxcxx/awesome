@@ -15,7 +15,7 @@ local transparent = "#00000000"
 local icon_font = "Material Icons"
 theme.icon_theme = "Flat-Remix-Blue"
 theme.wallpaper = gears.filesystem.get_configuration_dir() ..
-                      "wallpapers/life_and_death.png"
+                      "wallpapers/sea.png"
 theme.useless_gap = xresources.apply_dpi(7)
 theme.gtk_theme = gtk_theme
 

@@ -191,7 +191,7 @@ module = {
     },
     {
         rule_any = {
-            instance = {"chromium"},
+            instance = {"chromium", "google-chrome"},
             class = {"firefox", "qutebrowser", "Chromium"}
         },
         properties = {tag = "view"}
