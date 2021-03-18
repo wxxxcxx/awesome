@@ -41,7 +41,6 @@ function show_message(error)
         {
             title = "Awesome",
             text = error,
-            margin = 20,
             replaces_id = module.last_notify_id
         }
     )
@@ -49,34 +48,23 @@ function show_message(error)
 end
 -- 通过通知显示单词信息
 function show_notify(data)
-    if module.enable_anki then
-        module.last_notify_id =
-            naughty.notify(
-            {
-                title = data.word,
-                text = "\nus:[" ..
-                    data.us_pronunciation .. "] uk:[" .. data.uk_pronunciation .. "]\n" .. data.definition,
-                margin = 20,
-                replaces_id = module.last_notify_id,
-                actions = {
-                    save = function()
-                        saveAnki(data)
-                    end
-                }
-            }
-        ).id
-    else
-        module.last_notify_id =
-            naughty.notify(
-            {
-                title = data.word,
-                text = "\nus:[" ..
-                    data.us_pronunciations .. "] uk:[" .. data.uk_pronunciations .. "]\n" .. data.definition,
-                margin = 20,
-                replaces_id = module.last_notify_id
-            }
-        ).id
-    end
+
+   local message = {
+      title = data.word,
+      text = "us: [" .. data.us_pronunciation .. "]   uk: [" .. data.uk_pronunciation .. "]\n\n" .. data.definition,
+      replaces_id = module.last_notify_id
+   }
+   if module.enable_anki then
+      message.actions = {
+         save = function()
+            saveAnki(data)
+         end
+      }
+   end
+   module.last_notify_id =
+      naughty.notify(
+         message
+      ).id
 end
 -- 通过rofi显示单词信息
 function show_rofi(data)
@@ -85,8 +73,8 @@ function show_rofi(data)
         "echo '%s'|rofi -dmenu  -p 'Query>' -selected-row 0 -a 0",
         string_safe(data.word) ..
             "\nus:[" ..
-                string_safe(data.us_pronunciations) ..
-                    "] uk:[" .. string_safe(data.uk_pronunciations) .. "]\n" .. string_safe(data.definition)
+                string_safe(data.us_pronunciation) ..
+                    "] uk:[" .. string_safe(data.uk_pronunciation) .. "]\n" .. string_safe(data.definition)
     )
     awful.spawn.easy_async_with_shell(
         command,
@@ -184,20 +172,21 @@ function split_definition(inputstr)
 end
 function convert_response(response)
     local data = {}
-    data.word = response.data.content
-    data.us_audio = response.data.us_audio
-    data.uk_audio = response.data.uk_audio
+    data.word = response.query
 
-    data.definition = table.concat(split_definition(response.data.definition), "\n")
-    data.us_pronunciation = response.data.pronunciations.us
-    data.uk_pronunciation = response.data.pronunciations.uk
+    data.us_audio = ""
+    data.uk_audio = ""
+
+    data.definition = table.concat(response.basic.explains, "\n")
+    data.us_pronunciation = response.basic["us-phonetic"]
+    data.uk_pronunciation = response.basic["uk-phonetic"]
     return data
 end
 
 -- 单词查询
 function dict(word, copy)
     word = word or ""
-    local url = string.format("https://api.shanbay.com/bdc/search/?word=%s", string_trim(string_safe(word)))
+    local url = string.format("http://fanyi.youdao.com/openapi.do?keyfrom=YouDaoCV&key=659600698&type=data&doctype=json&version=1.1&q=%s", string_trim(string_safe(word)))
     local command = string.format("curl -s -H 'Accept: application/json' --request GET '%s'", url)
     awful.spawn.easy_async_with_shell(
         command,
@@ -207,8 +196,7 @@ function dict(word, copy)
                 return
             end
             local response = json.decode(stdout)
-
-            if response.status_code ~= 0 then
+            if response.errorCode ~= 0 then
                 show_message(response.msg)
             end
             local data = convert_response(response)
@@ -258,7 +246,7 @@ function translate(input, copy)
             module.last_notify_id =
                 naughty.notify(
                 {
-                    title = "翻译 [" .. response.type .. "]",
+                    title = "翻译",
                     text = "\n" .. table.concat(sentences, "\n"),
                     margin = 20,
                     replaces_id = module.last_notify_id,

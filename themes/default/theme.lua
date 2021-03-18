@@ -214,14 +214,22 @@ theme.hotkeys_group_margin = 40
 ╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 
 ]]
+
+local naughty = require("naughty")
+naughty.config.padding = xresources.apply_dpi(5)
+naughty.config.spacing = xresources.apply_dpi(10)
+naughty.config.defaults.margin = xresources.apply_dpi(15)
 theme.notification_font = gtk_theme.font_family .. " " .. gtk_theme.font_size
 theme.notification_bg = gtk_theme.bg_color
 theme.notification_fg = gtk_theme.fg_color
+theme.notification_opacity = 0.95
 theme.notification_border_width = 0
-theme.notification_border_color = caa
-theme.notification_margin = 30
-theme.notification_width = 400
-theme.notification_icon_size = 150
+theme.notification_border_color = gtk_theme.bg_color
+theme.notification_margin = xresources.apply_dpi(15)
+theme.notification_width = xresources.apply_dpi(350)
+theme.notification_max_width = xresources.apply_dpi(400)
+theme.notification_max_height = xresources.apply_dpi(500)
+theme.notification_icon_size = xresources.apply_dpi(100)
 
 --[[
 ██████╗  ██████╗ ████████╗██████╗ ███████╗██████╗

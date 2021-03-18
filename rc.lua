@@ -1,6 +1,7 @@
 pcall(require, "luarocks.loader")
 require("utils")
 gears = require("gears")
+local xresources = require("beautiful.xresources")
 -- keydefine = require("keydefine")
 
 beautiful = require("beautiful")
@@ -8,7 +9,6 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/default/theme
 package.path = package.path .. ";" .. gears.filesystem.get_configuration_dir()
 
 local naughty = require("naughty")
-
 function notify(msg)
     naughty.notify(
         {

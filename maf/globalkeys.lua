@@ -313,9 +313,8 @@ globalkeys =
     gears.table.join(
     globalkeys,
     awful.key(
-        {keydefine.modkey},
-        -- "XF86AudioLowerVolume",
-        "`",
+        {},
+        "XF86Calculator",
         function()
             at.query(selection())
         end
