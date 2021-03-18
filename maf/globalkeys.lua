@@ -313,23 +313,10 @@ globalkeys =
     gears.table.join(
     globalkeys,
     awful.key(
-        {},
-        "XF86Calculator",
-        function()
-            at.query(selection())
-        end
-    )
-)
-
-globalkeys =
-    gears.table.join(
-    globalkeys,
-    awful.key(
         {keydefine.modkey},
-        -- "XF86AudioLowerVolume",
         "z",
         function()
-            os.execute("python ~/Projects/hud-menu/hud-menu.py")
+            at.query(selection())
         end
     )
 )

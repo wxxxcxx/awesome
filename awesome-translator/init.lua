@@ -35,12 +35,15 @@ function is_word(s)
     return result
 end
 
-function show_message(error)
+function show_error(e)
+   show_message(e.message)
+end
+function show_message(message)
     local message_notify =
         naughty.notify(
         {
-            title = "Awesome",
-            text = error,
+            title = "Awesome translator",
+            text = message,
             replaces_id = module.last_notify_id
         }
     )
@@ -48,11 +51,11 @@ function show_message(error)
 end
 -- 通过通知显示单词信息
 function show_notify(data)
-
    local message = {
       title = data.word,
       text = "us: [" .. data.us_pronunciation .. "]   uk: [" .. data.uk_pronunciation .. "]\n\n" .. data.definition,
-      replaces_id = module.last_notify_id
+      replaces_id = module.last_notify_id,
+      timeout = 10
    }
    if module.enable_anki then
       message.actions = {
@@ -171,46 +174,54 @@ function split_definition(inputstr)
     return t
 end
 function convert_response(response)
+
     local data = {}
     data.word = response.query
-
     data.us_audio = ""
     data.uk_audio = ""
-
-    data.definition = table.concat(response.basic.explains, "\n")
-    data.us_pronunciation = response.basic["us-phonetic"]
-    data.uk_pronunciation = response.basic["uk-phonetic"]
+    if response.basic==nil then
+        error({message="未找到单词"})
+    end
+    data.definition =  table.concat(response.basic.explains, "\n")
+    data.us_pronunciation = response.basic["us-phonetic"] or ""
+    data.uk_pronunciation = response.basic["uk-phonetic"] or ""
     return data
 end
 
 -- 单词查询
-function dict(word, copy)
+function query(word, copy)
     word = word or ""
     local url = string.format("http://fanyi.youdao.com/openapi.do?keyfrom=YouDaoCV&key=659600698&type=data&doctype=json&version=1.1&q=%s", string_trim(string_safe(word)))
     local command = string.format("curl -s -H 'Accept: application/json' --request GET '%s'", url)
     awful.spawn.easy_async_with_shell(
-        command,
-        function(stdout, stderr, reason, exit_code)
-            if exit_code ~= 0 then
-                show_message("查询失败：命令执行失败")
-                return
-            end
-            local response = json.decode(stdout)
-            if response.errorCode ~= 0 then
-                show_message(response.msg)
-            end
-            local data = convert_response(response)
-            if module.enable_rofi then
+       command,
+       function(stdout, stderr, reason, exit_code)
+          local inner=function(stdout,stderr,reason,exit_code)
+             if exit_code ~= 0 then
+                error({message="查询失败：命令执行失败"})
+             end
+
+             local response = json.decode(stdout)
+             if response.errorCode ~= 0 then
+                error({message=response.msg})
+             end
+             local data = convert_response(response)
+             if module.enable_rofi then
                 show_rofi(data)
-            else
+             else
                 show_notify(data)
-            end
-            -- 保存结果
-            module.last_result = data.definition
-            if copy then
+             end
+             -- 保存结果
+             module.last_result = data.definition
+             if copy then
                 set_clipboard(module.last_result)
-            end
-        end
+             end
+          end
+          local state,result = pcall(inner,stdout,stderr,reason,exit_code)
+          if not state then
+             show_error(result)
+          end
+       end
     )
 end
 
@@ -222,41 +233,45 @@ function translate(input, copy)
         "curl --location --request POST 'http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule' --header 'Content-Type: application/x-www-form-urlencoded' --data-urlencode 'i=%s' --data-urlencode 'from=AUTO' --data-urlencode 'to=AUTO' --data-urlencode 'doctype=json'",
         string_trim(string_safe(input))
     )
-    gears.debug.dump(command)
     awful.spawn.easy_async_with_shell(
         command,
         function(stdout, stderr, reason, exit_code)
-            if exit_code ~= 0 then
-                show_message("翻译失败：命令执行失败")
-                return
-            end
-            local response = json.decode(stdout)
-            if response.errorCode ~= 0 then
-                show_message(response.msg)
-            end
-            -- gears.debug.dump(response, "translate", 4)
+           local inner = function(stdout, stderr, reason, exit_code)
+              if exit_code ~= 0 then
+                 show_message({message="翻译失败：命令执行失败"})
+                 return
+              end
+              local response = json.decode(stdout)
+              if response.errorCode ~= 0 then
+                 show_message({message=response.msg})
+              end
+              -- gears.debug.dump(response, "translate", 4)
 
-            local sentences = {}
-            for _, paragraph in ipairs(response.translateResult) do
-                for _, item in ipairs(paragraph) do
+              local sentences = {}
+              for _, paragraph in ipairs(response.translateResult) do
+                 for _, item in ipairs(paragraph) do
                     table.insert(sentences, item.tgt)
-                end
-            end
+                 end
+              end
 
-            module.last_notify_id =
-                naughty.notify(
-                {
-                    title = "翻译",
-                    text = "\n" .. table.concat(sentences, "\n"),
-                    margin = 20,
-                    replaces_id = module.last_notify_id,
-                    timeout = 10
-                }
-            ).id
-            module.last_result = table.concat(sentences, "\n")
-            if copy then
-                set_clipboard(module.last_result)
-            end
+              module.last_notify_id =
+                 naughty.notify(
+                    {
+                       title = "翻译",
+                       text = "\n" .. table.concat(sentences, "\n"),
+                       replaces_id = module.last_notify_id,
+                       timeout = 10
+                    }
+                 ).id
+              module.last_result = table.concat(sentences, "\n")
+              if copy then
+                 set_clipboard(module.last_result)
+              end
+           end
+          local state,result = pcall(inner,stdout,stderr,reason,exit_code)
+          if not state then
+             show_error(result)
+          end
         end
     )
 end
@@ -278,13 +293,13 @@ function set_clipboard(text, callback)
         )
     end
 end
-
 function module.query(data, copy)
-    if is_word(data) then
-        dict(data, copy)
-    else
-        translate(data, copy)
-    end
+   if is_word(data) then
+      query(data,copy)
+   else
+      translate(data,copy)
+   end
+
 end
 
 function module.copy(text)
