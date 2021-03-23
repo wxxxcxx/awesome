@@ -1,6 +1,6 @@
 local module={}
 module.terminal = os.getenv('TERMINAL') or 'alacritty'
-module.browser = 'google-chrome'
+module.browser = 'google-chrome-stable'
 module.filemanager = module.terminal .. ' -e ranger'
 module.gui_editor = 'code'
 module.editor = os.getenv('EDITOR') or 'vim'
