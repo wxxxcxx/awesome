@@ -192,7 +192,7 @@ module = {
     {
         rule_any = {
             instance = {"chromium", "google-chrome"},
-            class = {"firefox", "qutebrowser", "Chromium"}
+            class = {"firefox", "qutebrowser", "Chromium", "Zathura"}
         },
         properties = {tag = "view"}
     },
@@ -244,5 +244,20 @@ table.insert(
         properties = {ontop = false}
     }
 )
+-- Netease music
+table.insert(
+    module,
+    {
+        rule = {class = "netease-cloud-music", type = "utility"},
+        properties = {
+            sticky = true,
+            ontop = true,
+            focusable = false,
+            skip_taskbar = true,
+            placement = awful.placement.bottom
+        }
+    }
+)
+
 
 return module
