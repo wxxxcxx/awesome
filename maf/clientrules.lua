@@ -253,11 +253,24 @@ table.insert(
             sticky = true,
             ontop = true,
             focusable = false,
-            skip_taskbar = true,
+            skip_taskbar = false,
             placement = awful.placement.bottom
         }
     }
 )
+table.insert(
+    module,
+    {
+        rule = {class = "netease-cloud-music", type = "dock"},
+        properties = {
+            sticky = true,
+            ontop = true,
+            focusable = false,
+            skip_taskbar = false
+        }
+    }
+)
+
 
 
 return module
