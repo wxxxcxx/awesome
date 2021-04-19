@@ -21,7 +21,6 @@ end
 
 local function get_client_major_color(client)
     local content = gears.surface(client.content)
-    -- content:write_to_png("/home/maf/".. client.instance .. ".png")
     local color_map = {}
     local client_geometry = client:geometry()
     local width = math.floor(client_geometry.width / 2)

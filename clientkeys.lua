@@ -1,7 +1,6 @@
 local gears = require("gears")
 local awful = require("awful")
-local sequentialkey = require("maf.sequentialkey")
-local keydefine = require("maf.keydefine")
+local keydefine = require("keydefine")
 local utils = require("utils")
 
 return gears.table.join(

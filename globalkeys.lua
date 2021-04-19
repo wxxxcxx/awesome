@@ -1,29 +1,27 @@
-local gears = require("gears")
-local awful = require("awful")
-local hotkeys_popup = require("awful.hotkeys_popup")
-local switcher = require("maf.switcher")
-local sequentialkey = require("maf.sequentialkey")
-local keydefine = require("maf.keydefine")
+local gears = require('gears')
+local awful = require('awful')
+local hotkeys_popup = require('awful.hotkeys_popup')
+local keydefine = require('keydefine')
 
 globalkeys =
     gears.table.join(
     awful.key(
         {},
-        "Print",
+        'Print',
         function()
-            awful.spawn.with_shell("flameshot gui")
+            awful.spawn.with_shell('flameshot gui')
         end,
-        {description = "Screen capture", group = "Application"}
+        {description = 'Screen capture', group = 'Application'}
     ),
     awful.key(
         {keydefine.alt},
-        "space",
+        'space',
         function()
             awful.spawn.with_shell(
-                "rofi -modi 'window,drun' -show drun -drun-show-actions -display-drun '' -show-icons"
+                "rofi -modi 'drun' -show drun -drun-show-actions -display-drun '' -show-icons -icon-theme " .. beautiful.icon_theme
             )
         end,
-        {description = "Show rofi", group = "Application"}
+        {description = 'Show rofi', group = 'Application'}
     )
 )
 
@@ -32,18 +30,18 @@ globalkeys =
     globalkeys,
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "/",
+        '/',
         hotkeys_popup.show_help,
         {
-            description = "Show help",
-            group = "Awesome"
+            description = 'Show help',
+            group = 'Awesome'
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.control},
-        "r",
+        'r',
         awesome.restart,
-        {description = "Reload awesome", group = "Awesome"}
+        {description = 'Reload awesome', group = 'Awesome'}
     ),
     awful.key(
         {
@@ -51,30 +49,30 @@ globalkeys =
             keydefine.control,
             keydefine.shift
         },
-        "r",
+        'r',
         function()
-            os.execute("systemctl reboot")
+            os.execute('systemctl reboot')
         end,
         {
-            description = "Reboot",
-            group = "Awesome"
+            description = 'Reboot',
+            group = 'Awesome'
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.control},
-        "l",
+        'l',
         function()
-            os.execute("slimlock")
+            os.execute('slimlock')
         end,
-        {description = "Lock", group = "Awesome"}
+        {description = 'Lock', group = 'Awesome'}
     ),
     awful.key(
         {keydefine.modkey, keydefine.control},
-        "s",
+        's',
         function()
-            os.execute("systemctl suspend")
+            os.execute('systemctl suspend')
         end,
-        {description = "Suspend", group = "Awesome"}
+        {description = 'Suspend', group = 'Awesome'}
     ),
     awful.key(
         {
@@ -82,13 +80,13 @@ globalkeys =
             keydefine.control,
             keydefine.shift
         },
-        "s",
+        's',
         function()
-            os.execute("systemctl poweroff")
+            os.execute('systemctl poweroff')
         end,
         {
-            description = "Shutdown",
-            group = "Awesome"
+            description = 'Shutdown',
+            group = 'Awesome'
         }
     )
 )
@@ -97,61 +95,65 @@ globalkeys =
 globalkeys =
     gears.table.join(
     globalkeys,
-    -- awful.key(
-    --     {keydefine.alt},
-    --     "Tab",
-    --     function()
-    --         switcher.switch(1, keydefine.alt, "Alt_L", "Shift", "Tab")
-    --     end,
-    --     {description = "Next client", group = "Awesome"}
-    -- ),
-    -- awful.key(
-    --     {keydefine.alt, keydefine.shift},
-    --     "Tab",
-    --     function()
-    --         switcher.switch(-1, keydefine.alt, "Alt_L", "Shift", "Tab")
-    --     end,
-    --     {description = "Previous client", group = "Awesome"}
-    -- ),
     awful.key(
         {keydefine.modkey},
-        "j",
+        'j',
         function()
-            -- awful.client.focus.byidx(1)
+            awful.client.focus.byidx(1)
             if client.focus then
-                awful.client.focus.byidx(1)
                 client.focus:raise()
             end
         end,
-        {description = "Focus next by index", group = "Client"}
+        {description = 'Focus next by index', group = 'Client'}
     ),
     awful.key(
         {keydefine.modkey},
-        "k",
+        'k',
         function()
-            -- awful.client.focus.bydirection('up')
+            awful.client.focus.byidx(-1)
             if client.focus then
-                awful.client.focus.byidx(-1)
                 client.focus:raise()
             end
         end,
-        {description = "Focus previous by index", group = "Client"}
+        {description = 'Focus previous by index', group = 'Client'}
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "j",
+        'j',
         function()
             awful.client.swap.byidx(1)
         end,
-        {description = "Swap next by index", group = "Client"}
+        {description = 'Swap next by index', group = 'Client'}
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "k",
+        'k',
         function()
             awful.client.swap.byidx(-1)
         end,
-        {description = "Swap previous by index", group = "Client"}
+        {description = 'Swap previous by index', group = 'Client'}
+    ),
+    awful.key(
+        {keydefine.alt},
+        'Tab',
+        function()
+            awful.client.focus.byidx(1)
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = 'Focus next by index', group = 'Client'}
+    ),
+    awful.key(
+        {keydefine.alt, keydefine.shift},
+        '`',
+        function()
+            awful.client.focus.byidx(-1)
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = 'Focus previous by index', group = 'Client'}
     )
 )
 -- Tag
@@ -161,48 +163,22 @@ globalkeys =
     globalkeys,
     awful.key(
         {keydefine.modkey},
-        "]",
+        'Tab',
         function()
             awful.tag.viewnext()
         end,
         {
-            description = "Focus next by index",
-            group = "Tag"
+            description = 'Focus next by index',
+            group = 'Tag'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "[",
+        '`',
         function()
             awful.tag.viewprev()
         end,
-        {description = "view previous tag", group = "Tag"}
-    ),
-    awful.key(
-        {keydefine.modkey, keydefine.shift},
-        "[",
-        function()
-            local c = client.focus
-            if c then
-                awful.tag.viewprev()
-                c:move_to_tag(screen.primary.selected_tag)
-                c:raise()
-            end
-        end,
-        {description = "Move focused client to previous tag", group = "Tag"}
-    ),
-    awful.key(
-        {keydefine.modkey, keydefine.shift},
-        "]",
-        function()
-            local c = client.focus
-            if c then
-                awful.tag.viewnext()
-                c:move_to_tag(screen.primary.selected_tag)
-                c:raise()
-            end
-        end,
-        {description = "Move focused client to next tag", group = "Tag"}
+        {description = 'view previous tag', group = 'Tag'}
     )
 )
 
@@ -215,7 +191,7 @@ for i = 1, 9 do
         globalkeys, -- View tag only.
         awful.key(
             {keydefine.modkey},
-            "#" .. i + 9,
+            '#' .. i + 9,
             function()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -223,12 +199,11 @@ for i = 1, 9 do
                     tag:view_only()
                 end
             end,
-            {description = "View tag #" .. i, group = "Tag"}
+            {description = 'View tag #' .. i, group = 'Tag'}
         ),
-        -- Move client to tag.
         awful.key(
             {keydefine.modkey, keydefine.shift},
-            "#" .. i + 9,
+            '#' .. i + 9,
             function()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -238,12 +213,11 @@ for i = 1, 9 do
                     end
                 end
             end,
-            {description = "Move focused client to tag #" .. i, group = "Tag"}
+            {description = 'Move focused client to tag #' .. i, group = 'Tag'}
         ),
-        -- Toggle tag display.
         awful.key(
             {keydefine.modkey, keydefine.control},
-            "#" .. i + 9,
+            '#' .. i + 9,
             function()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -251,7 +225,7 @@ for i = 1, 9 do
                     awful.tag.viewtoggle(tag)
                 end
             end,
-            {description = "Toggle tag #" .. i, group = "Tag"}
+            {description = 'Toggle tag #' .. i, group = 'Tag'}
         )
     )
 end
@@ -262,28 +236,28 @@ globalkeys =
     globalkeys,
     awful.key(
         {}, -- "XF86AudioLowerVolume",
-        "#122",
+        '#122',
         function()
             -- os.execute("amixer -q sset Master 5%-")
         end
     ),
     awful.key(
         {},
-        "#123",
+        '#123',
         function()
             -- os.execute("amixer -q sset Master 5%+")
         end
     ),
     awful.key(
         {},
-        "#121",
+        '#121',
         function()
             -- os.execute("amixer -q sset Master toggle")
         end
     )
 )
 
-local at = require("awesome-translator")
+local at = require('awesome-translator')
 
 -- local selection = require("selection")
 -- Volume control
@@ -292,29 +266,29 @@ local at = require("awesome-translator")
 -- 是否启用 anki
 at.enable_anki = true
 -- Anki保存单词的 Desk
-at.anki.desk = "Word"
+at.anki.desk = 'Word'
 -- Anki保存单词的 NodeType
-at.anki.model = "Word"
+at.anki.model = 'Word'
 -- Anki-Connect 的端口号
 at.anki.connect_port = 8701
 -- 单词字段
-at.anki.word_field = "Word"
+at.anki.word_field = 'Word'
 -- 释义字段
-at.anki.definition_field = "Definition"
+at.anki.definition_field = 'Definition'
 -- 美式音标
-at.anki.us_pronunciation_field = "USPronunciation"
+at.anki.us_pronunciation_field = 'USPronunciation'
 -- 英式音标
-at.anki.uk_pronunciation_field = "UKPronunciation"
+at.anki.uk_pronunciation_field = 'UKPronunciation'
 -- Anki保存美式发音的字段
-at.anki.us_audio_field = "USAudio"
+at.anki.us_audio_field = 'USAudio'
 -- Anki保存英式发音的字段
-at.anki.uk_audio_field = "UKAudio"
+at.anki.uk_audio_field = 'UKAudio'
 globalkeys =
     gears.table.join(
     globalkeys,
     awful.key(
         {keydefine.modkey},
-        "z",
+        'z',
         function()
             at.query(selection())
         end

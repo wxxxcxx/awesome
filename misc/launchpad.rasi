@@ -1,0 +1,121 @@
+configuration {
+    font: "Noto Sans 10";
+    show-icons: true;
+    icon-theme: "Papirus";
+    display-drun: "";
+    drun-display-format: "{name}";
+    disable-history: false;
+    fullscreen: true;
+    hide-scrollbar: true;
+    sidebar-mode: false;
+}
+
+* {
+    transparent: #00000000;
+    foreground: #FFFFFF;
+    background-selected: #FFFFFF11;
+    background-active: #FFFFFF22;
+    background-white: #FFFFFF11;
+    background-black: #353a4699;
+    urgent: #F4474766;
+    urgent-selected: #F4474777;
+}
+
+window {
+    transparency: "real";
+    background-color: @transparent;
+    text-color: @foreground;
+    border: 0px;
+    border-color: @border;
+    border-radius: 0px;
+}
+
+entry {
+    background-color: @transparent;
+    text-color: @foreground;
+    placeholder-color: @foreground;
+    expand: true;
+    vertical-align: 0.5;
+	horizontal-align: 0.5;
+    placeholder: "Type to search";
+    padding: 4px;
+    blink: true;
+}
+
+inputbar {
+    children: [ entry];
+    background-color: @background-white;
+    text-color: @foreground;
+    expand: false;
+    border-radius: 12px;
+    margin: 0% 25% 0% 25%;
+    padding: 10px;
+}
+
+
+listview {
+	background-color: @transparent;
+	columns: 6;
+	spacing: 5px;
+	cycle: false;
+	dynamic: true;
+	layout: vertical;
+    margin: 70px 0 100px 0;
+}
+
+mainbox {
+	background-color: @background-black;
+	children: [ inputbar, listview ];
+	spacing: 25px;
+	padding: 100px 15% 0 15%;
+	/*padding: 70px 135px 0 135px;*/
+}
+
+element {
+	background-color: @transparent;
+	text-color: @foreground;
+	orientation: vertical;
+	border-radius: 12px;
+	padding: 25px 0 25px 0;
+    
+}
+
+element-icon {
+	size: 128px;
+	border: 0;
+}
+
+element-text {
+	expand: true;
+	horizontal-align: 0.5;
+	vertical-align: 0.5;
+	margin: 0 10px 0 10px;
+}
+
+element normal.urgent,
+element alternate.urgent {
+	background-color: @urgent;
+	text-color: @foreground;
+	border-radius: 9px;
+}
+
+element normal.active,
+element alternate.active {
+	background-color: @background-active;
+	text-color: @foreground;
+}
+
+element selected {
+	background-color: @background-selected;
+	text-color: @foreground;
+}
+
+element selected.urgent {
+	background-color: @urgent-selected;
+	text-color: @foreground;
+}
+
+element selected.active {
+	background-color: @background-active;
+	color: @foreground-selected;
+}

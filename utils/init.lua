@@ -1,6 +1,3 @@
--- local globalmenu = require('maf.globalmenu')
--- local tasklist = require('maf.widgets.tasklist')
-
 return {
     string = require("utils.string"),
     widget = require("utils.widget"),

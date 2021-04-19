@@ -2,10 +2,10 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 local menubar = require("menubar")
-local clientkeys = require("maf.clientkeys")
+local clientkeys = require("clientkeys")
 local utils = require("utils")
-local keydefine = require("maf.keydefine")
-local xresources = require("beautiful.xresources")
+local keydefine = require("keydefine")
+local dpi = beautiful.xresources.apply_dpi
 
 local module = {}
 
@@ -99,8 +99,8 @@ local function placement(d, args)
     elseif d.instance ~= nil and client.focus ~= nil and d.instance == client.focus.instance then
         args.parent = client.focus
         args.offset = {
-            x = xresources.apply_dpi(30),
-            y = xresources.apply_dpi(30),
+            x = dpi(30),
+            y = dpi(30),
             width = 0,
             height = 0
         }
@@ -123,7 +123,7 @@ client.connect_signal(
     "manage",
     function(c)
         c.shape = function(cr, w, h)
-            gears.shape.rounded_rect(cr, w, h, 3)
+            gears.shape.rounded_rect(cr, w, h, 4)
         end
     end
 )
@@ -248,25 +248,12 @@ table.insert(
 table.insert(
     module,
     {
-        rule = {class = "netease-cloud-music", type = "utility"},
+        rule = {class = "OSD Lyrics"},
         properties = {
-            sticky = true,
             ontop = true,
-            focusable = false,
-            skip_taskbar = false,
+            float = true,
+            x = 500,
             placement = awful.placement.bottom
-        }
-    }
-)
-table.insert(
-    module,
-    {
-        rule = {class = "netease-cloud-music", type = "dock"},
-        properties = {
-            sticky = true,
-            ontop = true,
-            focusable = false,
-            skip_taskbar = false
         }
     }
 )

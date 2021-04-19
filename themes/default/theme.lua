@@ -1,58 +1,32 @@
 local gears = require("gears")
-local theme_assets = require("beautiful.theme_assets")
-local xresources = require("beautiful.xresources")
-local gtk = require("beautiful.gtk")
 local cairo = require("lgi").cairo
 local utils = require("utils")
+local wibox = require("wibox")
+
+local theme_assets = beautiful.theme_assets
+local dpi = beautiful.xresources.apply_dpi
+local gtk = beautiful.gtk
+local gtk_theme = gtk.get_theme_variables()
 
 local theme = {}
+local themes_path = gears.filesystem.get_configuration_dir() .. "themes/default/"
 
-local gtk_theme = gtk.get_theme_variables()
-local themes_path = gears.filesystem.get_configuration_dir() ..
-                        "themes/default/"
-
+--------------------------------------------------------------------
+-- base
+--------------------------------------------------------------------
 local transparent = "#00000000"
 local icon_font = "Material Icons"
-theme.icon_theme = "Flat-Remix-Blue"
-theme.wallpaper = gears.filesystem.get_configuration_dir() ..
-                      "wallpapers/sea.png"
-theme.useless_gap = xresources.apply_dpi(7)
+theme.icon_theme = "Flat-Remix-Grey-Dark"
+theme.wallpaper = gears.filesystem.get_configuration_dir() .. "wallpapers/seafloor.png"
+theme.useless_gap = dpi(6)
 theme.gtk_theme = gtk_theme
 
 theme.systray_icon_spacing = 10
-
---[[
-███████╗ ██████╗ ███╗   ██╗████████╗
-██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝
-█████╗  ██║   ██║██╔██╗ ██║   ██║
-██╔══╝  ██║   ██║██║╚██╗██║   ██║
-██║     ╚██████╔╝██║ ╚████║   ██║
-╚═╝      ╚═════╝ ╚═╝  ╚═══╝   ╚═╝
-
-]]
--- theme.font = font .. " 10"
 
 theme.icon_font_name = icon_font
 theme.font = gtk_theme.font_family .. " " .. gtk_theme.font_size
 theme.icon_font = icon_font .. " 20"
 
-theme.awesome_icon = utils.image.iconfont {
-    text = utf8.char(0xe80e),
-    width = 50,
-    height = 50,
-    fontsize = 40,
-    ty = -2
-}
-
---[[
-██████╗  █████╗ ███████╗███████╗
-██╔══██╗██╔══██╗██╔════╝██╔════╝
-██████╔╝███████║███████╗█████╗
-██╔══██╗██╔══██║╚════██║██╔══╝
-██████╔╝██║  ██║███████║███████╗
-╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
-
-]]
 theme.bg_normal = gtk_theme.bg_color
 theme.fg_normal = gtk_theme.fg_color
 
@@ -65,91 +39,65 @@ theme.fg_urgent = gtk_theme.fg_color
 theme.bg_minimize = utils.color.opacity(gtk_theme.bg_color, 0)
 theme.fg_minimize = gtk_theme.fg_color
 
---[[
-███╗   ███╗███████╗███╗   ██╗██╗   ██╗
-████╗ ████║██╔════╝████╗  ██║██║   ██║
-██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
-██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
-██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
-╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝
+theme.awesome_icon = gears.surface.load_from_shape(64, 64, function(cr, width, height)
+    gears.shape.arc(cr, width, height, nil, 0, 2 * math.pi)
+end, gtk_theme.fg_color)
 
-]]
-theme.menu_bg_normal = gtk_theme.menubar_bg_color
-theme.menu_fg_normal = gtk_theme.menubar_fg_color
-
-theme.menu_bg_focus = gtk_theme.selected_bg_color
-theme.menu_fg_focus = gtk_theme.selected_fg_color
+--------------------------------------------------------------------
+-- menu
+--------------------------------------------------------------------
 
 theme.menu_submenu_icon = utils.image.iconfont {
-    text = utf8.char(0xe5cc),
+    text = "›",
     width = 50,
     height = 50,
     fontsize = 40,
-    ty = -2
+    ty = -8
 }
-
-theme.menu_height = xresources.apply_dpi(25)
-theme.menu_width = xresources.apply_dpi(220)
+theme.menu_bg = transparent
+theme.menu_bg_normal = utils.color.opacity(gtk_theme.bg_color, 0.5)
+theme.menu_fg_normal = gtk_theme.menubar_fg_color
+theme.menu_bg_focus = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 10)
+theme.menu_fg_focus = gtk_theme.selected_fg_color
+theme.menu_height = dpi(25)
+theme.menu_width = dpi(220)
 theme.menu_border_width = 0
-theme.menu_border_color = utils.color.auto_lighten_or_darken(
-                              theme.menu_bg_normal, 20)
+theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_normal, 20)
 
---[[
-██╗    ██╗██╗██████╗  █████╗ ██████╗
-██║    ██║██║██╔══██╗██╔══██╗██╔══██╗
-██║ █╗ ██║██║██████╔╝███████║██████╔╝
-██║███╗██║██║██╔══██╗██╔══██║██╔══██╗
-╚███╔███╔╝██║██████╔╝██║  ██║██║  ██║
- ╚══╝╚══╝ ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+--------------------------------------------------------------------
+-- wibar
+--------------------------------------------------------------------
 
-]]
-theme.wibar_height = xresources.apply_dpi(25)
+theme.wibar_height = dpi(30)
+theme.wibar_ontop = true
+theme.wibar_bg = utils.color.opacity(gtk_theme.bg_color, 0.5)
+theme.wibar_border_width = 1
+theme.wibar_border_color = utils.color.auto_lighten_or_darken(theme.wibar_bg, 0)
 
-theme.wibar_bg = utils.color.opacity(gtk_theme.bg_color, 1)
-theme.wibar_border_width = 0
-theme.wibar_border_color = utils.color
-                               .auto_lighten_or_darken(theme.wibar_bg, 10)
+--------------------------------------------------------------------
+-- widgets
+--------------------------------------------------------------------
 
---[[
-████████╗ █████╗ ███████╗██╗  ██╗██╗     ██╗███████╗████████╗
-╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝██║     ██║██╔════╝╚══██╔══╝
-   ██║   ███████║███████╗█████╔╝ ██║     ██║███████╗   ██║
-   ██║   ██╔══██║╚════██║██╔═██╗ ██║     ██║╚════██║   ██║
-   ██║   ██║  ██║███████║██║  ██╗███████╗██║███████║   ██║
-   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝   ╚═╝
+-- search
 
-]]
-theme.tasklist_bg_focus = gtk_theme.selected_bg_color
-theme.tasklist_bg_normal = utils.color.opacity(gtk_theme.selected_bg_color, 0.4)
-theme.tasklist_bg_minimize = transparent
-
---[[
-████████╗ █████╗  ██████╗ ██╗     ██╗███████╗████████╗
-╚══██╔══╝██╔══██╗██╔════╝ ██║     ██║██╔════╝╚══██╔══╝
-   ██║   ███████║██║  ███╗██║     ██║███████╗   ██║
-   ██║   ██╔══██║██║   ██ ║██║     ██║╚════██║   ██║
-   ██║   ██║  ██║╚██████╔╝███████╗██║███████║   ██║
-   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝╚══════╝   ╚═╝
-
-]]
--- theme.taglist_font = icon_font .. " 12"
-theme.taglist_bg_focus = gtk_theme.selected_bg_color
-theme.taglist_bg_urgent = utils.color.opacity(gtk_theme.selected_bg_color, 0.4)
-theme.taglist_bg_occupied = utils.color
-                                .opacity(gtk_theme.selected_bg_color, 0.4)
-theme.taglist_bg_volatile = utils.color
-                                .opacity(gtk_theme.selected_bg_color, 0.4)
-theme.taglist_bg_empty = transparent
-
---[[
-██╗      █████╗ ██╗   ██╗ ██████╗ ██╗   ██╗████████╗██████╗  ██████╗ ██╗  ██╗
-██║     ██╔══██╗╚██╗ ██╔╝██╔═══██╗██║   ██║╚══██╔══╝██╔══██╗██╔═══██╗╚██╗██╔╝
-██║     ███████║ ╚████╔╝ ██║   ██║██║   ██║   ██║   ██████╔╝██║   ██║ ╚███╔╝
-██║     ██╔══██║  ╚██╔╝  ██║   ██║██║   ██║   ██║   ██╔══██╗██║   ██║ ██╔██╗
-███████╗██║  ██║   ██║   ╚██████╔╝╚██████╔╝   ██║   ██████╔╝╚██████╔╝██╔╝ ██╗
-╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝    ╚═╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
-
-]]
+theme.search_icon = gears.surface.load_from_shape(64, 64, function(cr, width, height)
+    gears.shape.arc(cr, width, height, nil, 0, 2 * math.pi)
+end, gtk_theme.fg_color)
+-- folder
+theme.folder_icon = gears.surface.load_from_shape(64, 64, function(cr, width, height)
+    gears.shape.cross(cr, width, height)
+end, utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 30))
+theme.folder_icon = gears.surface.load_from_shape(64, 64, function(cr, width, height)
+    gears.shape.cross(cr, width, height)
+end, utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 30))
+theme.folder_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
+-- clock
+theme.clock_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
+-- volume
+theme.volume_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
+theme.volume_progress_bg = utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 30)
+theme.volume_mute_progress_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 0)
+-- layout
 theme.layout_fairh = themes_path .. "assets/layouts/fairh.png"
 theme.layout_fairv = themes_path .. "assets/layouts/fairv.png"
 theme.layout_floating = themes_path .. "assets/layouts/floating.png"
@@ -169,77 +117,78 @@ theme.layout_cornerse = themes_path .. "assets/layouts/cornerse.png"
 theme.layout_cornerse = themes_path .. "assets/layouts/cornerse.png"
 theme.layout_cascade = themes_path .. "assets/layouts/dwindle.png"
 
---[[
-████████╗ ██████╗  ██████╗ ██╗  ████████╗██╗██████╗
-╚══██╔══╝██╔═══██╗██╔═══██╗██║  ╚══██╔══╝██║██╔══██╗
-   ██║   ██║   ██║██║   ██║██║     ██║   ██║██████╔╝
-   ██║   ██║   ██║██║   ██║██║     ██║   ██║██╔═══╝
-   ██║   ╚██████╔╝╚██████╔╝███████╗██║   ██║██║
-   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚═╝   ╚═╝╚═╝
+-- tasklist
+theme.tasklist_plain_task_name = true
+theme.tasklist_bg = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 20),0.5)
+theme.tasklist_bg_focus = utils.color.opacity(gtk_theme.fg_color, 0.2)
+theme.tasklist_bg_normal = utils.color.opacity(gtk_theme.fg_color, 0.1)
+theme.tasklist_bg_minimize = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, -5),0.2)
 
-]]
+theme.tasklist_icon = gears.surface.load_from_shape(64, 64, function(cr, width, height)
+    gears.shape.hexagon(cr, width, height)
+end, gtk_theme.fg_color)
+-- taglist
+theme.taglist_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
+theme.taglist_bg_focus = utils.color.opacity(gtk_theme.fg_color, 0.8)
+theme.taglist_bg_urgent = utils.color.opacity(gtk_theme.fg_color, 0.4)
+theme.taglist_bg_occupied = utils.color.opacity(gtk_theme.fg_color, 0.4)
+theme.taglist_bg_volatile = utils.color.opacity(gtk_theme.fg_color, 0.4)
+theme.taglist_bg_empty = utils.color.opacity(gtk_theme.fg_color, 0.2)
+
+theme.tag_active_icon = gears.surface.load_from_shape(64, 64, function(cr, width, height)
+    gears.shape.losange(cr, width, height)
+end, gtk_theme.fg_color)
+theme.tag_inactive_icon = gears.surface.load_from_shape(64, 64, function(cr, width, height)
+    gears.shape.losange(cr, width, height)
+end, utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 30))
+
+--------------------------------------------------------------------
+-- tooltip
+--------------------------------------------------------------------
+
 -- theme.tooltip_shape = gears.shape.infobubble
 theme.tooltip_bg = gtk_theme.tooltip_bg_color
 theme.tooltip_fg = gtk_theme.tooltip_fg_color
-theme.tooltip_border_width = 1
-theme.tooltip_border_color = utils.color.auto_lighten_or_darken(
-                                 gtk_theme.tooltip_bg_color, 20)
+theme.tooltip_border_width = dpi(1)
+theme.tooltip_border_color = utils.color.auto_lighten_or_darken(gtk_theme.tooltip_bg_color, 10)
 
--- --[[
--- ██╗  ██╗ ██████╗ ████████╗██╗  ██╗███████╗██╗   ██╗███████╗
--- ██║  ██║██╔═══██╗╚══██╔══╝██║ ██╔╝██╔════╝╚██╗ ██╔╝██╔════╝
--- ███████║██║   ██║   ██║   █████╔╝ █████╗   ╚████╔╝ ███████╗
--- ██╔══██║██║   ██║   ██║   ██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║
--- ██║  ██║╚██████╔╝   ██║   ██║  ██╗███████╗   ██║   ███████║
--- ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝
-
--- ]]
+--------------------------------------------------------------------
+-- hotkeys
+--------------------------------------------------------------------
 theme.hotkeys_font = gtk_theme.font_family .. " " .. gtk_theme.font_size
-theme.hotkeys_description_font = gtk_theme.font_family .. " " ..
-                                     gtk_theme.font_size * 0.8
+theme.hotkeys_description_font = gtk_theme.font_family .. " " .. gtk_theme.font_size * 0.8
 
 theme.hotkeys_bg = gtk_theme.bg_color
 theme.hotkeys_fg = gtk_theme.fg_color
-theme.hotkeys_modifiers_fg = utils.color.auto_lighten_or_darken(
-                                 gtk_theme.fg_color, 50)
+theme.hotkeys_modifiers_fg = utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 50)
 
 theme.hotkeys_group_margin = 40
 
---[[
-███╗   ██╗ ██████╗ ████████╗██╗███████╗██╗ ██████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
-████╗  ██║██╔═══██╗╚══██╔══╝██║██╔════╝██║██╔════╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
-██╔██╗ ██║██║   ██║   ██║   ██║█████╗  ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║
-██║╚██╗██║██║   ██║   ██║   ██║██╔══╝  ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
-██║ ╚████║╚██████╔╝   ██║   ██║██║     ██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
-╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-
-]]
+--------------------------------------------------------------------
+-- notify
+--------------------------------------------------------------------
 
 local naughty = require("naughty")
-naughty.config.padding = xresources.apply_dpi(5)
-naughty.config.spacing = xresources.apply_dpi(10)
-naughty.config.defaults.margin = xresources.apply_dpi(15)
+naughty.config.padding = dpi(5)
+naughty.config.spacing = dpi(10)
+naughty.config.defaults.margin = dpi(15)
 theme.notification_font = gtk_theme.font_family .. " " .. gtk_theme.font_size
 theme.notification_bg = gtk_theme.bg_color
 theme.notification_fg = gtk_theme.fg_color
 theme.notification_opacity = 0.95
 theme.notification_border_width = 0
 theme.notification_border_color = gtk_theme.bg_color
-theme.notification_margin = xresources.apply_dpi(15)
-theme.notification_width = xresources.apply_dpi(350)
-theme.notification_max_width = xresources.apply_dpi(400)
-theme.notification_max_height = xresources.apply_dpi(500)
-theme.notification_icon_size = xresources.apply_dpi(100)
+theme.notification_margin = dpi(15)
+theme.notification_width = dpi(350)
+theme.notification_max_width = dpi(400)
+theme.notification_max_height = dpi(500)
+theme.notification_icon_size = dpi(100)
 
---[[
-██████╗  ██████╗ ████████╗██████╗ ███████╗██████╗
-██╔══██╗██╔═══██╗╚══██╔══╝██╔══██╗██╔════╝██╔══██╗
-██████╔╝██║   ██║   ██║   ██║  ██║█████╗  ██████╔╝
-██╔══██╗██║   ██║   ██║   ██║  ██║██╔══╝  ██╔══██╗
-██████╔╝╚██████╔╝   ██║   ██████╔╝███████╗██║  ██║
-╚═════╝  ╚═════╝    ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝
+--------------------------------------------------------------------
+-- client
+--------------------------------------------------------------------
 
-]]
+-- border
 theme.border_width = 1
 theme.border_normal = transparent
 -- theme.border_focus = caa
@@ -251,165 +200,82 @@ theme.maximumed_hide_border = true
 theme.snap_bg = gtk_theme.bg_color
 theme.snap_border_width = 1
 
---[[
-████████╗██╗████████╗██╗     ███████╗██████╗  █████╗ ██████╗
-╚══██╔══╝██║╚══██╔══╝██║     ██╔════╝██╔══██╗██╔══██╗██╔══██╗
-   ██║   ██║   ██║   ██║     █████╗  ██████╔╝███████║██████╔╝
-   ██║   ██║   ██║   ██║     ██╔══╝  ██╔══██╗██╔══██║██╔══██╗
-   ██║   ██║   ██║   ███████╗███████╗██████╔╝██║  ██║██║  ██║
-   ╚═╝   ╚═╝   ╚═╝   ╚══════╝╚══════╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-
-]]
+-- titlebar
 theme.titlebar_bg_normal = gtk_theme.bg_color
 theme.titlebar_bg_focus = gtk_theme.bg_color
 
-local normal = {}
-local focus = {bg = "#d31919"}
-local hover = {bg = "#d31919", text = utf8.char(0xe5cd)}
+local normal = {
+    bg = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 20)
+}
+local focus = {
+    bg = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 20)
+}
+local hover = {
+    bg = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 30)
+}
 
 theme.titlebar_close_button_normal = utils.image.titlebar_botton_image(normal)
-theme.titlebar_close_button_normal_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_close_button_normal_press =
-    utils.image.titlebar_botton_image(hover)
+theme.titlebar_close_button_normal_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_close_button_normal_press = utils.image.titlebar_botton_image(hover)
 theme.titlebar_close_button_focus = utils.image.titlebar_botton_image(focus)
-theme.titlebar_close_button_focus_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_close_button_focus_press =
-    utils.image.titlebar_botton_image(hover)
+theme.titlebar_close_button_focus_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_close_button_focus_press = utils.image.titlebar_botton_image(hover)
 
-focus.bg = "#2777ff"
-hover.bg = "#2777ff"
-hover.text = utf8.char(0xe5d0)
-theme.titlebar_maximized_button_normal_inactive =
-    utils.image.titlebar_botton_image(normal)
-theme.titlebar_maximized_button_normal_inactive_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_maximized_button_normal_inactive_press =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_maximized_button_focus_inactive =
-    utils.image.titlebar_botton_image(focus)
-theme.titlebar_maximized_button_focus_inactive_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_maximized_button_focus_inactive_press =
-    utils.image.titlebar_botton_image(hover)
-focus.bg = "#19a187"
-hover.bg = "#19a187"
-hover.text = utf8.char(0xe5d1)
-theme.titlebar_maximized_button_normal_active =
-    utils.image.titlebar_botton_image(normal)
-theme.titlebar_maximized_button_normal_active_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_maximized_button_normal_active_press =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_maximized_button_focus_active =
-    utils.image.titlebar_botton_image(focus)
-theme.titlebar_maximized_button_focus_active_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_maximized_button_focus_active_press =
-    utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_normal_inactive = utils.image.titlebar_botton_image(normal)
+theme.titlebar_maximized_button_normal_inactive_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_normal_inactive_press = utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_focus_inactive = utils.image.titlebar_botton_image(focus)
+theme.titlebar_maximized_button_focus_inactive_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_focus_inactive_press = utils.image.titlebar_botton_image(hover)
 
-focus.bg = "#ff6600"
-hover.bg = "#ff6600"
-hover.text = utf8.char(0xe313)
-theme.titlebar_minimize_button_normal = utils.image
-                                            .titlebar_botton_image(normal)
-theme.titlebar_minimize_button_normal_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_minimize_button_normal_press =
-    utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_normal_active = utils.image.titlebar_botton_image(normal)
+theme.titlebar_maximized_button_normal_active_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_normal_active_press = utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_focus_active = utils.image.titlebar_botton_image(focus)
+theme.titlebar_maximized_button_focus_active_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_maximized_button_focus_active_press = utils.image.titlebar_botton_image(hover)
+
+theme.titlebar_minimize_button_normal = utils.image.titlebar_botton_image(normal)
+theme.titlebar_minimize_button_normal_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_minimize_button_normal_press = utils.image.titlebar_botton_image(hover)
 theme.titlebar_minimize_button_focus = utils.image.titlebar_botton_image(focus)
-theme.titlebar_minimize_button_focus_hover =
-    utils.image.titlebar_botton_image(hover)
-theme.titlebar_minimize_button_focus_press =
-    utils.image.titlebar_botton_image(hover)
+theme.titlebar_minimize_button_focus_hover = utils.image.titlebar_botton_image(hover)
+theme.titlebar_minimize_button_focus_press = utils.image.titlebar_botton_image(hover)
 
-local active = {bg = "#19a187"}
+local active = {
+    bg = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 40)
+}
+local inactice = {
+    bg = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 20)
+}
+theme.titlebar_ontop_button_normal_inactive = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_ontop_button_normal_inactive_hover = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_ontop_button_focus_inactive = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_ontop_button_focus_inactive_hover = utils.image.titlebar_botton_image(inactice)
 
-local inactice = {bg = "#999999"}
-theme.titlebar_ontop_button_normal_inactive =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_ontop_button_normal_inactive_hover =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_ontop_button_focus_inactive =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_ontop_button_focus_inactive_hover =
-    utils.image.titlebar_botton_image(inactice)
+theme.titlebar_ontop_button_normal_active = utils.image.titlebar_botton_image(active)
+theme.titlebar_ontop_button_normal_active_hover = utils.image.titlebar_botton_image(active)
+theme.titlebar_ontop_button_focus_active = utils.image.titlebar_botton_image(active)
+theme.titlebar_ontop_button_focus_active_hover = utils.image.titlebar_botton_image(active)
 
-theme.titlebar_ontop_button_normal_active =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_ontop_button_normal_active_hover =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_ontop_button_focus_active =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_ontop_button_focus_active_hover =
-    utils.image.titlebar_botton_image(active)
+theme.titlebar_floating_button_normal_inactive = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_floating_button_normal_inactive_hover = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_floating_button_focus_inactive = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_floating_button_focus_inactive_hover = utils.image.titlebar_botton_image(inactice)
 
-theme.titlebar_floating_button_normal_inactive =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_floating_button_normal_inactive_hover =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_floating_button_focus_inactive =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_floating_button_focus_inactive_hover =
-    utils.image.titlebar_botton_image(inactice)
+theme.titlebar_floating_button_normal_active = utils.image.titlebar_botton_image(active)
+theme.titlebar_floating_button_normal_active_hover = utils.image.titlebar_botton_image(active)
+theme.titlebar_floating_button_focus_active = utils.image.titlebar_botton_image(active)
+theme.titlebar_floating_button_focus_active_hover = utils.image.titlebar_botton_image(active)
 
-theme.titlebar_floating_button_normal_active =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_floating_button_normal_active_hover =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_floating_button_focus_active =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_floating_button_focus_active_hover =
-    utils.image.titlebar_botton_image(active)
+theme.titlebar_sticky_button_normal_inactive = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_sticky_button_normal_inactive_hover = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_sticky_button_focus_inactive = utils.image.titlebar_botton_image(inactice)
+theme.titlebar_sticky_button_focus_inactive_hover = utils.image.titlebar_botton_image(inactice)
 
-theme.titlebar_sticky_button_normal_inactive =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_sticky_button_normal_inactive_hover =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_sticky_button_focus_inactive =
-    utils.image.titlebar_botton_image(inactice)
-theme.titlebar_sticky_button_focus_inactive_hover =
-    utils.image.titlebar_botton_image(inactice)
+theme.titlebar_sticky_button_normal_active = utils.image.titlebar_botton_image(active)
+theme.titlebar_sticky_button_normal_active_hover = utils.image.titlebar_botton_image(active)
+theme.titlebar_sticky_button_focus_active = utils.image.titlebar_botton_image(active)
+theme.titlebar_sticky_button_focus_active_hover = utils.image.titlebar_botton_image(active)
 
-hover.text = utf8.char(0xe3f2)
-theme.titlebar_sticky_button_normal_active =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_sticky_button_normal_active_hover =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_sticky_button_focus_active =
-    utils.image.titlebar_botton_image(active)
-theme.titlebar_sticky_button_focus_active_hover =
-    utils.image.titlebar_botton_image(active)
-
---[[
-██╗      █████╗ ██╗   ██╗ ██████╗ ██╗   ██╗████████╗
-██║     ██╔══██╗╚██╗ ██╔╝██╔═══██╗██║   ██║╚══██╔══╝
-██║     ███████║ ╚████╔╝ ██║   ██║██║   ██║   ██║
-██║     ██╔══██║  ╚██╔╝  ██║   ██║██║   ██║   ██║
-███████╗██║  ██║   ██║   ╚██████╔╝╚██████╔╝   ██║
-╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
-
-]]
-theme.master_width_factor = 0.6
-
--- Switcher
-theme.switcher_preview_box_delay = 10
-theme.switcher_preview_box_border = major_color
-theme.switcher_preview_box_bg = major_color
-theme.switcher_preview_box_title_color = inverse_major_color
-theme.switcher_client_bg_selected = accent_color
-theme.switcher_client_bg_normal = minor_color
-theme.switcher_client_border_color = minor_color
-
--- icon
-theme.system_monitor_icon = utils.image.iconfont(
-                                {text = utf8.char(0xe54a), fontsize = 30})
-
-theme.net_monitor_icon = utils.image.iconfont(
-                             {text = utf8.char(0xe2bd), fontsize = 30})
-theme.time_icon = utils.image.iconfont({text = "", fontsize = 30})
-
-theme.search_icon = utils.image.iconfont(
-                        {text = utf8.char(0xe8b6), fontsize = 30})
 return theme
