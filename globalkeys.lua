@@ -18,7 +18,8 @@ globalkeys =
         'space',
         function()
             awful.spawn.with_shell(
-                "rofi -modi 'drun' -show drun -drun-show-actions -display-drun '' -show-icons -icon-theme " .. beautiful.icon_theme
+                "rofi -modi 'drun' -show drun -drun-show-actions -display-drun '' -show-icons -icon-theme " ..
+                    beautiful.icon_theme
             )
         end,
         {description = 'Show rofi', group = 'Application'}

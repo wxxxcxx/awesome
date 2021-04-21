@@ -71,7 +71,7 @@ function module.reset_major_color(client)
         (client.instance or "") ..
         "<class=" ..
             (client.class or "") ..
-                ">" .. "<type=" .. (client.type or "") .. ">" .. "<role=" .. (client.role or "") .. ">"
+                ">" .. "<type=" .. (client.type or "") .. ">" 
     save_color(name .. "<focus>", nil)
     save_color(name .. "<unfocus>", nil)
     client:emit_signal("reset_major_color")
@@ -82,7 +82,7 @@ function module.get_major_color(client)
         (client.instance or "") ..
         "<class=" ..
             (client.class or "") ..
-                ">" .. "<type=" .. (client.type or "") .. ">" .. "<role=" .. (client.role or "") .. ">"
+                ">" .. "<type=" .. (client.type or "") .. ">"
     name = _G.client.focus == client and name .. "<focus>" or name .. "<unfocus>"
     if module._color_rules[name] then
         return module._color_rules[name]
