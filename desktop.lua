@@ -9,7 +9,7 @@ local client = require('client')
 local utils = require('utils')
 
 awful.mouse.resize.set_mode('live')
-awful.mouse.snap.edge_enabled = true
+awful.mouse.snap.edge_enabled = false
 awful.mouse.snap.client_enabled = false
 awful.mouse.drag_to_tag.enabled = false
 root.keys(globalkeys)
