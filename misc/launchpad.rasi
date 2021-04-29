@@ -23,7 +23,7 @@ configuration {
 
 window {
     transparency: "real";
-    background-color: @transparent;
+    background-color: #00000090;
     text-color: @foreground;
     border: 0px;
     border-color: @border;
@@ -36,7 +36,7 @@ entry {
     placeholder-color: @foreground;
     expand: true;
     vertical-align: 0.5;
-	horizontal-align: 0.5;
+    horizontal-align: 0.5;
     placeholder: "Type to search";
     padding: 4px;
     blink: true;
@@ -54,68 +54,68 @@ inputbar {
 
 
 listview {
-	background-color: @transparent;
-	columns: 6;
-	spacing: 5px;
-	cycle: false;
-	dynamic: true;
-	layout: vertical;
+    background-color: @transparent;
+    columns: 6;
+    spacing: 5px;
+    cycle: false;
+    dynamic: true;
+    layout: vertical;
     margin: 70px 0 100px 0;
 }
 
 mainbox {
-	background-color: @background-black;
-	children: [ inputbar, listview ];
-	spacing: 25px;
-	padding: 100px 15% 0 15%;
-	/*padding: 70px 135px 0 135px;*/
+    background-color: @background-black;
+    children: [ inputbar, listview ];
+    spacing: 25px;
+    padding: 100px 15% 0 15%;
+    /*padding: 70px 135px 0 135px;*/
 }
 
 element {
-	background-color: @transparent;
-	text-color: @foreground;
-	orientation: vertical;
-	border-radius: 12px;
-	padding: 25px 0 25px 0;
-    
+    background-color: @transparent;
+    text-color: @foreground;
+    orientation: vertical;
+    border-radius: 12px;
+    padding: 25px 0 25px 0;
+
 }
 
 element-icon {
-	size: 128px;
-	border: 0;
+    size: 128px;
+    border: 0;
 }
 
 element-text {
-	expand: true;
-	horizontal-align: 0.5;
-	vertical-align: 0.5;
-	margin: 0 10px 0 10px;
+    expand: true;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    margin: 0 10px 0 10px;
 }
 
 element normal.urgent,
 element alternate.urgent {
-	background-color: @urgent;
-	text-color: @foreground;
-	border-radius: 9px;
+    background-color: @urgent;
+    text-color: @foreground;
+    border-radius: 9px;
 }
 
 element normal.active,
 element alternate.active {
-	background-color: @background-active;
-	text-color: @foreground;
+    background-color: @background-active;
+    text-color: @foreground;
 }
 
 element selected {
-	background-color: @background-selected;
-	text-color: @foreground;
+    background-color: @background-selected;
+    text-color: @foreground;
 }
 
 element selected.urgent {
-	background-color: @urgent-selected;
-	text-color: @foreground;
+    background-color: @urgent-selected;
+    text-color: @foreground;
 }
 
 element selected.active {
-	background-color: @background-active;
-	color: @foreground-selected;
+    background-color: @background-active;
+    color: @foreground-selected;
 }
