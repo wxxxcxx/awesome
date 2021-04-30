@@ -258,7 +258,7 @@ globalkeys =
     )
 )
 
-local at = require('awesome-translator')
+local at = require('awm-translator')
 
 -- local selection = require("selection")
 -- Volume control
