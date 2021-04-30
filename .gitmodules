@@ -5,3 +5,7 @@
 	path = awm-translator
 	url = https://github.com/meetcw/awm-translator.git
 	branch = main
+[submodule "awm-ypm-lyrics"]
+	path = awm-ypm-lyrics
+	url = https://github.com/meetcw/awm-ypm-lyrics.git
+	branch = main
