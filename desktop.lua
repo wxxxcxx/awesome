@@ -1,12 +1,14 @@
 require('awful.autofocus')
+
 local awful = require('awful')
 local gears = require('gears')
 local error = require('error')
 local bar = require('bar')
 local globalkeys = require('globalkeys')
 local globalmenu = require('globalmenu')
-local client = require('client')
+local client_config = require('client')
 local utils = require('utils')
+
 
 awful.mouse.resize.set_mode('live')
 awful.mouse.snap.edge_enabled = false
@@ -15,7 +17,7 @@ awful.mouse.drag_to_tag.enabled = false
 root.keys(globalkeys)
 
 root.buttons(root.buttons())
-awful.rules.rules = client.rules
+awful.rules.rules = client_config.rules
 -- awful.layout.append_default_layouts(awful.layout.suit.floating)
 -- awful.layout.append_default_layouts(awful.layout.suit.tile.left)
 -- awful.layout.append_default_layouts(awful.layout.suit.tile)
