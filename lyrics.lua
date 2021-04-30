@@ -11,165 +11,169 @@ local function get_lyrics_widget(args)
                 {
                     {
                         {
-                            id = 'current_lyrics_shadow',
+                            {
+                                id = 'current_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#000000',
+                            widget = wibox.container.background
+                        },
+                        left = 2,
+                        top = 2,
+                        widget = wibox.container.margin
+                    },
+                    {
+                        {
+                            {
+                                id = 'current_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#00000099',
+                            widget = wibox.container.background
+                        },
+                        left = 4,
+                        top = 4,
+                        widget = wibox.container.margin
+                    },
+                    {
+                        {
+                            {
+                                id = 'current_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#00000099',
+                            widget = wibox.container.background
+                        },
+                        top = -2,
+                        widget = wibox.container.margin
+                    },
+                    {
+                        {
+                            {
+                                id = 'current_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#00000099',
+                            widget = wibox.container.background
+                        },
+                        left = -2,
+                        widget = wibox.container.margin
+                    },
+                    {
+                        {
+                            id = 'current_lyric',
                             markup = '',
                             align = 'center',
                             valign = 'center',
                             font = font,
                             widget = wibox.widget.textbox
                         },
-                        fg = '#000000',
+                        fg = current_fg,
                         widget = wibox.container.background
                     },
-                    left = 2,
-                    top = 2,
-                    widget = wibox.container.margin
+                    layout = wibox.layout.stack
                 },
                 {
                     {
                         {
-                            id = 'current_lyrics_shadow',
-                            markup = '',
-                            align = 'center',
-                            valign = 'center',
-                            font = font,
-                            widget = wibox.widget.textbox
+                            {
+                                id = 'next_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#000000',
+                            widget = wibox.container.background
                         },
-                        fg = '#00000099',
-                        widget = wibox.container.background
+                        left = 2,
+                        top = 2,
+                        widget = wibox.container.margin
                     },
-                    left = 4,
-                    top = 4,
-                    widget = wibox.container.margin
-                },
-                {
                     {
                         {
-                            id = 'current_lyrics_shadow',
-                            markup = '',
-                            align = 'center',
-                            valign = 'center',
-                            font = font,
-                            widget = wibox.widget.textbox
+                            {
+                                id = 'next_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#00000099',
+                            widget = wibox.container.background
                         },
-                        fg = '#00000099',
-                        widget = wibox.container.background
+                        left = 4,
+                        top = 4,
+                        widget = wibox.container.margin
                     },
-                    top = -2,
-                    widget = wibox.container.margin
-                },
-                {
                     {
                         {
-                            id = 'current_lyrics_shadow',
+                            {
+                                id = 'next_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#00000099',
+                            widget = wibox.container.background
+                        },
+                        top = -2,
+                        widget = wibox.container.margin
+                    },
+                    {
+                        {
+                            {
+                                id = 'next_lyric',
+                                markup = '',
+                                align = 'center',
+                                valign = 'center',
+                                font = font,
+                                widget = wibox.widget.textbox
+                            },
+                            fg = '#00000099',
+                            widget = wibox.container.background
+                        },
+                        left = -2,
+                        widget = wibox.container.margin
+                    },
+                    {
+                        {
+                            id = 'next_lyric',
                             markup = '',
                             align = 'center',
                             valign = 'center',
                             font = font,
                             widget = wibox.widget.textbox
                         },
-                        fg = '#00000099',
+                        fg = next_fg,
                         widget = wibox.container.background
                     },
-                    left = -2,
-                    widget = wibox.container.margin
+                    layout = wibox.layout.stack
                 },
-                {
-                    {
-                        id = 'current_lyrics',
-                        markup = '',
-                        align = 'center',
-                        valign = 'center',
-                        font = font,
-                        widget = wibox.widget.textbox
-                    },
-                    fg = current_fg,
-                    widget = wibox.container.background
-                },
-                layout = wibox.layout.stack
+                layout = wibox.layout.fixed.vertical
             },
-            {
-                {
-                    {
-                        {
-                            id = 'next_lyrics_shadow',
-                            markup = '',
-                            align = 'center',
-                            valign = 'center',
-                            font = font,
-                            widget = wibox.widget.textbox
-                        },
-                        fg = '#000000',
-                        widget = wibox.container.background
-                    },
-                    left = 2,
-                    top = 2,
-                    widget = wibox.container.margin
-                },
-                {
-                    {
-                        {
-                            id = 'next_lyrics_shadow',
-                            markup = '',
-                            align = 'center',
-                            valign = 'center',
-                            font = font,
-                            widget = wibox.widget.textbox
-                        },
-                        fg = '#00000099',
-                        widget = wibox.container.background
-                    },
-                    left = 4,
-                    top = 4,
-                    widget = wibox.container.margin
-                },
-                {
-                    {
-                        {
-                            id = 'next_lyrics_shadow',
-                            markup = '',
-                            align = 'center',
-                            valign = 'center',
-                            font = font,
-                            widget = wibox.widget.textbox
-                        },
-                        fg = '#00000099',
-                        widget = wibox.container.background
-                    },
-                    top = -2,
-                    widget = wibox.container.margin
-                },
-                {
-                    {
-                        {
-                            id = 'next_lyrics_shadow',
-                            markup = '',
-                            align = 'center',
-                            valign = 'center',
-                            font = font,
-                            widget = wibox.widget.textbox
-                        },
-                        fg = '#00000099',
-                        widget = wibox.container.background
-                    },
-                    left = -2,
-                    widget = wibox.container.margin
-                },
-                {
-                    {
-                        id = 'next_lyrics',
-                        markup = '',
-                        align = 'center',
-                        valign = 'center',
-                        font = font,
-                        widget = wibox.widget.textbox
-                    },
-                    fg = next_fg,
-                    widget = wibox.container.background
-                },
-                layout = wibox.layout.stack
-            },
-            layout = wibox.layout.fixed.vertical
+            bottom = 20,
+            widget = wibox.container.margin
         },
         valign = 'bottom',
         widget = wibox.container.place
@@ -193,5 +197,3 @@ client.connect_signal(
         end
     end
 )
-
-
