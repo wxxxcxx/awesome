@@ -1,3 +1,7 @@
 [submodule "service/awesome-translate"]
 	path = service/awesome-translate
 	url = https://github.com/ismrwalter/awesome-translate.git
+[submodule "awm-translator"]
+	path = awm-translator
+	url = https://github.com/meetcw/awm-translator.git
+	branch = main
