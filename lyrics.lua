@@ -5,6 +5,7 @@ local function get_lyrics_widget(args)
     local current_fg = args.current_fg or '#b7cdff'
     local next_fg = args.next_fg or '#aaaaaa'
     local font = args.font or '20'
+    local next_font = args.next_font or '15'
     return {
         {
             {
@@ -97,7 +98,7 @@ local function get_lyrics_widget(args)
                                 markup = '',
                                 align = 'center',
                                 valign = 'center',
-                                font = font,
+                                font = next_font,
                                 widget = wibox.widget.textbox
                             },
                             fg = '#000000',
@@ -114,7 +115,7 @@ local function get_lyrics_widget(args)
                                 markup = '',
                                 align = 'center',
                                 valign = 'center',
-                                font = font,
+                                font = next_font,
                                 widget = wibox.widget.textbox
                             },
                             fg = '#00000099',
@@ -131,7 +132,7 @@ local function get_lyrics_widget(args)
                                 markup = '',
                                 align = 'center',
                                 valign = 'center',
-                                font = font,
+                                font = next_font,
                                 widget = wibox.widget.textbox
                             },
                             fg = '#00000099',
@@ -147,7 +148,7 @@ local function get_lyrics_widget(args)
                                 markup = '',
                                 align = 'center',
                                 valign = 'center',
-                                font = font,
+                                font = next_font,
                                 widget = wibox.widget.textbox
                             },
                             fg = '#00000099',
@@ -162,7 +163,7 @@ local function get_lyrics_widget(args)
                             markup = '',
                             align = 'center',
                             valign = 'center',
-                            font = font,
+                            font = next_font,
                             widget = wibox.widget.textbox
                         },
                         fg = next_fg,
