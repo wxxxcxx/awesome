@@ -8,7 +8,7 @@ require("utils.table")
 local cairo = lgi.cairo
 local gdk = lgi.Gdk
 
-local color_rules_path = gears.filesystem.get_configuration_dir() .. "/color_rules"
+local color_rules_path = gears.filesystem.get_cache_dir() .. "/color_rules"
 local module = {}
 module.fg_dark = "#252a33"
 module.fg_light = "#dee6e7"
