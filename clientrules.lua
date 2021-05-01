@@ -1,10 +1,10 @@
-local awful = require("awful")
-local wibox = require("wibox")
-local gears = require("gears")
-local menubar = require("menubar")
-local clientkeys = require("clientkeys")
-local utils = require("utils")
-local keydefine = require("keydefine")
+local awful = require('awful')
+local wibox = require('wibox')
+local gears = require('gears')
+local menubar = require('menubar')
+local clientkeys = require('clientkeys')
+local utils = require('utils')
+local keydefine = require('keydefine')
 local dpi = beautiful.xresources.apply_dpi
 
 local module = {}
@@ -33,11 +33,11 @@ function border_control(c)
     elseif coords.y < geometry.y + range then
         awful.mouse.client.move(c)
     elseif coords.x < geometry.x + range then
-        awful.mouse.client.resize(c, "left")
+        awful.mouse.client.resize(c, 'left')
     elseif coords.x > geometry.x + geometry.width - range then
-        awful.mouse.client.resize(c, "right")
+        awful.mouse.client.resize(c, 'right')
     elseif coords.y > geometry.y + geometry.height - range then
-        awful.mouse.client.resize(c, "bottom")
+        awful.mouse.client.resize(c, 'bottom')
     end
 end
 
@@ -47,7 +47,7 @@ local clientbuttons =
         {},
         1,
         function(c)
-            if not awful.rules.match(c, {class = "jetbrains-studio", name = "^win[0-9]+$"}) then
+            if not awful.rules.match(c, {class = 'jetbrains-studio', name = '^win[0-9]+$'}) then
                 client.focus = c
             end
             c:raise()
@@ -120,7 +120,7 @@ local function placement(d, args)
     return awful.placement.centered(d, args)
 end
 client.connect_signal(
-    "manage",
+    'manage',
     function(c)
         c.shape = function(cr, w, h)
             gears.shape.rounded_rect(cr, w, h, 4)
@@ -144,7 +144,7 @@ module = {
             placement = placement,
             titlebars_enabled = true,
             switchtotag = true,
-            tag = "normal"
+            tag = 'normal'
         },
         callback = function(c)
             if c.transient_for then
@@ -156,29 +156,29 @@ module = {
         rule_any = {
             instance = {},
             class = {
-                "Arandr",
-                "Blueman-manager",
-                "Gpick",
-                "Kruler",
-                "MessageWin", -- kalarm.--[[  ]]
-                "Sxiv",
-                "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-                "Wpa_gui",
-                "veromix",
-                "xtightvncviewer",
-                "obs",
-                "Qq",
-                "Peek",
-                "Anki",
-                "Dragon-drag-and-drop",
-                "scrcpy"
+                'Arandr',
+                'Blueman-manager',
+                'Gpick',
+                'Kruler',
+                'MessageWin', -- kalarm.--[[  ]]
+                'Sxiv',
+                'Tor Browser', -- Needs a fixed window size to avoid fingerprinting by screen size.
+                'Wpa_gui',
+                'veromix',
+                'xtightvncviewer',
+                'obs',
+                'Qq',
+                'Peek',
+                'Anki',
+                'Dragon-drag-and-drop',
+                'scrcpy'
             },
             name = {
-                "Event Tester", -- xev.
-                "win0" -- jetbrains
+                'Event Tester', -- xev.
+                'win0' -- jetbrains
             },
             role = {
-                "pop-up" -- e.g. Google Chrome's (detached) Developer Tools.
+                'pop-up' -- e.g. Google Chrome's (detached) Developer Tools.
             }
         },
         properties = {floating = true}
@@ -186,31 +186,31 @@ module = {
     {rule_any = {class = {}}, properties = {sticky = true}}, -- OnTop clients
     {rule_any = {class = {}}, properties = {ontop = true}}, -- No border clients
     {
-        rule_any = {class = {"Qq"}, type = {"utility"}},
+        rule_any = {class = {'Qq'}, type = {'utility'}},
         properties = {border_width = 0}
     },
     {
         rule_any = {
-            instance = {"chromium", "google-chrome"},
-            class = {"firefox", "qutebrowser", "Chromium", "Zathura"}
+            instance = {'chromium', 'google-chrome'},
+            class = {'firefox', 'qutebrowser', 'Chromium', 'Zathura'}
         },
-        properties = {tag = "view"}
+        properties = {tag = 'view'}
     },
     {
         rule_any = {
-            class = {"jetbrains-studio", "QtCreator"},
+            class = {'jetbrains-studio', 'QtCreator'},
             instance = {
-                "jetbrains-idea",
-                "jetbrains-datagrip",
-                "emacs",
-                "code",
-                "code-oss"
+                'jetbrains-idea',
+                'jetbrains-datagrip',
+                'emacs',
+                'code',
+                'code-oss'
             }
         },
-        properties = {tag = "work"}
+        properties = {tag = 'work'}
     },
     {
-        rule = {instance = "VirtualBox Machine"},
+        rule = {instance = 'VirtualBox Machine'},
         properties = {
             maximized = true,
             titlebars_enabled = false,
@@ -219,13 +219,24 @@ module = {
         callback = create_tag
     }
 }
+-- Firefox
+table.insert(
+    module,
+    {
+        rule = {
+            class = 'firefox',
+            type = 'utility'
+        },
+        properties = {sticky = true}
+    }
+)
 -- Enpass
-table.insert(module, {rule = {class = "Enpass"}, properties = {sticky = true}})
+table.insert(module, {rule = {class = 'Enpass'}, properties = {sticky = true}})
 -- Ranger dragon
 table.insert(
     module,
     {
-        rule = {class = "Dragon-drag-and-drop"},
+        rule = {class = 'Dragon-drag-and-drop'},
         properties = {ontop = true, sticky = true}
     }
 )
@@ -233,14 +244,14 @@ table.insert(
 table.insert(
     module,
     {
-        rule = {name = "Emulator", type = "utility"},
+        rule = {name = 'Emulator', type = 'utility'},
         properties = {sticky = false, ontop = false, skip_taskbar = true}
     }
 )
 table.insert(
     module,
     {
-        rule = {name = "Android Emulator.+"},
+        rule = {name = 'Android Emulator.+'},
         properties = {ontop = false}
     }
 )
@@ -248,7 +259,7 @@ table.insert(
 table.insert(
     module,
     {
-        rule = {class = "OSD Lyrics"},
+        rule = {class = 'OSD Lyrics'},
         properties = {
             ontop = true,
             float = true,
@@ -257,7 +268,5 @@ table.insert(
         }
     }
 )
-
-
 
 return module
