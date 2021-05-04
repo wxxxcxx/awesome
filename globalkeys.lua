@@ -98,6 +98,17 @@ globalkeys =
     globalkeys,
     awful.key(
         {keydefine.modkey},
+        'h',
+        function()
+            awful.client.focus.byidx(-1)
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = 'Focus previous by index', group = 'Client'}
+    ),
+    awful.key(
+        {keydefine.modkey},
         'j',
         function()
             awful.client.focus.byidx(1)
@@ -119,6 +130,25 @@ globalkeys =
         {description = 'Focus previous by index', group = 'Client'}
     ),
     awful.key(
+        {keydefine.modkey},
+        'l',
+        function()
+            awful.client.focus.byidx(1)
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = 'Focus next by index', group = 'Client'}
+    ),
+    awful.key(
+        {keydefine.modkey, keydefine.shift},
+        'h',
+        function()
+            awful.client.swap.byidx(-1)
+        end,
+        {description = 'Swap previous by index', group = 'Client'}
+    ),
+    awful.key(
         {keydefine.modkey, keydefine.shift},
         'j',
         function()
@@ -133,6 +163,14 @@ globalkeys =
             awful.client.swap.byidx(-1)
         end,
         {description = 'Swap previous by index', group = 'Client'}
+    ),
+    awful.key(
+        {keydefine.modkey, keydefine.shift},
+        'l',
+        function()
+            awful.client.swap.byidx(1)
+        end,
+        {description = 'Swap next by index', group = 'Client'}
     ),
     awful.key(
         {keydefine.alt},
