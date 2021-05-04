@@ -164,5 +164,23 @@ client.connect_signal(
     end
 )
 
+-- client.connect_signal(
+--     'manage',
+--     function(c)
+--         local icon = menubar.utils.lookup_icon(c.instance)
+--         local lower_icon = menubar.utils.lookup_icon(c.instance:lower())
+
+--         --Check if the icon exists
+--         if icon ~= nil then
+--             --Check if the icon exists in the lowercase variety
+--             c.icon = gears.surface(icon)._native
+--         elseif lower_icon ~= nil then
+--             --Check if the client already has an icon. If not, give it a default.
+--             c.icon = gears.surface(lower_icon)._native
+--         elseif c.icon == nil then
+--             c.icon = gears.surface(menubar.utils.lookup_icon('application-default-icon'))._native
+--         end
+--     end
+-- )
 
 return module
