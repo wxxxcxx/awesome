@@ -17,9 +17,9 @@ client.connect_signal(
     function(c)
         if client.focus ~= c then
             client.focus = c
+            c:raise()
+            awful.tag.viewmore({c.first_tag})
         end
-        c:raise()
-        c.first_tag.selected = true
     end
 )
 
