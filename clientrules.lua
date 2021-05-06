@@ -219,6 +219,20 @@ module = {
         callback = create_tag
     }
 }
+-- Alacritty
+table.insert(
+    module,
+    {
+        rule = {
+            class = 'Alacritty'
+        },
+        properties = {
+            sticky = true,
+            floating = true,
+            switchtotag =false
+        }
+    }
+)
 -- Firefox
 table.insert(
     module,

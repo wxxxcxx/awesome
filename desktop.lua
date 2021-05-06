@@ -76,7 +76,7 @@ function module:init()
                 {
                     layout = awful.layout.layouts[2],
                     screen = screen,
-                    selected = true
+                    selected = false
                 }
             )
             awful.tag.add(
@@ -84,7 +84,7 @@ function module:init()
                 {
                     layout = awful.layout.layouts[2],
                     screen = screen,
-                    selected = true
+                    selected = false
                 }
             )
         end
