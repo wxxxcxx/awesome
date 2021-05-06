@@ -229,7 +229,21 @@ table.insert(
         properties = {
             sticky = true,
             floating = true,
-            switchtotag =false
+            switchtotag = false
+        }
+    }
+)
+-- polkit-dumb-agent
+table.insert(
+    module,
+    {
+        rule = {
+            class = ' polkit-dumb-agent'
+        },
+        properties = {
+            sticky = true,
+            floating = true,
+            switchtotag = false
         }
     }
 )
