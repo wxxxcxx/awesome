@@ -1,41 +1,63 @@
-local awful = require("awful")
-local wibox = require("wibox")
-local widgets = require("widgets")
-local utils = require("utils")
-local globalmenu = require("globalmenu")
+local awful = require('awful')
+local wibox = require('wibox')
+local widgets = require('widgets')
+local utils = require('utils')
+local globalmenu = require('globalmenu')
 
 local dpi = beautiful.xresources.apply_dpi
 
 local module = {}
 
-local tag_switch_buttons = gears.table.join(awful.button({}, 4, function(t)
-    awful.tag.viewprev()
-end), awful.button({}, 5, function(t)
-    awful.tag.viewnext()
-end))
+local tag_switch_buttons =
+    gears.table.join(
+    awful.button(
+        {},
+        4,
+        function(t)
+            awful.tag.viewprev()
+        end
+    ),
+    awful.button(
+        {},
+        5,
+        function(t)
+            awful.tag.viewnext()
+        end
+    )
+)
 
 function module:new(args)
-    local default_bar = awful.wibar({
-        position = "bottom",
-        ontop = true,
-        screen = args.screen,
-    })
+    local default_bar =
+        awful.wibar(
+        {
+            position = 'bottom',
+            ontop = true,
+            screen = args.screen
+        }
+    )
 
-    client.connect_signal("property::fullscreen", function(c)
-        default_bar.ontop = not c.fullscreen
-    end)
+    client.connect_signal(
+        'property::fullscreen',
+        function(c)
+            default_bar.ontop = not c.fullscreen
+        end
+    )
 
-    default_bar:setup{
+    default_bar:setup {
         layout = wibox.layout.align.horizontal,
         {
-            widgets.launcher {
+            widgets.launchpad {
                 margin = 0,
                 menu = globalmenu
             },
             widgets.taglist {
                 screen = args.screen
             },
-
+            {
+                widgets.prompt,
+                widget = wibox.container.margin,
+                margins = 4
+            },
             layout = wibox.layout.fixed.horizontal
         },
         {
@@ -43,13 +65,12 @@ function module:new(args)
                 screen = args.screen,
                 wibox = default_bar
             },
-            halign = "center",
+            halign = 'center',
             widget = wibox.container.place
         },
         {
             {
                 {
-
                     widgets.folder.new {
                         wibox.widget {
                             wibox.widget.systray(),

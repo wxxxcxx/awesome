@@ -82,13 +82,13 @@ local module = {
                 c.floating = true
             end
         end
-    }, 
+    },
     -- Floating clients.
-    {rule_any = {class = {}}, properties = {floating = true}}, 
+    {rule_any = {class = {}}, properties = {floating = true}},
     -- Sticky clients
-    {rule_any = {class = {}}, properties = {sticky = true}}, 
+    {rule_any = {class = {}}, properties = {sticky = true}},
     -- OnTop clients
-    {rule_any = {class = {}}, properties = {ontop = true}}, 
+    {rule_any = {class = {}}, properties = {ontop = true}},
     {
         rule_any = {
             instance = {'chromium', 'google-chrome'},
@@ -119,6 +119,23 @@ local module = {
         callback = create_tag
     }
 }
+-- GLava
+-- table.insert(
+--     module,
+--     {
+--         rule = {
+--             class = 'GLava'
+--         },
+--         properties = {
+--            type = "utility",
+--            fullscreen = true,
+--            maximized = true,
+--            x = 0,
+--            y = 0,
+--            width = screen.primary.geometry.width
+--         }
+--     }
+-- )
 -- Alacritty
 table.insert(
     module,

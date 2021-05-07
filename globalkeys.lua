@@ -2,6 +2,7 @@ local gears = require('gears')
 local awful = require('awful')
 local hotkeys_popup = require('awful.hotkeys_popup')
 local keydefine = require('keydefine')
+local widgets = require('widgets')
 
 globalkeys =
     gears.table.join(
@@ -37,6 +38,14 @@ globalkeys =
             description = 'Show help',
             group = 'Awesome'
         }
+    ),
+    awful.key(
+        {keydefine.modkey},
+        'r',
+        function()
+            widgets.prompt:run()
+        end,
+        {description = 'Run command', group = 'Awesome'}
     ),
     awful.key(
         {keydefine.modkey, keydefine.control},
