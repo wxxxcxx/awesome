@@ -9,8 +9,6 @@ local dpi = beautiful.xresources.apply_dpi
 local clientkeys = require('clientkeys')
 local clientbuttons = require('clientbuttons')
 
-local module = {}
-
 local function create_tag(c)
     local tag =
         awful.tag.add(
@@ -57,7 +55,7 @@ local function placement(d, args)
     return awful.placement.centered(d, args)
 end
 
-module = {
+local module = {
     {
         rule = {},
         properties = {
@@ -80,45 +78,17 @@ module = {
             if c.transient_for then
                 c:move_to_tag(c.transient_for.first_tag)
             end
+            if c.skip_taskbar then
+                c.floating = true
+            end
         end
-    }, -- Floating clients.
-    {
-        rule_any = {
-            instance = {},
-            class = {
-                'Arandr',
-                'Blueman-manager',
-                'Gpick',
-                'Kruler',
-                'MessageWin', -- kalarm.--[[  ]]
-                'Sxiv',
-                'Tor Browser', -- Needs a fixed window size to avoid fingerprinting by screen size.
-                'Wpa_gui',
-                'veromix',
-                'xtightvncviewer',
-                'obs',
-                'Qq',
-                'Peek',
-                'Anki',
-                'Dragon-drag-and-drop',
-                'scrcpy'
-            },
-            name = {
-                'Event Tester', -- xev.
-                'win0' -- jetbrains
-            },
-            role = {
-                'pop-up' -- e.g. Google Chrome's (detached) Developer Tools.
-            }
-        },
-        properties = {floating = true}
-    }, -- Sticky clients
-    {rule_any = {class = {}}, properties = {sticky = true}}, -- OnTop clients
-    {rule_any = {class = {}}, properties = {ontop = true}}, -- No border clients
-    {
-        rule_any = {class = {'Qq'}, type = {'utility'}},
-        properties = {border_width = 0}
-    },
+    }, 
+    -- Floating clients.
+    {rule_any = {class = {}}, properties = {floating = true}}, 
+    -- Sticky clients
+    {rule_any = {class = {}}, properties = {sticky = true}}, 
+    -- OnTop clients
+    {rule_any = {class = {}}, properties = {ontop = true}}, 
     {
         rule_any = {
             instance = {'chromium', 'google-chrome'},
