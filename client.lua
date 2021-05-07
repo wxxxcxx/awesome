@@ -13,6 +13,15 @@ local module = {}
 module.rules = clientrules
 
 client.connect_signal(
+    'manage',
+    function(c)
+        c.shape = function(cr, w, h)
+            gears.shape.rounded_rect(cr, w, h, 4)
+        end
+    end
+)
+
+client.connect_signal(
     'request::activate',
     function(c)
         if client.focus ~= c then
