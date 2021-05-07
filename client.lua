@@ -33,6 +33,13 @@ client.connect_signal(
 )
 
 client.connect_signal(
+    'focus',
+    function(c)
+        c:raise()
+    end
+)
+
+client.connect_signal(
     'request::titlebars',
     function(c)
         if c.requests_no_titlebar then
