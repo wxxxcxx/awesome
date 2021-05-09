@@ -137,19 +137,19 @@ local module = {
 --     }
 -- )
 -- Alacritty
-table.insert(
-    module,
-    {
-        rule = {
-            class = 'Alacritty'
-        },
-        properties = {
-            sticky = true,
-            floating = true,
-            switchtotag = false
-        }
-    }
-)
+-- table.insert(
+--     module,
+--     {
+--         rule = {
+--             class = 'Alacritty'
+--         },
+--         properties = {
+--             sticky = true,
+--             floating = true,
+--             switchtotag = false
+--         }
+--     }
+-- )
 -- polkit-dumb-agent
 table.insert(
     module,

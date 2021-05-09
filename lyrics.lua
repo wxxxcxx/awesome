@@ -1,12 +1,27 @@
 local wibox = require('wibox')
+local dpi = beautiful.xresources.apply_dpi
 local ypm = require('awm-ypm-lyrics')
-local function get_lyrics_widget(args)
+local function get_lyrics_wibox(args)
     local args = args or {}
     local current_fg = args.current_fg or '#b7cdff'
     local next_fg = args.next_fg or '#aaaaaa'
-    local font = args.font or '20'
-    local next_font = args.next_font or '15'
-    return {
+    local font = args.font or "20"
+    local next_font = args.next_font or "15"
+    local lyrics_wibox =
+        wibox {
+        screen = screen.primary,
+        width = screen.primary.workarea.width,
+        height = dpi(100),
+        x = 0,
+        y = screen.primary.workarea.height - dpi(100),
+        bg = '#00000000',
+        opacity = 1,
+        visible = false,
+        ontop = true,
+        type = 'utility',
+        input_passthrough = true
+    }
+    lyrics_wibox:setup {
         {
             {
                 {
@@ -179,8 +194,9 @@ local function get_lyrics_widget(args)
         valign = 'bottom',
         widget = wibox.container.place
     }
+    return lyrics_wibox
 end
-ypm:setup(get_lyrics_widget())
+ypm:setup(get_lyrics_wibox())
 client.connect_signal(
     'manage',
     function(c)
