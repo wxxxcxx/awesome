@@ -176,7 +176,7 @@ table.insert(
     }
 )
 -- Enpass
-table.insert(module, {rule = {class = 'Enpass'}, properties = {sticky = true}})
+table.insert(module, {rule = {class = 'Enpass'}, properties = {switchtotag = false}})
 -- Ranger dragon
 table.insert(
     module,
