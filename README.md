@@ -20,7 +20,7 @@
 git clone --recurse-submodules https://github.com/meetcw/awesome.git
 ```
 
-## Structure
+## Layout
 
 ``` 
 .
