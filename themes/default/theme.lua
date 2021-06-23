@@ -10,6 +10,17 @@ local gtk_theme = gtk.get_theme_variables()
 
 local theme = {}
 local themes_path = gears.filesystem.get_configuration_dir() .. 'themes/default/'
+local naughty = require('naughty')
+function notify(msg)
+    naughty.notify(
+        {
+            border_width = 0,
+            position = 'top_right',
+            title = 'New message!',
+            text = msg
+        }
+    )
+end
 
 --------------------------------------------------------------------
 -- base
@@ -77,8 +88,8 @@ theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_norma
 
 theme.wibar_height = dpi(30)
 theme.wibar_ontop = true
-theme.wibar_bg = utils.color.opacity(gtk_theme.bg_color, 0.5)
-theme.wibar_border_width = 1
+theme.wibar_bg = utils.color.opacity(gtk_theme.wm_bg_color, 0.5)
+theme.wibar_border_width = 0
 theme.wibar_border_color = utils.color.auto_lighten_or_darken(theme.wibar_bg, 0)
 
 --------------------------------------------------------------------
@@ -146,8 +157,10 @@ theme.layout_cascade = themes_path .. 'assets/layouts/dwindle.png'
 theme.tasklist_plain_task_name = true
 theme.tasklist_bg = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 20), 0.5)
 theme.tasklist_bg_focus = utils.color.opacity(gtk_theme.fg_color, 0.2)
+
 theme.tasklist_bg_normal = utils.color.opacity(gtk_theme.fg_color, 0.1)
-theme.tasklist_bg_minimize = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, -5), 0.2)
+
+theme.tasklist_bg_minimize = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 5), 0.2)
 
 theme.tasklist_icon =
     gears.surface.load_from_shape(
@@ -198,14 +211,15 @@ theme.tooltip_border_color = utils.color.auto_lighten_or_darken(gtk_theme.toolti
 --------------------------------------------------------------------
 -- hotkeys
 --------------------------------------------------------------------
-theme.hotkeys_font = gtk_theme.font_family .. ' ' .. gtk_theme.font_size
-theme.hotkeys_description_font = gtk_theme.font_family .. ' ' .. gtk_theme.font_size * 0.8
+theme.hotkeys_font = gtk_theme.font_family .. ' ' .. gtk_theme.font_size * 1.2
+theme.hotkeys_description_font = gtk_theme.font_family .. ' ' .. gtk_theme.font_size
 
-theme.hotkeys_bg = gtk_theme.bg_color
+theme.hotkeys_bg = utils.color.opacity(gtk_theme.bg_color, 0.8)
 theme.hotkeys_fg = gtk_theme.fg_color
-theme.hotkeys_modifiers_fg = utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 50)
-
-theme.hotkeys_group_margin = 40
+theme.hotkeys_modifiers_fg = utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 20)
+theme.hotkeys_border_width = dpi(1)
+theme.hotkeys_border_color = utils.color.opacity(gtk_theme.bg_color, 0.5)
+theme.hotkeys_group_margin = dpi(40)
 
 --------------------------------------------------------------------
 -- notify

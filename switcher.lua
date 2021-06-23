@@ -166,9 +166,9 @@ end
 
 function _M.createPreviewText(client)
     if client.class then
-        return ' - ' .. client.class
+        return '  ' .. client.class
     else
-        return ' - ' .. client.name
+        return '  ' .. client.name
     end
 end
 
@@ -348,12 +348,12 @@ function _M.preview()
                 -- Icons
                 local icon
                 if c.icon == nil then
-                    icon = gears.surface(gears.surface.load(_M.noicon))
+                    icon = beautiful.awesome_icon
                 else
                     icon = gears.surface(c.icon)
                 end
 
-                local iconboxWidth = textboxHeight
+                local iconboxWidth = textboxHeight - 16
                 local iconboxHeight = iconboxWidth
 
                 -- Titles
@@ -370,7 +370,7 @@ function _M.preview()
 
                 -- Draw icons
                 tx = (w - titleboxWidth) / 2
-                ty = h - 10
+                ty = h
                 sx = iconboxWidth / icon.width
                 sy = iconboxHeight / icon.height
 
