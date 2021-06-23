@@ -3,6 +3,7 @@ local awful = require('awful')
 local hotkeys_popup = require('awful.hotkeys_popup')
 local keydefine = require('keydefine')
 local widgets = require('widgets')
+local switcher = require('switcher')
 
 globalkeys =
     gears.table.join(
@@ -185,23 +186,17 @@ globalkeys =
         {keydefine.alt},
         'Tab',
         function()
-            awful.client.focus.byidx(1)
-            if client.focus then
-                client.focus:raise()
-            end
+            switcher.switch(1, keydefine.alt, 'Alt_L', keydefine.shift, 'Tab')
         end,
-        {description = 'Focus next by index', group = 'Client'}
+        {description = 'Switch to next', group = 'Client'}
     ),
     awful.key(
         {keydefine.alt, keydefine.shift},
-        '`',
+        'Tab',
         function()
-            awful.client.focus.byidx(-1)
-            if client.focus then
-                client.focus:raise()
-            end
+            switcher.switch(-1, keydefine.alt, 'Alt_L', keydefine.shift, 'Tab')
         end,
-        {description = 'Focus previous by index', group = 'Client'}
+        {description = 'Switch to previous', group = 'Client'}
     )
 )
 -- Tag
@@ -221,8 +216,8 @@ globalkeys =
         }
     ),
     awful.key(
-        {keydefine.modkey},
-        '`',
+        {keydefine.modkey, keydefine.shift},
+        'Tab',
         function()
             awful.tag.viewprev()
         end,

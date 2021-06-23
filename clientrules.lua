@@ -89,26 +89,26 @@ local module = {
     {rule_any = {class = {}}, properties = {sticky = true}},
     -- OnTop clients
     {rule_any = {class = {}}, properties = {ontop = true}},
-    {
-        rule_any = {
-            instance = {'chromium', 'google-chrome'},
-            class = {'firefox', 'qutebrowser', 'Chromium', 'Zathura'}
-        },
-        properties = {tag = 'view'}
-    },
-    {
-        rule_any = {
-            class = {'jetbrains-studio', 'QtCreator'},
-            instance = {
-                'jetbrains-idea',
-                'jetbrains-datagrip',
-                'emacs',
-                'code',
-                'code-oss'
-            }
-        },
-        properties = {tag = 'work'}
-    },
+    -- {
+    --     rule_any = {
+    --         instance = {'chromium', 'google-chrome'},
+    --         class = {'firefox', 'qutebrowser', 'Chromium', 'Zathura'}
+    --     },
+    --     properties = {tag = 'view'}
+    -- },
+    -- {
+    --     rule_any = {
+    --         class = {'jetbrains-studio', 'QtCreator'},
+    --         instance = {
+    --             'jetbrains-idea',
+    --             'jetbrains-datagrip',
+    --             'emacs',
+    --             'code',
+    --             'code-oss'
+    --         }
+    --     },
+    --     properties = {tag = 'work'}
+    -- },
     {
         rule = {instance = 'VirtualBox Machine'},
         properties = {
