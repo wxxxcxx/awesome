@@ -19,7 +19,7 @@ function border_control(c)
         return
     end
     local geometry = c:geometry()
-    local range = 5
+    local range = dpi(2)
     if
         (coords.x < geometry.x + range and coords.y < geometry.y + range) or -- left top
             (coords.x > geometry.x + geometry.width - range and coords.y < geometry.y + range) or -- right top

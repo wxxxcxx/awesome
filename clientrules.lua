@@ -186,6 +186,19 @@ table.insert(
         }
     }
 )
+-- Obsidian
+table.insert(
+    module,
+    {
+        rule = {class = 'obsidian'},
+        properties = {
+            titlebars_enabled = true,
+            requests_no_titlebar = false
+        },
+        callback = function(c)
+        end
+    }
+)
 -- Ranger dragon
 table.insert(
     module,
