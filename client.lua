@@ -38,7 +38,12 @@ client.connect_signal(
         c:raise()
     end
 )
-
+-- client.connect_signal(
+--     'request::geometry',
+--     function(c)
+--         notify('---------')
+--     end
+-- )
 client.connect_signal(
     'request::titlebars',
     function(c)

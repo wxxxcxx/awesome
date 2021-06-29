@@ -71,8 +71,7 @@ local module = {
             -- placement = awful.placement.centered,
             placement = placement,
             titlebars_enabled = true,
-            switchtotag = true,
-            tag = 'normal'
+            switchtotag = true
         },
         callback = function(c)
             if c.transient_for then
@@ -195,8 +194,6 @@ table.insert(
             titlebars_enabled = true,
             requests_no_titlebar = false
         },
-        callback = function(c)
-        end
     }
 )
 -- Ranger dragon

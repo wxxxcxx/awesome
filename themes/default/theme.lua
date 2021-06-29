@@ -258,7 +258,7 @@ theme.snap_bg = gtk_theme.bg_color
 theme.snap_border_width = 1
 -- switcher
 theme.switcher_bg = utils.color.opacity(gtk_theme.bg_color, 0.8)
-theme.switcher_focus_bg = utils.color.auto_lighten_or_darken(theme.switcher_bg, 20)
+theme.switcher_focus_bg = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.switcher_bg, 40), 0.3)
 theme.switcher_border_width = dpi(1)
 theme.switcher_border_color = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 20)
 theme.switcher_fg = gtk_theme.fg_color

@@ -197,6 +197,32 @@ globalkeys =
             switcher.switch(-1, keydefine.alt, 'Alt_L', keydefine.shift, 'Tab')
         end,
         {description = 'Switch to previous', group = 'Client'}
+    ),
+    awful.key(
+        {keydefine.modkey},
+        'Next',
+        function()
+            local c = client.focus
+            if c then
+                awful.tag.viewnext()
+                c:move_to_tag(screen.primary.selected_tag)
+                c:raise()
+            end
+        end,
+        {description = 'Move client to next tag', group = 'Client'}
+    ),
+    awful.key(
+        {keydefine.modkey},
+        'Prior',
+        function()
+            local c = client.focus
+            if c then
+                awful.tag.viewprev()
+                c:move_to_tag(screen.primary.selected_tag)
+                c:raise()
+            end
+        end,
+        {description = 'Move client to previous tag', group = 'Client'}
     )
 )
 -- Tag
