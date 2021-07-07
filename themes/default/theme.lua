@@ -33,6 +33,7 @@ theme.useless_gap = dpi(6)
 theme.gtk_theme = gtk_theme
 
 theme.systray_icon_spacing = 10
+theme.bg_systray = '#3c404a'
 
 theme.icon_font_name = icon_font
 theme.font = gtk_theme.font_family .. ' ' .. gtk_theme.font_size
