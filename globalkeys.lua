@@ -299,30 +299,33 @@ for i = 1, 9 do
     )
 end
 
--- Volume control
+-- Media control
 globalkeys =
     gears.table.join(
     globalkeys,
     awful.key(
-        {}, -- "XF86AudioLowerVolume",
-        '#122',
+        {},
+        'XF86AudioLowerVolume',
         function()
-            -- os.execute("amixer -q sset Master 5%-")
-        end
+            awful.spawn('pamixer -d 5', false)
+        end,
+        {description = 'Lower volume', group = 'Media'}
     ),
     awful.key(
         {},
-        '#123',
+        'XF86AudioRaiseVolume',
         function()
-            -- os.execute("amixer -q sset Master 5%+")
-        end
+            awful.spawn('pamixer -i 5', false)
+        end,
+        {description = 'Raise volume', group = 'Media'}
     ),
     awful.key(
         {},
-        '#121',
+        'XF86AudioMute',
         function()
-            -- os.execute("amixer -q sset Master toggle")
-        end
+            awful.spawn('pamixer -t', false)
+        end,
+        {description = 'Toggle mute volume', group = 'Media'}
     )
 )
 
