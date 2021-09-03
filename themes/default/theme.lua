@@ -149,9 +149,9 @@ theme.tasklist_fg_focus = theme.wibar_fg
 theme.tasklist_fg_normal = theme.wibar_fg
 theme.tasklist_fg_minimize = theme.wibar_fg
 -- theme.tasklist_bg = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 20), 0.5)
-theme.tasklist_bg_focus = utils.color.opacity(gtk_theme.fg_color, 0.2)
-theme.tasklist_bg_normal = utils.color.opacity(gtk_theme.fg_color, 0.1)
-theme.tasklist_bg_minimize = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 5), 0.2)
+theme.tasklist_bg_focus = utils.color.opacity(theme.wibar_fg, 0.3)
+theme.tasklist_bg_normal = utils.color.opacity(theme.wibar_fg, 0.1)
+theme.tasklist_bg_minimize = utils.color.opacity(theme.wibar_fg, 0)
 
 theme.tasklist_icon =
     gears.surface.load_from_shape(
