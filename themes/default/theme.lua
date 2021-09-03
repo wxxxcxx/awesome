@@ -37,9 +37,6 @@ theme.wallpaper = gears.filesystem.get_configuration_dir() .. 'wallpapers/seaflo
 theme.useless_gap = dpi(6)
 theme.gtk_theme = gtk_theme
 
-theme.systray_icon_spacing = 10
-theme.bg_systray = wm_bg
-
 theme.icon_font_name = icon_font
 theme.font = gtk_theme.font_family .. ' ' .. gtk_theme.font_size
 theme.icon_font = icon_font .. ' 20'
@@ -55,7 +52,6 @@ theme.fg_urgent = gtk_theme.fg_color
 
 theme.bg_minimize = utils.color.opacity(gtk_theme.bg_color, 0)
 theme.fg_minimize = gtk_theme.fg_color
-
 
 --------------------------------------------------------------------
 -- menu
@@ -117,6 +113,11 @@ theme.folder_icon =
 )
 
 theme.folder_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
+-- tray
+
+theme.systray_icon_spacing = 10
+theme.bg_systray = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
+
 -- clock
 theme.clock_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
 -- volume

@@ -8,7 +8,7 @@ local module = {}
 function module.new(inner_widget)
     inner_widget = wibox.widget {
         inner_widget,
-        visible = false,
+        visible = true,
         widget = wibox.container.background
     }
     local toggle = wibox.widget {
