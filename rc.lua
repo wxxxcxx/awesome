@@ -6,6 +6,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. 'themes/default/theme
 package.path = package.path .. ';' .. gears.filesystem.get_configuration_dir()
 
 local naughty = require('naughty')
+
 function notify(msg)
     naughty.notify(
         {

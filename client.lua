@@ -12,12 +12,39 @@ local module = {}
 
 module.rules = clientrules
 
+function update_icon(c)
+    local function lookup_icon(name)
+        if name == nil then
+            return nil
+        else
+            return menubar.utils.lookup_icon(name)
+        end
+    end
+    local icon = lookup_icon(c.icon_name)
+    if icon == nil then
+        icon = lookup_icon(c.class:lower())
+    end
+    if icon == nil then
+        icon = lookup_icon(c.instance:lower())
+    end
+    --Check if the icon exists
+    if icon ~= nil then
+        --Check if the icon exists in the lowercase variety
+        local surface = gears.surface(icon)
+        c.icon = surface._native
+    else
+        local surface = gears.surface(menubar.utils.lookup_icon('application-default-icon'))
+        c.icon = surface._native
+    end
+end
+
 client.connect_signal(
     'manage',
     function(c)
         c.shape = function(cr, w, h)
             gears.shape.rounded_rect(cr, w, h, 4)
         end
+        update_icon(c)
     end
 )
 
@@ -38,12 +65,7 @@ client.connect_signal(
         c:raise()
     end
 )
--- client.connect_signal(
---     'request::geometry',
---     function(c)
---         notify('---------')
---     end
--- )
+
 client.connect_signal(
     'request::titlebars',
     function(c)
@@ -168,10 +190,10 @@ local function update_decoration(c)
         c.top_titlebar:set_fg(utils.client.get_fg_color(c))
     end
 end
-client.connect_signal('reset_major_color', update_decoration)
+
+client.connect_signal('update_titlebar', update_decoration)
 client.connect_signal('focus', update_decoration)
 client.connect_signal('unfocus', update_decoration)
-
 client.connect_signal('unfocus', update_decoration)
 
 client.connect_signal(

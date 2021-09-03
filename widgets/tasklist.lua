@@ -69,7 +69,7 @@ function module.new(args)
 
     local tasklist = awful.widget.tasklist {
         screen = screen,
-        filter = awful.widget.tasklist.filter.currenttags,
+        filter = awful.widget.tasklist.filter.alltags,
         buttons = buttons,
         style = {
             shape = function(cr, width, height)

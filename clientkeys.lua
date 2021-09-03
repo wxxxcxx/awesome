@@ -1,231 +1,234 @@
-local gears = require("gears")
-local awful = require("awful")
-local keydefine = require("keydefine")
-local utils = require("utils")
+local gears = require('gears')
+local awful = require('awful')
+local keydefine = require('keydefine')
+local utils = require('utils')
 
 return gears.table.join(
     awful.key(
         {keydefine.modkey},
-        "End",
+        'End',
         function(c)
-           local message = ""
-           for c in awful.client.iterate(function()
-                 return true
-           end) do
-              message = message..("=============\r<b>instance:</b>\t%s\r<b>name:</b>\t%s\r<b>class:</b>\t%s\r<b>type:</b>\t%s\r<b>rule:</b>\t%s\r"):format(c.instance,c.name,c.class,c.type,c.rule)
-           end
+            local message =
+                ('=============\r<b>instance:</b>\t%s\r<b>name:</b>\t%s\r<b>class:</b>\t%s\r<b>type:</b>\t%s\r<b>rule:</b>\t%s\r<b>icon:</b>\t%s'):format(
+                c.instance,
+                c.name,
+                c.class,
+                c.type,
+                c.rule,
+                c.icon_name
+            )
 
-           notify(message)
+            notify(message)
         end,
         {
-            description = "Update client decoration",
-            group = "Client"
+            description = 'Update client decoration',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "Home",
+        'Home',
         function(c)
             utils.client.reset_major_color(c)
         end,
         {
-            description = "Update client decoration",
-            group = "Client"
+            description = 'Update client decoration',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "Return",
+        'Return',
         function(c)
             c.maximized = not c.maximized
             c:raise()
         end,
         {
-            description = "(Un)Maximize client",
-            group = "Client"
+            description = '(Un)Maximize client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "Return",
+        'Return',
         function(c)
             c:swap(awful.client.getmaster())
         end,
-        {description = "Move to master", group = "Client"}
+        {description = 'Move to master', group = 'Client'}
     ),
     awful.key(
         {keydefine.modkey},
-        "m",
+        'm',
         function(c)
             c.minimized = not c.minimized
         end,
         {
-            description = "(Un)Minimize client",
-            group = "Client"
+            description = '(Un)Minimize client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "q",
+        'q',
         function(c)
             c:kill()
         end,
         {
-            description = "Close client",
-            group = "Client"
+            description = 'Close client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "t",
+        't',
         function(c)
             c.ontop = not c.ontop
         end,
         {
-            description = "Toggle ontop",
-            group = "Client"
+            description = 'Toggle ontop',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "f",
+        'f',
         function(c)
             c.floating = not c.floating
         end,
         {
-            description = "Toggle floating",
-            group = "Client"
+            description = 'Toggle floating',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "s",
+        's',
         function(c)
             c.sticky = not c.sticky
         end,
         {
-            description = "Toggle sticky",
-            group = "Client"
+            description = 'Toggle sticky',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "Up",
+        'Up',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(0, -20, 0, 0)
             else
-                awful.client.swap.bydirection("up", c)
+                awful.client.swap.bydirection('up', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "Down",
+        'Down',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(0, 20, 0, 0)
             else
-                awful.client.swap.bydirection("down", c)
+                awful.client.swap.bydirection('down', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "Left",
+        'Left',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(-20, 0, 0, 0)
             else
-                awful.client.swap.bydirection("left", c)
+                awful.client.swap.bydirection('left', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey},
-        "Right",
+        'Right',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(20, 0, 0, 0)
             else
-                awful.client.swap.bydirection("right", c)
+                awful.client.swap.bydirection('right', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "Up",
+        'Up',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(0, 0, 0, -20)
             else
-                awful.client.swap.bydirection("up", c)
+                awful.client.swap.bydirection('up', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "Down",
+        'Down',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(0, 0, 0, 20)
             else
-                awful.client.swap.bydirection("down", c)
+                awful.client.swap.bydirection('down', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "Left",
+        'Left',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(0, 0, -20, 0)
             else
-                awful.client.swap.bydirection("left", c)
+                awful.client.swap.bydirection('left', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     ),
     awful.key(
         {keydefine.modkey, keydefine.shift},
-        "Right",
+        'Right',
         function(c)
-            if c.floating or c.first_tag.layout.name == "floating" then
+            if c.floating or c.first_tag.layout.name == 'floating' then
                 c:relative_move(0, 0, 20, 0)
             else
-                awful.client.swap.bydirection("right", c)
+                awful.client.swap.bydirection('right', c)
             end
         end,
         {
-            description = "Move client",
-            group = "Client"
+            description = 'Move client',
+            group = 'Client'
         }
     )
 )

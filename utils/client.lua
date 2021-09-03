@@ -1,17 +1,17 @@
-local awful = require("awful")
-local gears = require("gears")
-local lgi = require("lgi")
-local table = require("utils.table")
-local color = require("utils.color")
-require("utils.table")
+local awful = require('awful')
+local gears = require('gears')
+local lgi = require('lgi')
+local table = require('utils.table')
+local color = require('utils.color')
+require('utils.table')
 
 local cairo = lgi.cairo
 local gdk = lgi.Gdk
 
-local color_rules_path = gears.filesystem.get_cache_dir() .. "/color_rules"
+local color_rules_path = gears.filesystem.get_cache_dir() .. '/color_rules'
 local module = {}
-module.fg_dark = "#252a33"
-module.fg_light = "#dee6e7"
+module.fg_dark = '#252a33'
+module.fg_light = '#dee6e7'
 module._color_rules = table.load(color_rules_path) or {}
 
 local function save_color(name, color)
@@ -32,11 +32,11 @@ local function get_client_major_color(client)
             end
             local bytes = pixbuf:get_pixels()
             local color =
-                "#" ..
+                '#' ..
                 bytes:gsub(
-                    ".",
+                    '.',
                     function(c)
-                        return ("%02x"):format(c:byte())
+                        return ('%02x'):format(c:byte())
                     end
                 )
 
@@ -47,17 +47,17 @@ local function get_client_major_color(client)
             end
         end
     end
-    gears.debug.dump(color_map, "", 2)
+    gears.debug.dump(color_map, '', 2)
     -- 获取出现次数最多的颜色
     local max = 0
-    local major_color = "#00000000"
+    local major_color = '#00000000'
     for color, count in pairs(color_map) do
         if count > max then
             major_color = color
             max = count
         end
     end
-    collectgarbage("collect")
+    collectgarbage('collect')
     return major_color
 end
 
@@ -68,33 +68,35 @@ end
 
 function module.reset_major_color(client)
     local name =
-        (client.instance or "") ..
-        "<class=" ..
-            (client.class or "") ..
-                ">" .. "<type=" .. (client.type or "") .. ">" 
-    save_color(name .. "<focus>", nil)
-    save_color(name .. "<unfocus>", nil)
-    client:emit_signal("reset_major_color")
+        (client.instance or '') .. '<class=' .. (client.class or '') .. '>' .. '<type=' .. (client.type or '') .. '>'
+    save_color(name .. '<focus>', nil)
+    save_color(name .. '<unfocus>', nil)
+    client:emit_signal('update_titlebar')
 end
 
 function module.get_major_color(client)
     local name =
-        (client.instance or "") ..
-        "<class=" ..
-            (client.class or "") ..
-                ">" .. "<type=" .. (client.type or "") .. ">"
-    name = _G.client.focus == client and name .. "<focus>" or name .. "<unfocus>"
+        (client.instance or '') .. '<class=' .. (client.class or '') .. '>' .. '<type=' .. (client.type or '') .. '>'
+    name = _G.client.focus == client and name .. '<focus>' or name .. '<unfocus>'
     if module._color_rules[name] then
         return module._color_rules[name]
     end
     local color = get_client_major_color(client)
 
     if not color then
-        return "#00000000"
+        return '#00000000'
     end
 
     save_color(name, color)
     return color
+end
+
+function module.set_major_color(client, color)
+    local name =
+        (client.instance or '') .. '<class=' .. (client.class or '') .. '>' .. '<type=' .. (client.type or '') .. '>'
+    save_color(name .. '<focus>', color)
+    save_color(name .. '<unfocus>', color)
+    client:emit_signal('update_titlebar')
 end
 
 function module.hide_content(client)
@@ -127,7 +129,7 @@ function module.enable_corner_resize(range)
         return false
     end
     _G.client.connect_signal(
-        "button::press",
+        'button::press',
         function(c, x, y, button, modifiers)
             if button == 1 and mouse_in_corner(c) then
                 mousegrabber.stop() -- 防止mousegrabber冲突
@@ -142,17 +144,17 @@ function module.enable_auto_titlebar()
         if not c.first_tag then
             return
         end
-        if c.floating or c.first_tag.layout.name == "floating" then
+        if c.floating or c.first_tag.layout.name == 'floating' then
             awful.titlebar.show(c)
-            client:emit_signal("reset_major_color")
+            client:emit_signal('reset_major_color')
         else
             awful.titlebar.hide(c)
         end
     end
-    client.connect_signal("property::floating", dynamic_title)
+    client.connect_signal('property::floating', dynamic_title)
 
     tag.connect_signal(
-        "property::layout",
+        'property::layout',
         function(t)
             local clients = t:clients()
             for k, c in pairs(clients) do

@@ -27,13 +27,18 @@ end
 --------------------------------------------------------------------
 local transparent = '#00000000'
 local icon_font = 'Material Icons'
-theme.icon_theme = 'Flat-Remix-Grey-Dark'
+
+-- local wm_bg = '#282b3a'
+local wm_bg = gtk_theme.wm_bg_color
+local wm_fg = utils.color.auto_lighten_or_darken(gtk_theme.wm_bg_color, 70)
+
+theme.icon_theme = 'Qogir'
 theme.wallpaper = gears.filesystem.get_configuration_dir() .. 'wallpapers/seafloor.png'
 theme.useless_gap = dpi(6)
 theme.gtk_theme = gtk_theme
 
 theme.systray_icon_spacing = 10
-theme.bg_systray = '#3c404a'
+theme.bg_systray = wm_bg
 
 theme.icon_font_name = icon_font
 theme.font = gtk_theme.font_family .. ' ' .. gtk_theme.font_size
@@ -51,15 +56,6 @@ theme.fg_urgent = gtk_theme.fg_color
 theme.bg_minimize = utils.color.opacity(gtk_theme.bg_color, 0)
 theme.fg_minimize = gtk_theme.fg_color
 
-theme.awesome_icon =
-    gears.surface.load_from_shape(
-    64,
-    64,
-    function(cr, width, height)
-        gears.shape.arc(cr, width, height, nil, 0, 2 * math.pi)
-    end,
-    gtk_theme.fg_color
-)
 
 --------------------------------------------------------------------
 -- menu
@@ -74,14 +70,14 @@ theme.menu_submenu_icon =
     ty = -8
 }
 theme.menu_bg = transparent
-theme.menu_bg_normal = utils.color.opacity(gtk_theme.bg_color, 0.5)
+theme.menu_bg_normal = utils.color.opacity(wm_bg, 0.7)
 theme.menu_fg_normal = gtk_theme.menubar_fg_color
-theme.menu_bg_focus = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 10)
+theme.menu_bg_focus = utils.color.auto_lighten_or_darken(gtk_theme.selected_bg_color, 10)
 theme.menu_fg_focus = gtk_theme.selected_fg_color
 theme.menu_height = dpi(25)
 theme.menu_width = dpi(220)
-theme.menu_border_width = 0
-theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_normal, 20)
+theme.menu_border_width = 1
+theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_normal, 5)
 
 --------------------------------------------------------------------
 -- wibar
@@ -89,8 +85,9 @@ theme.menu_border_color = utils.color.auto_lighten_or_darken(theme.menu_bg_norma
 
 theme.wibar_height = dpi(30)
 theme.wibar_ontop = true
-theme.wibar_bg = utils.color.opacity(gtk_theme.wm_bg_color, 0.5)
-theme.wibar_border_width = 0
+theme.wibar_fg = wm_fg
+theme.wibar_bg = utils.color.opacity(wm_bg, 0.7)
+theme.wibar_border_width = 1
 theme.wibar_border_color = utils.color.auto_lighten_or_darken(theme.wibar_bg, 0)
 
 --------------------------------------------------------------------
@@ -116,23 +113,15 @@ theme.folder_icon =
     function(cr, width, height)
         gears.shape.cross(cr, width, height)
     end,
-    utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 30)
+    utils.color.auto_lighten_or_darken(theme.wibar_fg, 30)
 )
-theme.folder_icon =
-    gears.surface.load_from_shape(
-    64,
-    64,
-    function(cr, width, height)
-        gears.shape.cross(cr, width, height)
-    end,
-    utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 30)
-)
+
 theme.folder_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
 -- clock
 theme.clock_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
 -- volume
 theme.volume_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
-theme.volume_progress_bg = utils.color.opacity(gtk_theme.fg_color, 0.3)
+theme.volume_progress_bg = utils.color.opacity(theme.wibar_fg, 0.3)
 theme.volume_mute_progress_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 0)
 -- layout
 theme.layout_fairh = themes_path .. 'assets/layouts/fairh.png'
@@ -156,11 +145,12 @@ theme.layout_cascade = themes_path .. 'assets/layouts/dwindle.png'
 
 -- tasklist
 theme.tasklist_plain_task_name = true
-theme.tasklist_bg = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 20), 0.5)
+theme.tasklist_fg_focus = theme.wibar_fg
+theme.tasklist_fg_normal = theme.wibar_fg
+theme.tasklist_fg_minimize = theme.wibar_fg
+-- theme.tasklist_bg = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 20), 0.5)
 theme.tasklist_bg_focus = utils.color.opacity(gtk_theme.fg_color, 0.2)
-
 theme.tasklist_bg_normal = utils.color.opacity(gtk_theme.fg_color, 0.1)
-
 theme.tasklist_bg_minimize = utils.color.opacity(utils.color.auto_lighten_or_darken(theme.wibar_bg, 5), 0.2)
 
 theme.tasklist_icon =
@@ -173,12 +163,13 @@ theme.tasklist_icon =
     gtk_theme.fg_color
 )
 -- taglist
-theme.taglist_bg = utils.color.auto_lighten_or_darken(theme.wibar_bg, 15)
-theme.taglist_bg_focus = utils.color.opacity(gtk_theme.fg_color, 0.8)
-theme.taglist_bg_urgent = utils.color.opacity(gtk_theme.fg_color, 0.4)
-theme.taglist_bg_occupied = utils.color.opacity(gtk_theme.fg_color, 0.4)
-theme.taglist_bg_volatile = utils.color.opacity(gtk_theme.fg_color, 0.4)
-theme.taglist_bg_empty = utils.color.opacity(gtk_theme.fg_color, 0.2)
+theme.taglist_bg_focus = theme.wibar_fg
+theme.taglist_bg = utils.color.auto_lighten_or_darken(wm_bg, 15)
+-- theme.taglist_bg_focus = utils.color.opacity(gtk_theme.fg_color, 0.8)
+theme.taglist_bg_urgent = utils.color.opacity(theme.wibar_fg, 0.4)
+theme.taglist_bg_occupied = utils.color.opacity(theme.wibar_fg, 0.4)
+theme.taglist_bg_volatile = utils.color.opacity(theme.wibar_fg, 0.4)
+theme.taglist_bg_empty = utils.color.opacity(theme.wibar_fg, 0.2)
 
 theme.tag_active_icon =
     gears.surface.load_from_shape(
@@ -197,6 +188,16 @@ theme.tag_inactive_icon =
         gears.shape.losange(cr, width, height)
     end,
     utils.color.auto_lighten_or_darken(gtk_theme.fg_color, 30)
+)
+
+theme.awesome_icon =
+    gears.surface.load_from_shape(
+    64,
+    64,
+    function(cr, width, height)
+        gears.shape.arc(cr, width, height, nil, 0, 2 * math.pi)
+    end,
+    theme.wibar_fg
 )
 
 --------------------------------------------------------------------
