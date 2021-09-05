@@ -79,7 +79,7 @@ element {
     background-color: @transparent;
     text-color: @foreground;
     orientation: horizontal;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 10px;
 }
 
