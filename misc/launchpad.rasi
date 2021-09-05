@@ -30,7 +30,7 @@ window {
     width: 400px;
     location: south west;
 	anchor: south west; 
-    y-offset: -45px;
+    y-offset: -48px;
 }
 
 entry {
