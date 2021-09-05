@@ -267,8 +267,8 @@ theme.switcher_border_color = utils.color.auto_lighten_or_darken(gtk_theme.bg_co
 theme.switcher_fg = gtk_theme.fg_color
 
 -- titlebar
-theme.titlebar_bg_normal = gtk_theme.bg_color
-theme.titlebar_bg_focus = gtk_theme.bg_color
+theme.titlebar_bg_normal = wm_bg
+theme.titlebar_bg_focus = wm_bg
 
 local normal = {
     bg = utils.color.auto_lighten_or_darken(gtk_theme.bg_color, 20)

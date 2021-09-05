@@ -26,11 +26,8 @@ window {
     border-color: @border;
     border-radius: 0px;
     orientation: horizontal;
-    height: 600px;
-    width: 400px;
-    location: south west;
-	anchor: south west; 
-    y-offset: -45px;
+    height: 450px;
+    width: 700px;
 }
 
 entry {

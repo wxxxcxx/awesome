@@ -4,6 +4,7 @@ local hotkeys_popup = require('awful.hotkeys_popup')
 local keydefine = require('keydefine')
 local widgets = require('widgets')
 local switcher = require('switcher')
+local filesystem = require('gears.filesystem')
 
 globalkeys =
     gears.table.join(
@@ -20,8 +21,11 @@ globalkeys =
         'space',
         function()
             awful.spawn.with_shell(
-                "rofi -modi 'drun' -show drun -drun-show-actions -display-drun '' -show-icons -icon-theme " ..
-                    beautiful.icon_theme
+                "rofi -modi drun -dpi -me-select-entry '' -me-accept-entry MousePrimary -me-accept-custom MouseSecondary " ..
+                    awful.screen.focused().dpi ..
+                        ' -show drun -theme ' ..
+                            filesystem.get_configuration_dir() ..
+                                'misc/launcher.rasi -icon-theme ' .. beautiful.icon_theme
             )
         end,
         {description = 'Show rofi', group = 'Application'}
