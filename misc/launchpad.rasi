@@ -31,6 +31,7 @@ window {
     location: south west;
 	anchor: south west; 
     y-offset: -48px;
+    x-offset: 6px;
 }
 
 entry {

@@ -21,10 +21,10 @@ function update_icon(c)
         end
     end
     local icon = lookup_icon(c.icon_name)
-    if icon == nil then
+    if icon == nil and c.class ~= nil then
         icon = lookup_icon(c.class:lower())
     end
-    if icon == nil then
+    if icon == nil and c.instance ~= nil then
         icon = lookup_icon(c.instance:lower())
     end
     --Check if the icon exists

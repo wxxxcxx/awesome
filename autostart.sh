@@ -7,6 +7,8 @@ xset r rate 300 30
 
 picom&
 fcitx&
+clipit&
+
 
 cd /usr/share/clash-dashboard-git&&python -m http.server 7090&
 
