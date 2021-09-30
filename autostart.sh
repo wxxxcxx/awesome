@@ -9,7 +9,6 @@ picom&
 fcitx&
 clipit&
 
-
 cd /usr/share/clash-dashboard-git&&python -m http.server 7090&
 
 dex --environment Awesome --autostart

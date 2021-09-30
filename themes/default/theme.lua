@@ -5,8 +5,20 @@ local wibox = require('wibox')
 
 local theme_assets = beautiful.theme_assets
 local dpi = beautiful.xresources.apply_dpi
-local gtk = beautiful.gtk
-local gtk_theme = gtk.get_theme_variables()
+local gtk_theme = beautiful.gtk.get_theme_variables()
+
+-- local gtk_theme = {
+--     font_family = 'Noto Sans',
+--     font_size = 10,
+--     wm_bg_color = '#282b3a',
+--     bg_color = '#282b3a',
+--     fg_color = '#ffffff',
+--     menubar_fg_color = '#ffffff',
+--     selected_bg_color = '#3b4252',
+--     selected_fg_color = '#ffffff',
+--     tooltip_bg_color = '#282b3a',
+--     tooltip_fg_color = '#ffffff'
+-- }
 
 local theme = {}
 local themes_path = gears.filesystem.get_configuration_dir() .. 'themes/default/'
@@ -28,8 +40,8 @@ end
 local transparent = '#00000000'
 local icon_font = 'Material Icons'
 
--- local wm_bg = '#282b3a'
-local wm_bg = gtk_theme.wm_bg_color
+local wm_bg = '#282b3a'
+-- local wm_bg = gtk_theme.wm_bg_color or '#282b3a'
 local wm_fg = utils.color.auto_lighten_or_darken(gtk_theme.wm_bg_color, 70)
 
 theme.icon_theme = 'Qogir'
@@ -68,7 +80,7 @@ theme.menu_submenu_icon =
 theme.menu_bg = transparent
 theme.menu_bg_normal = utils.color.opacity(wm_bg, 0.5)
 theme.menu_fg_normal = gtk_theme.menubar_fg_color
-theme.menu_bg_focus = utils.color.auto_lighten_or_darken(gtk_theme.selected_bg_color, 10)
+theme.menu_bg_focus = utils.color.opacity(gtk_theme.selected_bg_color,0.5)
 theme.menu_fg_focus = gtk_theme.selected_fg_color
 theme.menu_height = dpi(25)
 theme.menu_width = dpi(220)

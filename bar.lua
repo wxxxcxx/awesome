@@ -42,7 +42,6 @@ function module:new(args)
             default_bar.ontop = not c.fullscreen
         end
     )
-
     default_bar:setup {
         layout = wibox.layout.align.horizontal,
         {

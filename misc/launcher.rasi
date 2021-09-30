@@ -13,7 +13,7 @@ configuration {
     background-selected: #FFFFFF11;
     background-active: #FFFFFF22;
     background-white: #FFFFFF11;
-    background-black: #353a4699;
+    background-black: #353a46dd;
     urgent: #F4474766;
     urgent-selected: #F4474777;
 }

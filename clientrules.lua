@@ -118,37 +118,7 @@ local module = {
         callback = create_tag
     }
 }
--- GLava
--- table.insert(
---     module,
---     {
---         rule = {
---             class = 'GLava'
---         },
---         properties = {
---            type = "utility",
---            fullscreen = true,
---            maximized = true,
---            x = 0,
---            y = 0,
---            width = screen.primary.geometry.width
---         }
---     }
--- )
--- Alacritty
--- table.insert(
---     module,
---     {
---         rule = {
---             class = 'Alacritty'
---         },
---         properties = {
---             sticky = true,
---             floating = true,
---             switchtotag = false
---         }
---     }
--- )
+
 -- polkit-dumb-agent
 table.insert(
     module,

@@ -20,26 +20,3 @@ end
 local desktop = require('desktop')
 
 desktop:init()
-
-local awful = require('awful')
-
-function run_once(cmd)
-    local findme = "ps x U $USER |grep '" .. cmd .. "' |wc -l"
-    awful.spawn.easy_async_with_shell(
-        findme,
-        function(stdout, stderr, reason, exit_code)
-            if tonumber(stdout) <= 2 then
-                -- awful.spawn(cmd)
-                awful.spawn.easy_async_with_shell(cmd, nil)
-            end
-        end
-    )
-end
-
-local cmds = {}
-
-for _, cmd in pairs(cmds) do
-    run_once(cmd)
-end
-
--- require('lyrics')
